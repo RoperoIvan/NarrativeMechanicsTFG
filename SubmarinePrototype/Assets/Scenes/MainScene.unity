@@ -391,7 +391,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d44977dc17c91d4ea363bfd275b8838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 0.1
+  leftButton: {fileID: 436985608}
+  rightButton: {fileID: 2130052486}
+  rotationSpeed: 1
   looks:
   - {fileID: 1758893068}
   - {fileID: 1056046764}
