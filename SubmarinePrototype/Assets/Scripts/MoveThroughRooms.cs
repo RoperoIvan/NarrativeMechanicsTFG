@@ -30,7 +30,6 @@ public class MoveThroughRooms : MonoBehaviour
             //Camera.main.gameObject.transform.Rotate(Vector3.up, 90f);
             //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 90, 0), rotationSpeed * Time.deltaTime);
             StartCoroutine(ChangingRoom(isLeft));
-
         }
     }
      IEnumerator ChangingRoom(bool isLeft)
