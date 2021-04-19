@@ -6,6 +6,7 @@ using SimpleJSON;
 
 public class VisualCommunicationController : MonoBehaviour
 {
+    public ShipController shipController;
     public List<Sprite> flagSprites = new List<Sprite>();
     public List<Button> flagButtons = new List<Button>();
     public List<Image> flagImage = new List<Image>();
@@ -37,10 +38,11 @@ public class VisualCommunicationController : MonoBehaviour
         if(flagCodes.Contains(mCode))
         {
             //TODO: Send message to ship Controller of tension etc...
+            shipController.InterpretVisualMessage(mCode);
         }
         else
         {
-            //Confuse message non- existent
+            //Confuse message non-existent
         }
     }
 
