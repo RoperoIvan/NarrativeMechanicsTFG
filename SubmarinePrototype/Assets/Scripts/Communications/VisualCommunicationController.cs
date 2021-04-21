@@ -11,7 +11,7 @@ public class VisualCommunicationController : MonoBehaviour
     public List<Button> flagButtons = new List<Button>();
     public List<Image> flagImage = new List<Image>();
 
-    private List<string> flagCodes = new List<string>();
+    static public Dictionary<string, VisualMessage> flagCodes = new Dictionary<string,VisualMessage>();
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +35,7 @@ public class VisualCommunicationController : MonoBehaviour
     {
         string mCode = GetCodeFromFlags();
 
-        if(flagCodes.Contains(mCode))
+        if(flagCodes.ContainsKey(mCode))
         {
             //TODO: Send message to ship Controller of tension etc...
             shipController.InterpretVisualMessage(mCode);
@@ -54,7 +54,10 @@ public class VisualCommunicationController : MonoBehaviour
         for (int i = 0; i < codesFromJSON.Count; i++)
         {
             string nCode = codesFromJSON[i]["MESSAGE CODE"];
-            flagCodes.Add(nCode);
+            string nDesc = codesFromJSON[i]["DESCRIPTION"];
+            GameManager.Tension nTension = (GameManager.Tension)int.Parse(codesFromJSON[i]["TYPE"]);
+
+            flagCodes.Add(nCode, new VisualMessage(nDesc, nTension));
         }
     }
 
@@ -67,5 +70,16 @@ public class VisualCommunicationController : MonoBehaviour
         nCode += GameManager.visualMessageBuffer[3];
 
         return nCode.ToString();
+    }
+
+    public struct VisualMessage
+    {
+        public string description;
+        public GameManager.Tension type;
+        public VisualMessage(string description, GameManager.Tension type)
+        {
+            this.description = description;
+            this.type = type;
+        }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeLineManager : MonoBehaviour
+public class TimeLineController : MonoBehaviour
 {
     public float maxVisibleEventTime = 10f;
 
@@ -10,6 +10,8 @@ public class TimeLineManager : MonoBehaviour
     public GameObject freqPrefab;
     public GameObject radioPrefab;
     public GameObject visualPrefab;
+    public ShipController shipController;
+    public AllyController allyController;
 
     [SerializeField]
     private float timeUntilNextEvent = 0f;
@@ -27,42 +29,25 @@ public class TimeLineManager : MonoBehaviour
     {
         RefreshTimeLine();
 
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            AddNewEvent(5f, TimeType.BOMB);
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            AddNewEvent(60f, TimeType.FREQUENCY);
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            AddNewEvent(20f, TimeType.RADIO);
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            AddNewEvent(10f, TimeType.VISUAL);
-        }
-
         timerTimeLine = Time.realtimeSinceStartup;
     }
 
-    public void AddNewEvent(float time, TimeType type)
+    public void AddNewEvent(float time, TimeEventType type)
     {
         GameObject go;
 
         switch (type)
         {
-            case TimeType.VISUAL:
+            case TimeEventType.VISUAL:
                 go = Instantiate(visualPrefab, gameObject.transform);
                 break;
-            case TimeType.RADIO:
+            case TimeEventType.RADIO:
                 go = Instantiate(radioPrefab, gameObject.transform);
                 break;
-            case TimeType.BOMB:
+            case TimeEventType.BOMB:
                 go = Instantiate(bombPrefab, gameObject.transform);
                 break;
-            case TimeType.FREQUENCY:
+            case TimeEventType.FREQUENCY:
                 go = Instantiate(freqPrefab, gameObject.transform);
                 break;
             default:
@@ -96,6 +81,25 @@ public class TimeLineManager : MonoBehaviour
         icon.visualGO.transform.localPosition -= x;
     }
 
+    public void LaunchEvent(TimeEventType ev)
+    {
+        switch (ev)
+        {
+            case TimeEventType.VISUAL:
+                shipController.LaunchEvent(ShipController.ShipEvent.VISUAL);
+                break;
+            case TimeEventType.BOMB:
+                shipController.LaunchEvent(ShipController.ShipEvent.BOMB);
+                break;
+            case TimeEventType.RADIO:
+                allyController.LaunchEvent(AllyController.AllyEvent.RADIO);
+                break;
+            case TimeEventType.FREQUENCY:
+                allyController.LaunchEvent(AllyController.AllyEvent.FREQUENCY);
+                break;
+        }
+    }
+
     private void RefreshTimeLine()
     {
         for (int i = 0; i < timeEvents.Count; ++i)
@@ -103,8 +107,7 @@ public class TimeLineManager : MonoBehaviour
             VisualTimeLineManagement(timeEvents[i]);
             if (timerTimeLine - timeEvents[i].timeStamp >= timeEvents[i].timeToExecute) //ExecuteEvent
             {
-                //Execute
-                //Do stuff
+                LaunchEvent(timeEvents[i].type);
                 Debug.Log("EVENT " + timeEvents[i].type + " EXECUTED");
                 DeleteEvent(timeEvents[i]);
             }
@@ -115,10 +118,10 @@ public class TimeLineManager : MonoBehaviour
     {
         public float timeStamp;
         public float timeToExecute;
-        public TimeType type;
+        public TimeEventType type;
         public GameObject visualGO;
 
-        public TimeEvent(float timeToExecute, TimeType type,GameObject visualGO)
+        public TimeEvent(float timeToExecute, TimeEventType type,GameObject visualGO)
         {
             this.timeToExecute = timeToExecute;
             this.type = type;
@@ -127,7 +130,7 @@ public class TimeLineManager : MonoBehaviour
         }
     };
 
-    public enum TimeType
+    public enum TimeEventType
     {
         VISUAL,
         RADIO,

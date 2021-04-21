@@ -1,86 +1,42 @@
 ﻿{
         {
-            "MESSAGE CODE": "1142"
+            "MESSAGE CODE": "1142",
+            "TYPE": "0",
+            "DESCRIPTION": "HELLO"
         },
         {
-            "MESSAGE CODE": "2122"
+            "MESSAGE CODE": "2122",
+            "TYPE": "1",
+            "DESCRIPTION": "BYE"
         },
         {
-            "MESSAGE CODE": "3102"
+            "MESSAGE CODE": "3102",
+            "TYPE": "2",
+            "DESCRIPTION": "BE CAREFUL"
         },
         {
-            "MESSAGE CODE": "4082"
+            "MESSAGE CODE": "4082",
+            "TYPE": "3",
+            "DESCRIPTION": "STOP"
         },
         {
-            "MESSAGE CODE": "5062"
+            "MESSAGE CODE": "5062",
+            "TYPE": "0",
+            "DESCRIPTION": "MOTIVE"
         },
         {
-            "MESSAGE CODE": "6042"
+            "MESSAGE CODE": "6042",
+            "TYPE": "4",
+            "DESCRIPTION": "ATTACK"
         },
         {
-            "MESSAGE CODE": "7022"
+            "MESSAGE CODE": "7022",
+            "TYPE": "1",
+            "DESCRIPTION": "INTENTIONS"
         },
         {
-            "MESSAGE CODE": "8002"
-        },
-        {
-            "MESSAGE CODE": "8982"
-        },
-        {
-            "MESSAGE CODE": "9962"
-        },
-        {
-            "MESSAGE CODE": "10942"
-        },
-        {
-            "MESSAGE CODE": "11922"
-        },
-        {
-            "MESSAGE CODE": "12902"
-        },
-        {
-            "MESSAGE CODE": "13882"
-        },
-        {
-            "MESSAGE CODE": "14862"
-        },
-        {
-            "MESSAGE CODE": "15842"
-        },
-        {
-            "MESSAGE CODE": "16822"
-        },
-        {
-            "MESSAGE CODE": "17802"
-        },
-        {
-            "MESSAGE CODE": "18782"
-        },
-        {
-            "MESSAGE CODE": "19762"
-        },
-        {
-            "MESSAGE CODE": "20742"
-        },
-        {
-            "MESSAGE CODE": "21722"
-        },
-        {
-            "MESSAGE CODE": "22702"
-        },
-        {
-            "MESSAGE CODE": "23682"
-        },
-        {
-            "MESSAGE CODE": "24662"
-        },
-        {
-            "MESSAGE CODE": "25642"
-        },
-        {
-            "MESSAGE CODE": "26622"
-        },
-        {
-            "MESSAGE CODE": "27602"
+            "MESSAGE CODE": "8002",
+            "TYPE": "4",
+            "DESCRIPTION": "RETREAT"
         }
 }
