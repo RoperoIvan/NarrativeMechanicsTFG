@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77e8920646f93f348bf9dca157a62d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shipController: {fileID: 0}
   flagSprites:
   - {fileID: 21300000, guid: 6d2a7976f3cfb4c43a3c0e9a9a0978c9, type: 3}
   - {fileID: 21300000, guid: 62877a889134aa84795fd530940e9576, type: 3}

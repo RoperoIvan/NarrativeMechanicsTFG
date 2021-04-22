@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E))
         {
             currentScreen = Screens.GLASS;
+            Debug.Log("IN VISUAL ROOM");
         }
 
         if (Input.GetKeyDown(KeyCode.A))

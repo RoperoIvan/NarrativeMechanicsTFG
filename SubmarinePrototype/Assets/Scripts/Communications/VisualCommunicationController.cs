@@ -31,18 +31,19 @@ public class VisualCommunicationController : MonoBehaviour
         }
     }
 
-    public void CodifyFlags()
+    public string CodifyFlags()
     {
         string mCode = GetCodeFromFlags();
 
         if(flagCodes.ContainsKey(mCode))
         {
             //TODO: Send message to ship Controller of tension etc...
-            shipController.InterpretVisualMessage(mCode);
+            return mCode;
         }
         else
         {
             //Confuse message non-existent
+            return null;
         }
     }
 

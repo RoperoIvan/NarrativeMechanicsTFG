@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     static public int[] visualMessageBuffer = { 0, 0 , 0, 0};
-    private float tensionValue = 0f;
-    static public Tension currentTension = Tension.PEACEFUL;
+    private float tensionValue = 2f;
+    static public Tension currentTension = Tension.LOW;
 
     public void IncreaseTension(float value)
     {

@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
+    public float playerWaitingTime = 10f;
     public ShipEvent currentShipEvent = ShipEvent.NONE;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public SpriteRenderer flag;
+    public Sprite defaultSprite;
+    public VisualCommunicationController visualController;
+    public List<Sprite> flagSprites = new List<Sprite>();
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
+    private bool isFirstTime = true;
 
     public void LaunchEvent(ShipEvent incomingEvent)
     {
@@ -33,34 +30,95 @@ public class ShipController : MonoBehaviour
 
     public void InterpretVisualMessage(string code)
     {
+        if(VisualCommunicationController.flagCodes.TryGetValue(code, out VisualCommunicationController.VisualMessage value))
+        {
+            
+        }
+        else //Non-existent message
+        {
 
+        }
     }
 
     private void SendVisualMessage()
     {
-        foreach (var d in VisualCommunicationController.flagCodes)
+        if (isFirstTime)
         {
-            switch (GameManager.currentTension)
+            ProcessMessage("1142");
+            isFirstTime = false;
+        }
+        else
+        {
+            List<string> totalTypes = new List<string>();
+            foreach (var d in VisualCommunicationController.flagCodes)
             {
-                case GameManager.Tension.PEACEFUL:
-                    break;
-                case GameManager.Tension.LOW:
-                    break;
-                case GameManager.Tension.MEDIUM:
-                    break;
-                case GameManager.Tension.DANGER:
-                    break;
-                case GameManager.Tension.THREAT:
-                    break;
-                case GameManager.Tension.NONE:
-                    break;
+                if (d.Value.type == GameManager.currentTension)
+                    totalTypes.Add(d.Key);
             }
+
+            Random.InitState(System.DateTime.Now.Millisecond);
+            int randomMessage = Random.Range(0, totalTypes.Count - 1);
+            ProcessMessage(totalTypes[randomMessage]);
         }
     }
 
     private void SendAttack()
     {
 
+    }
+
+    private void ProcessMessage(string flagCode)
+    {
+        int[] bufferSprites = GetFlagsFromCode(flagCode);
+        StartCoroutine(ShowVisualMessage(bufferSprites));
+
+    }
+
+
+    private int[] GetFlagsFromCode(string flagCode)
+    {
+        int[] flagCodes = { 0, 0, 0, 0};
+
+        flagCodes[0] = int.Parse(flagCode.Substring(0, 1));
+        flagCodes[1] = int.Parse(flagCode.Substring(1, 1));
+        flagCodes[2] = int.Parse(flagCode.Substring(2, 1));
+        flagCodes[3] = int.Parse(flagCode.Substring(3, 1));
+
+        return flagCodes;
+    }
+
+    private IEnumerator ShowVisualMessage(int[] bufferSprites)
+    {
+        yield return new WaitForSeconds(1f);
+        flag.sprite = flagSprites[bufferSprites[0] - 1];
+        yield return new WaitForSeconds(1f);
+        flag.sprite = defaultSprite;
+        yield return new WaitForSeconds(1f);
+        flag.sprite = flagSprites[bufferSprites[1] - 1];
+        yield return new WaitForSeconds(1f);
+        flag.sprite = defaultSprite;
+        yield return new WaitForSeconds(1f);
+        flag.sprite = flagSprites[bufferSprites[2] - 1];
+        yield return new WaitForSeconds(1f);
+        flag.sprite = defaultSprite;
+        yield return new WaitForSeconds(1f);
+        flag.sprite = flagSprites[bufferSprites[3] - 1];
+        yield return new WaitForSeconds(1f);
+        flag.sprite = defaultSprite;
+
+        WaitingForResponse();
+    }
+
+    private IEnumerator WaitingForResponse()
+    {
+        string code = visualController.CodifyFlags();
+        yield return new WaitForSeconds(playerWaitingTime);
+        if (string.IsNullOrEmpty(code))
+        {
+
+        }
+        else
+            InterpretVisualMessage(code);
     }
 
     public enum ShipEvent

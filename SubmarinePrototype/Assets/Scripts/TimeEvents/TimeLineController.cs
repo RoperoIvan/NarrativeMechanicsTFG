@@ -13,8 +13,8 @@ public class TimeLineController : MonoBehaviour
     public ShipController shipController;
     public AllyController allyController;
 
-    [SerializeField]
-    private float timeUntilNextEvent = 0f;
+    //[SerializeField]
+    //private float timeUntilNextEvent = 0f;
     private float timerTimeLine = 0f;
     private List<TimeEvent> timeEvents = new List<TimeEvent>();
 
@@ -58,7 +58,7 @@ public class TimeLineController : MonoBehaviour
         go.transform.localPosition = new Vector3(rt.rect.width*0.5f, 0, 0);
         TimeEvent newEvent = new TimeEvent(time, type, go);
         timeEvents.Add(newEvent);
-        Debug.Log("EVENT " + type + " CREATED");
+        Debug.Log(type + " EVENT CREATED");
     }
 
     public void DeleteEvent(TimeEvent eventToDestroy)
@@ -67,7 +67,7 @@ public class TimeLineController : MonoBehaviour
         {
             timeEvents.Remove(eventToDestroy);
             Destroy(eventToDestroy.visualGO);
-            Debug.Log("EVENT DELETED");
+            Debug.Log(eventToDestroy.type + " EVENT DELETED");
             return;
         }
         Debug.LogWarning("THIS TIME EVENT DOES NOT EXIST IN TIMELINE!");
@@ -108,7 +108,7 @@ public class TimeLineController : MonoBehaviour
             if (timerTimeLine - timeEvents[i].timeStamp >= timeEvents[i].timeToExecute) //ExecuteEvent
             {
                 LaunchEvent(timeEvents[i].type);
-                Debug.Log("EVENT " + timeEvents[i].type + " EXECUTED");
+                Debug.Log(timeEvents[i].type + " EVENT EXECUTED");
                 DeleteEvent(timeEvents[i]);
             }
         }
