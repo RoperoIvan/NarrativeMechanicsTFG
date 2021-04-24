@@ -80,7 +80,7 @@ public class ShipController : MonoBehaviour
             Random.InitState(System.DateTime.Now.Millisecond);
             int randomMessage = Random.Range(0, totalTypes.Count - 1);
             ProcessMessage(totalTypes[randomMessage]);
-            VisualCommunicationController.flagCodes.TryGetValue("1142", out VisualMessage val);
+            VisualCommunicationController.flagCodes.TryGetValue(totalTypes[randomMessage], out VisualMessage val);
             lastSendedMessage = val;
         }
     }

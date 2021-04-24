@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     static public int[] visualMessageBuffer = { 0, 0 , 0, 0};
     private float tensionValue = 4f;
-    [SerializeField]
     static public Tension currentTension = Tension.MEDIUM;
 
     public void IncreaseTension(float value)
