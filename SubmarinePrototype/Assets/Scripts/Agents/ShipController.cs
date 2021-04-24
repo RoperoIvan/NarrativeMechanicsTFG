@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ShipController : MonoBehaviour
 {
-    public float playerWaitingTime = 10f;
+    public float playerResponseWaitingTime = 10f;
+    public float playerEnterWaitingTime = 10f;
     public ShipEvent currentShipEvent = ShipEvent.NONE;
     public SpriteRenderer flag;
     public Sprite defaultSprite;
@@ -12,8 +13,26 @@ public class ShipController : MonoBehaviour
     public GameManager gameManager;
     public List<Sprite> flagSprites = new List<Sprite>();
 
+    private float timerEnterRoom = 0f;
     private bool isFirstTime = true;
+    private bool waitingForPlayer = false;
     private VisualMessage lastSendedMessage;
+
+    private void Update()
+    {
+        if(waitingForPlayer)
+        {
+            if(Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime)
+            {
+                if (PlayerController.currentScreen != Screens.GLASS)
+                    gameManager.IncreaseTension(0.2f);
+                else
+                    SendVisualMessage();
+
+                waitingForPlayer = false;
+            }
+        }
+    }
 
     public void LaunchEvent(ShipEvent incomingEvent)
     {
@@ -28,13 +47,14 @@ public class ShipController : MonoBehaviour
             case ShipEvent.NONE:
                 break;
         }
+
+        currentShipEvent = incomingEvent;
     }
 
     public void InterpretVisualMessage(string code)
     {
         if(VisualCommunicationController.flagCodes.TryGetValue(code, out VisualMessage value))
         {
-            //Debug.Log("MESSAGE DESCRIPTION: " + value.description);
             int reaction = GetMessageReaction(code);
 
             if(reaction == 0) //Positive response to tension
@@ -61,27 +81,35 @@ public class ShipController : MonoBehaviour
 
     private void SendVisualMessage()
     {
-        if (isFirstTime)
+        if (PlayerController.currentScreen == Screens.GLASS)
         {
-            ProcessMessage("1142");
-            isFirstTime = false;
-            VisualCommunicationController.flagCodes.TryGetValue("1142", out VisualMessage val);
-            lastSendedMessage = val;
+            if (isFirstTime)
+            {
+                ProcessMessage("1142");
+                isFirstTime = false;
+                VisualCommunicationController.flagCodes.TryGetValue("1142", out VisualMessage val);
+                lastSendedMessage = val;
+            }
+            else
+            {
+                List<string> totalTypes = new List<string>();
+                foreach (var d in VisualCommunicationController.flagCodes)
+                {
+                    if (d.Value.type == GameManager.currentTension)
+                        totalTypes.Add(d.Key);
+                }
+
+                Random.InitState(System.DateTime.Now.Millisecond);
+                int randomMessage = Random.Range(0, totalTypes.Count - 1);
+                ProcessMessage(totalTypes[randomMessage]);
+                VisualCommunicationController.flagCodes.TryGetValue(totalTypes[randomMessage], out VisualMessage val);
+                lastSendedMessage = val;
+            }
         }
         else
         {
-            List<string> totalTypes = new List<string>();
-            foreach (var d in VisualCommunicationController.flagCodes)
-            {
-                if (d.Value.type == GameManager.currentTension)
-                    totalTypes.Add(d.Key);
-            }
-
-            Random.InitState(System.DateTime.Now.Millisecond);
-            int randomMessage = Random.Range(0, totalTypes.Count - 1);
-            ProcessMessage(totalTypes[randomMessage]);
-            VisualCommunicationController.flagCodes.TryGetValue(totalTypes[randomMessage], out VisualMessage val);
-            lastSendedMessage = val;
+            waitingForPlayer = true;
+            timerEnterRoom = Time.realtimeSinceStartup;
         }
     }
 
@@ -94,7 +122,6 @@ public class ShipController : MonoBehaviour
     {
         int[] bufferSprites = GetFlagsFromCode(flagCode);
         StartCoroutine(ShowVisualMessage(bufferSprites));
-
     }
 
 
@@ -153,7 +180,7 @@ public class ShipController : MonoBehaviour
 
     private IEnumerator WaitingForResponse()
     {
-        yield return new WaitForSeconds(playerWaitingTime);
+        yield return new WaitForSeconds(playerResponseWaitingTime);
         if (string.IsNullOrEmpty(visualController.playerMessage))
         {
             //Debug.Log("THIS MESSAGE IS NULL OR EMPTY!");

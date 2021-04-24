@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Screens currentScreen = Screens.NONE;
+    // VISUAL OBJECTS TO ACTIVATE/DEACTIVATE
+    public GameObject enemyFlagContainer;
+    public GameObject playerFlagContainer;
+    public GameObject UIVisualContainer;
+
+    static public Screens currentScreen = Screens.NONE;
     public TimeLineController timeLineController;
     // Start is called before the first frame update
     void Start()
@@ -35,6 +40,9 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E))
         {
             currentScreen = Screens.GLASS;
+            enemyFlagContainer.SetActive(true);
+            playerFlagContainer.SetActive(true);
+            UIVisualContainer.SetActive(true);
             Debug.Log("IN VISUAL ROOM");
         }
 
@@ -58,16 +66,5 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.currentTension = Tension.THREAT;
         }
-    }
-
-    public enum Screens
-    {
-        COMMAND,
-        ENGINES,
-        RADIO,
-        GLASS,
-        SHELVES,
-        FREQUENCY,
-        NONE
     }
 }

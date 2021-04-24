@@ -18,9 +18,6 @@ public class TimeLineController : MonoBehaviour
     public AllyController allyController;
 
     // TIME RELATED
-    //[SerializeField]
-    //private float timeUntilNextEvent = 0f;
-    //private float tensionEventFactor = 0f;
     private float timerTimeLine = 0f;
     private float timerNextEvent = 0f;
     private List<TimeEvent> timeEvents = new List<TimeEvent>();
