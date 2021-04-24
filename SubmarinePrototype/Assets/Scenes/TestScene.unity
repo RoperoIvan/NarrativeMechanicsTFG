@@ -1343,6 +1343,14 @@ PrefabInstance:
       propertyPath: defaultSprite
       value: 
       objectReference: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 7372235246373000423, guid: cd90523c4fc2d2c4b915a1de0a0a7111, type: 3}
+      propertyPath: visualController
+      value: 
+      objectReference: {fileID: 1375644754}
+    - target: {fileID: 7372235246373000423, guid: cd90523c4fc2d2c4b915a1de0a0a7111, type: 3}
+      propertyPath: playerWaitingTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7372235246373000424, guid: cd90523c4fc2d2c4b915a1de0a0a7111, type: 3}
       propertyPath: timeLineController
       value: 

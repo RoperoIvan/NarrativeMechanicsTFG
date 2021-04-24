@@ -7,9 +7,14 @@ using SimpleJSON;
 public class VisualCommunicationController : MonoBehaviour
 {
     public ShipController shipController;
+    public Button sendMessageBtn;
+    public Sprite defaultSprite;
     public List<Sprite> flagSprites = new List<Sprite>();
     public List<Button> flagButtons = new List<Button>();
     public List<Image> flagImage = new List<Image>();
+
+    [HideInInspector]
+    public string playerMessage;
 
     static public Dictionary<string, VisualMessage> flagCodes = new Dictionary<string,VisualMessage>();
     // Start is called before the first frame update
@@ -31,34 +36,65 @@ public class VisualCommunicationController : MonoBehaviour
         }
     }
 
-    public string CodifyFlags()
+    public void CodifyFlags()
     {
-        string mCode = GetCodeFromFlags();
+        playerMessage = GetCodeFromFlags();
+    }
 
-        if(flagCodes.ContainsKey(mCode))
+
+    public void ActivateFlagsButtons()
+    {
+        foreach(Button bt in flagButtons)
         {
-            //TODO: Send message to ship Controller of tension etc...
-            return mCode;
+            bt.interactable = true;
         }
-        else
+        sendMessageBtn.interactable = true;
+    }
+
+    public void DeactivateFlagsButtons()
+    {
+        foreach (Button bt in flagButtons)
         {
-            //Confuse message non-existent
-            return null;
+            bt.interactable = false;
         }
+        sendMessageBtn.interactable = false;
+    }
+
+    public void ClearFlagImages()
+    {
+        foreach(Image img in flagImage)
+        {
+            img.sprite = defaultSprite;
+        }
+        int[] clean = { 0, 0, 0, 0 };
+        GameManager.visualMessageBuffer = clean;
     }
 
     private void FillVisualCodes()
     {
-        TextAsset codesJSON = Resources.Load<TextAsset>("FlagCodes");
+        TextAsset codesJSON = Resources.Load<TextAsset>("FlagCodes (2)");
         JSONNode codesFromJSON;
         codesFromJSON = JSON.Parse(codesJSON.ToString());
         for (int i = 0; i < codesFromJSON.Count; i++)
         {
             string nCode = codesFromJSON[i]["MESSAGE CODE"];
             string nDesc = codesFromJSON[i]["DESCRIPTION"];
-            GameManager.Tension nTension = (GameManager.Tension)int.Parse(codesFromJSON[i]["TYPE"]);
+            var arrayJSON = codesFromJSON[i]["POSITIVE"].AsArray;
+            List<string> nPosit = new List<string>();
+            for(int j = 0; j < arrayJSON.Count; ++j)
+            {
+                nPosit.Add(arrayJSON[j]); 
+            }
+            var arrayNJSON = codesFromJSON[i]["NEGATIVE"].AsArray;
+            List<string> nNeg = new List<string>();
+            for (int k = 0; k < arrayNJSON.Count; ++k)
+            {
+                nNeg.Add(arrayNJSON[k]);
+            }
 
-            flagCodes.Add(nCode, new VisualMessage(nDesc, nTension));
+            Tension nTension = (Tension)int.Parse(codesFromJSON[i]["TYPE"]);
+
+            flagCodes.Add(nCode, new VisualMessage(nDesc, nPosit, nNeg, nTension));
         }
     }
 
@@ -71,16 +107,5 @@ public class VisualCommunicationController : MonoBehaviour
         nCode += GameManager.visualMessageBuffer[3];
 
         return nCode.ToString();
-    }
-
-    public struct VisualMessage
-    {
-        public string description;
-        public GameManager.Tension type;
-        public VisualMessage(string description, GameManager.Tension type)
-        {
-            this.description = description;
-            this.type = type;
-        }
     }
 }

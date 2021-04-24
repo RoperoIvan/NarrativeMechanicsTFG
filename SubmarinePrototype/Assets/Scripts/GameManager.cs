@@ -5,8 +5,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     static public int[] visualMessageBuffer = { 0, 0 , 0, 0};
-    private float tensionValue = 2f;
-    static public Tension currentTension = Tension.LOW;
+    private float tensionValue = 4f;
+    [SerializeField]
+    static public Tension currentTension = Tension.MEDIUM;
 
     public void IncreaseTension(float value)
     {
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     private void CheckTension()
     {
+        Tension lastTension = currentTension;
         if(tensionValue < 2f) 
         {
             currentTension = Tension.PEACEFUL;
@@ -44,15 +46,8 @@ public class GameManager : MonoBehaviour
         {
             currentTension = Tension.THREAT;
         }
-    }
 
-    public enum Tension
-    {
-        PEACEFUL,
-        LOW,
-        MEDIUM,
-        DANGER,
-        THREAT,
-        NONE
-    };
+        if (currentTension != lastTension)
+            Debug.Log("TENSION CHANGED TO: " + currentTension);
+    }
 }

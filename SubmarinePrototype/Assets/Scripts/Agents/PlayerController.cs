@@ -40,23 +40,23 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            GameManager.currentTension = GameManager.Tension.PEACEFUL;
+            GameManager.currentTension = Tension.PEACEFUL;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            GameManager.currentTension = GameManager.Tension.LOW;
+            GameManager.currentTension = Tension.LOW;
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            GameManager.currentTension = GameManager.Tension.MEDIUM;
+            GameManager.currentTension = Tension.MEDIUM;
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
-            GameManager.currentTension = GameManager.Tension.DANGER;
+            GameManager.currentTension = Tension.DANGER;
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
-            GameManager.currentTension = GameManager.Tension.THREAT;
+            GameManager.currentTension = Tension.THREAT;
         }
     }
 

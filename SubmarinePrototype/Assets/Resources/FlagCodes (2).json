@@ -1,0 +1,90 @@
+[
+  {
+    "MESSAGE CODE": "1142",
+    "TYPE": "0",
+    "DESCRIPTION": "HELLO",
+    "POSITIVE": [
+      "1142"
+    ],
+    "NEGATIVE": [
+      "2122"
+    ]
+  },
+  {
+    "MESSAGE CODE": "2122",
+    "TYPE": "1",
+    "DESCRIPTION": "BYE",
+    "POSITIVE": [
+      "1142"
+    ],
+    "NEGATIVE": [
+      "2122"
+    ]
+  },
+  {
+    "MESSAGE CODE": "3162",
+    "TYPE": "2",
+    "DESCRIPTION": "BE CAREFUL",
+    "POSITIVE": [
+      "1142"
+    ],
+    "NEGATIVE": [
+      "2122"
+    ]
+  },
+  {
+    "MESSAGE CODE": "4432",
+    "TYPE": "3",
+    "DESCRIPTION": "STOP",
+    "POSITIVE": [
+      "1142"
+    ],
+    "NEGATIVE": [
+      "2122"
+    ]
+  },
+  {
+    "MESSAGE CODE": "5562",
+    "TYPE": "0",
+    "DESCRIPTION": "MOTIVE",
+    "POSITIVE": [
+      "1142"
+    ],
+    "NEGATIVE": [
+      "2122"
+    ]
+  },
+  {
+    "MESSAGE CODE": "6242",
+    "TYPE": "4",
+    "DESCRIPTION": "ATTACK",
+    "POSITIVE": [
+      "1142"
+    ],
+    "NEGATIVE": [
+      "2122"
+    ]
+  },
+  {
+    "MESSAGE CODE": "3122",
+    "TYPE": "1",
+    "DESCRIPTION": "INTENTIONS",
+    "POSITIVE": [
+      "1142"
+    ],
+    "NEGATIVE": [
+      "2122"
+    ]
+  },
+  {
+    "MESSAGE CODE": "3252",
+    "TYPE": "4",
+    "DESCRIPTION": "RETREAT",
+    "POSITIVE": [
+      "1142"
+    ],
+    "NEGATIVE": [
+      "2122"
+    ]
+  }
+]

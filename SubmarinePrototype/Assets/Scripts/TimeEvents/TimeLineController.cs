@@ -58,7 +58,7 @@ public class TimeLineController : MonoBehaviour
         go.transform.localPosition = new Vector3(rt.rect.width*0.5f, 0, 0);
         TimeEvent newEvent = new TimeEvent(time, type, go);
         timeEvents.Add(newEvent);
-        Debug.Log(type + " EVENT CREATED");
+        //Debug.Log(type + " EVENT CREATED");
     }
 
     public void DeleteEvent(TimeEvent eventToDestroy)
@@ -67,10 +67,10 @@ public class TimeLineController : MonoBehaviour
         {
             timeEvents.Remove(eventToDestroy);
             Destroy(eventToDestroy.visualGO);
-            Debug.Log(eventToDestroy.type + " EVENT DELETED");
+            //Debug.Log(eventToDestroy.type + " EVENT DELETED");
             return;
         }
-        Debug.LogWarning("THIS TIME EVENT DOES NOT EXIST IN TIMELINE!");
+        //Debug.LogWarning("THIS TIME EVENT DOES NOT EXIST IN TIMELINE!");
     }
 
     public void VisualTimeLineManagement(TimeEvent icon)
@@ -108,7 +108,7 @@ public class TimeLineController : MonoBehaviour
             if (timerTimeLine - timeEvents[i].timeStamp >= timeEvents[i].timeToExecute) //ExecuteEvent
             {
                 LaunchEvent(timeEvents[i].type);
-                Debug.Log(timeEvents[i].type + " EVENT EXECUTED");
+                //Debug.Log(timeEvents[i].type + " EVENT EXECUTED");
                 DeleteEvent(timeEvents[i]);
             }
         }

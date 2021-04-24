@@ -9,9 +9,11 @@ public class ShipController : MonoBehaviour
     public SpriteRenderer flag;
     public Sprite defaultSprite;
     public VisualCommunicationController visualController;
+    public GameManager gameManager;
     public List<Sprite> flagSprites = new List<Sprite>();
 
     private bool isFirstTime = true;
+    private VisualMessage lastSendedMessage;
 
     public void LaunchEvent(ShipEvent incomingEvent)
     {
@@ -30,14 +32,31 @@ public class ShipController : MonoBehaviour
 
     public void InterpretVisualMessage(string code)
     {
-        if(VisualCommunicationController.flagCodes.TryGetValue(code, out VisualCommunicationController.VisualMessage value))
+        if(VisualCommunicationController.flagCodes.TryGetValue(code, out VisualMessage value))
         {
-            
+            //Debug.Log("MESSAGE DESCRIPTION: " + value.description);
+            int reaction = GetMessageReaction(code);
+
+            if(reaction == 0) //Positive response to tension
+            {
+                gameManager.DecreaseTension(1f);
+            }
+            else if(reaction == 1) //Negative response to tension
+            {
+                gameManager.IncreaseTension(1f);
+            }
+            else //Neutral response to tension
+            {
+
+            }
+
         }
         else //Non-existent message
         {
+            //Debug.Log("THIS MESSAGE IS NON-SENSE!");
 
         }
+        visualController.playerMessage = "";
     }
 
     private void SendVisualMessage()
@@ -46,6 +65,8 @@ public class ShipController : MonoBehaviour
         {
             ProcessMessage("1142");
             isFirstTime = false;
+            VisualCommunicationController.flagCodes.TryGetValue("1142", out VisualMessage val);
+            lastSendedMessage = val;
         }
         else
         {
@@ -59,6 +80,8 @@ public class ShipController : MonoBehaviour
             Random.InitState(System.DateTime.Now.Millisecond);
             int randomMessage = Random.Range(0, totalTypes.Count - 1);
             ProcessMessage(totalTypes[randomMessage]);
+            VisualCommunicationController.flagCodes.TryGetValue("1142", out VisualMessage val);
+            lastSendedMessage = val;
         }
     }
 
@@ -87,6 +110,24 @@ public class ShipController : MonoBehaviour
         return flagCodes;
     }
 
+    private int GetMessageReaction(string code)
+    {
+
+        foreach(string c in lastSendedMessage.positiveMessages)
+        {
+            if(c.Equals(code))
+                return 0;
+        }
+
+        foreach(string c in lastSendedMessage.negativeMessages)
+        {
+            if (c.Equals(code))
+                return 1;
+        }
+
+        return 3;
+    }
+
     private IEnumerator ShowVisualMessage(int[] bufferSprites)
     {
         yield return new WaitForSeconds(1f);
@@ -106,19 +147,22 @@ public class ShipController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         flag.sprite = defaultSprite;
 
-        WaitingForResponse();
+        visualController.ActivateFlagsButtons();
+        StartCoroutine(WaitingForResponse());
     }
 
     private IEnumerator WaitingForResponse()
     {
-        string code = visualController.CodifyFlags();
         yield return new WaitForSeconds(playerWaitingTime);
-        if (string.IsNullOrEmpty(code))
+        if (string.IsNullOrEmpty(visualController.playerMessage))
         {
-
+            //Debug.Log("THIS MESSAGE IS NULL OR EMPTY!");
         }
         else
-            InterpretVisualMessage(code);
+            InterpretVisualMessage(visualController.playerMessage);
+
+        visualController.DeactivateFlagsButtons();
+        visualController.ClearFlagImages();
     }
 
     public enum ShipEvent
