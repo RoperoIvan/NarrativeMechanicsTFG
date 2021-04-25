@@ -24,10 +24,10 @@ public class PlayerController : MonoBehaviour
         //{
         //    timeLineController.AddNewEvent(5f, TimeLineController.TimeEventType.BOMB);
         //}
-        //if (Input.GetKeyDown(KeyCode.T))
-        //{
-        //    timeLineController.AddNewEvent(60f, TimeLineController.TimeEventType.FREQUENCY);
-        //}
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            timeLineController.AddNewEvent(6f, TimeLineController.TimeEventType.FREQUENCY);
+        }
         //if (Input.GetKeyDown(KeyCode.Y))
         //{
         //    timeLineController.AddNewEvent(20f, TimeLineController.TimeEventType.RADIO);

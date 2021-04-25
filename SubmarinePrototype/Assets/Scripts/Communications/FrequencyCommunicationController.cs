@@ -2,19 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class FrequencyCommunicationController : MonoBehaviour
 {
     public float currentValue = 0f;
     public float maxRotationValue = 340f;
     public float minRotationValue = 0f;
+    float currentRotationAngle = 0f;
     public bool buttonPressed = false;
+    public bool detect = false;
     public TMP_Text value;
+    public Image frequencyLED;
+    public AllyController allyController;
 
     private void Update()
     {
         if(buttonPressed)
             RegulateWheel();
+
+        if (detect)
+            DetectFrequency();
     }
     public void RegulateWheel()
     {
@@ -27,15 +35,27 @@ public class FrequencyCommunicationController : MonoBehaviour
         
        transform.up = direction;
         currentValue = GetValueFromWheelRotation();
-        value.text = currentValue.ToString("F2");
+        value.text = currentValue.ToString("F2") + "Hz";
     }
 
     public float GetValueFromWheelRotation()
     {
         Vector3 eA = transform.rotation.eulerAngles;
-        float currentRotationAngle = eA.z;
+        currentRotationAngle = eA.z;
 
         return currentRotationAngle/maxRotationValue;
+    }
+
+    private void DetectFrequency()
+    {
+        if(currentRotationAngle > allyController.frequencyRange - 10 && currentRotationAngle < allyController.frequencyRange + 10)
+        {
+            frequencyLED.color = new Vector4(0f, 0.6509804f, 0.07074188f, 1f);
+        }
+        else
+        {
+            frequencyLED.color = new Vector4(0.6509434f, 0f, 0f, 1f);
+        }
     }
 
     private void OnMouseDown()

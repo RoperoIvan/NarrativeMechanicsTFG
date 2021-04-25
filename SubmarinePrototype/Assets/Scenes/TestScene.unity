@@ -161,6 +161,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5701e16ce69c324b95efee391fe0dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &86549998
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 86549999}
+  m_Layer: 5
+  m_Name: FrequencyContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &86549999
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86549998}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 723640363}
+  - {fileID: 1646323298}
+  m_Father: {fileID: 812329086}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &129846844 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3371666454641966985, guid: 3fa74c509c507c348a05c8a357daa5fa, type: 3}
@@ -205,7 +242,7 @@ GameObject:
   - component: {fileID: 723640362}
   - component: {fileID: 723640361}
   m_Layer: 5
-  m_Name: f
+  m_Name: FrequencyValueTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -315,12 +352,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 723640360}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 812329086}
-  m_RootOrder: 3
+  m_Father: {fileID: 86549999}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -431,8 +468,7 @@ RectTransform:
   m_Children:
   - {fileID: 84186152}
   - {fileID: 5006581177407634447}
-  - {fileID: 1718638843}
-  - {fileID: 723640363}
+  - {fileID: 86549999}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -454,7 +490,7 @@ GameObject:
   - component: {fileID: 891638529}
   - component: {fileID: 891638530}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: FrequencyWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -519,7 +555,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 891638526}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.05, y: -0.01, z: 0}
+  m_LocalPosition: {x: -5.91, y: 1.49, z: 0}
   m_LocalScale: {x: 2.25399, y: 2.25399, z: 2.25399}
   m_Children: []
   m_Father: {fileID: 0}
@@ -541,7 +577,10 @@ MonoBehaviour:
   maxRotationValue: 359.9
   minRotationValue: 0
   buttonPressed: 0
+  detect: 0
   value: {fileID: 723640361}
+  frequencyLED: {fileID: 1646323299}
+  allyController: {fileID: 7372235246373000422}
 --- !u!58 &891638530
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -800,7 +839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77e8920646f93f348bf9dca157a62d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1718638842
+--- !u!1 &1646323297
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -808,131 +847,56 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1718638843}
-  - component: {fileID: 1718638847}
-  - component: {fileID: 1718638846}
-  - component: {fileID: 1718638845}
-  - component: {fileID: 1718638844}
+  - component: {fileID: 1646323298}
+  - component: {fileID: 1646323300}
+  - component: {fileID: 1646323299}
   m_Layer: 5
-  m_Name: FrequencyRegulatorBtn
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &1718638843
+  m_IsActive: 1
+--- !u!224 &1646323298
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1718638842}
+  m_GameObject: {fileID: 1646323297}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 812329086}
-  m_RootOrder: 2
+  m_Father: {fileID: 86549999}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: -308, y: 130}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1718638844
+--- !u!114 &1646323299
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1718638842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 354f0b6824789be45b3493fb69285cc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentValue: 0
-  maxRotationValue: 340
-  minRotationValue: 0
-  buttonPressed: 0
-  value: {fileID: 0}
---- !u!114 &1718638845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1718638842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1718638846}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1718638844}
-        m_TargetAssemblyTypeName: FrequencyCommunicationController, Assembly-CSharp
-        m_MethodName: InputIsDown
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1718638846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1718638842}
+  m_GameObject: {fileID: 1646323297}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6509434, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 38ef8de05dbf35a4fa748f2619be70c3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0c9d0913551d28f488ff1e84119a7461, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -942,13 +906,13 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!222 &1718638847
+--- !u!222 &1646323300
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1718638842}
+  m_GameObject: {fileID: 1646323297}
   m_CullTransparentMesh: 1
 --- !u!1 &1795105707
 GameObject:
@@ -1614,6 +1578,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7372235246373000422, guid: cd90523c4fc2d2c4b915a1de0a0a7111, type: 3}
+      propertyPath: frequencyController
+      value: 
+      objectReference: {fileID: 891638529}
     - target: {fileID: 7372235246373000423, guid: cd90523c4fc2d2c4b915a1de0a0a7111, type: 3}
       propertyPath: flag
       value: 
