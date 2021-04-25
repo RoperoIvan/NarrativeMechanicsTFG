@@ -15,7 +15,9 @@ public class FrequencyCommunicationController : MonoBehaviour
     public TMP_Text value;
     public Image frequencyLED;
     public AllyController allyController;
+    public GameObject graph;
 
+    private float val = 0f;
     private void Update()
     {
         if(buttonPressed)
@@ -23,6 +25,9 @@ public class FrequencyCommunicationController : MonoBehaviour
 
         if (detect)
             DetectFrequency();
+
+        val+=0.01f;
+        graph.GetComponent<Renderer>().sharedMaterial.SetTextureOffset("_ForegroundMask", new Vector2(val, -0.59f));
     }
     public void RegulateWheel()
     {
@@ -50,11 +55,11 @@ public class FrequencyCommunicationController : MonoBehaviour
     {
         if(currentRotationAngle > allyController.frequencyRange - 10 && currentRotationAngle < allyController.frequencyRange + 10)
         {
-            frequencyLED.color = new Vector4(0f, 0.6509804f, 0.07074188f, 1f);
+            frequencyLED.color = new Vector4(0f, 0.6509804f, 0.07074188f, 1f); // GREEN
         }
         else
         {
-            frequencyLED.color = new Vector4(0.6509434f, 0f, 0f, 1f);
+            frequencyLED.color = new Vector4(0.6509434f, 0f, 0f, 1f); // RED
         }
     }
 
