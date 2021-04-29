@@ -13,13 +13,8 @@ public class DialogueManager : MonoBehaviour
     public GameObject responsePrefab;
     public TMP_Text dialogueTxt;
 
-    private Dialogue[] lastDialogueNodes = new Dialogue[3]; //0: James, 1: Grace, 2: Diane
-    public Dialogue[] nodesJames;
-    public Dialogue[] nodesGrace;
-    public Dialogue[] nodesDiane;
-
     private int currentChar;
-
+    private Dialogue testNode;
     private void Awake()
     {
         if (dialogueManager != null)
@@ -29,38 +24,16 @@ public class DialogueManager : MonoBehaviour
         }
 
         dialogueManager = this;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        testNode = Resources.Load<Dialogue>("Test");
         //nodesJames = Resources.LoadAll<Dialogue>("DialogueNodes/James");
         //nodesGrace = Resources.LoadAll<Dialogue>("DialogueNodes/Grace");
         //nodesDiane = Resources.LoadAll<Dialogue>("DialogueNodes/Diane");
+        RefreshDialogueContainer();
     }
-    public void RefreshDialogueContainer(int character)
+    public void RefreshDialogueContainer()
     {
-        Dialogue[] charNodes = { };
-        hasDialog = true;
-        Cursor.lockState = CursorLockMode.None;
-        currentChar = character;
-
-        if (lastDialogueNodes[character] == null)
-        {
-            switch (character)
-            {
-                case 0:
-                    charNodes = nodesJames;
-                    break;
-                case 1:
-                    charNodes = nodesGrace;
-                    break;
-                case 2:
-                    charNodes = nodesDiane;
-                    break;
-                default:
-                    break;
-            }
-            lastDialogueNodes[character] = charNodes[0];
-        }
-
-        currentDialogueNode = lastDialogueNodes[character];
+        currentDialogueNode = testNode;
 
         for (int i = 0; i <= currentDialogueNode.responses.Length - 1; ++i)
         {
@@ -91,7 +64,6 @@ public class DialogueManager : MonoBehaviour
     public void CloseDialogue()
     {
         CleanResponses();
-        lastDialogueNodes[currentChar] = currentDialogueNode;
         hasDialog = false;
         Cursor.lockState = CursorLockMode.Locked;
         gameObject.SetActive(false);
@@ -133,9 +105,11 @@ public class DialogueManager : MonoBehaviour
                 ++numCharsRevealed;
                 dialogueTxt.text = originalString.Substring(0, numCharsRevealed);
 
-                yield return new WaitForSecondsRealtime(0.07f);
+                yield return new WaitForSecondsRealtime(0.03f);
             }
             yield return new WaitForSecondsRealtime(1f);
         }
+
+        dialogueTxt.text = "";
     }
 }
