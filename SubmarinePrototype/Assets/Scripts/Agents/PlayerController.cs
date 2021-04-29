@@ -5,9 +5,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // VISUAL OBJECTS TO ACTIVATE/DEACTIVATE
+    [InspectorName("VISUAL ROOM")]
     public GameObject enemyFlagContainer;
     public GameObject playerFlagContainer;
     public GameObject UIVisualContainer;
+
+    [InspectorName("RADIO")]
+    public GameObject frequencyWheelsContainer;
+    public GameObject frequencyController;
+    //public GameObject UIVisualContainer;
+
 
     static public Screens currentScreen = Screens.NONE;
     public TimeLineController timeLineController;
@@ -37,15 +44,19 @@ public class PlayerController : MonoBehaviour
         //    timeLineController.AddNewEvent(10f, TimeLineController.TimeEventType.VISUAL);
         //}
 
-        //if(Input.GetKeyDown(KeyCode.E))
-        //{
-        //    currentScreen = Screens.GLASS;
-        //    enemyFlagContainer.SetActive(true);
-        //    playerFlagContainer.SetActive(true);
-        //    UIVisualContainer.SetActive(true);
-        //    Debug.Log("IN VISUAL ROOM");
-        //}
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            currentScreen = Screens.GLASS;
+            GoToVisualRoom(true);
+            Debug.Log("IN VISUAL ROOM");
+        }
 
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            currentScreen = Screens.RADIO;
+            GoToRadio(true);
+            Debug.Log("IN RADIO");
+        }
         //if (Input.GetKeyDown(KeyCode.A))
         //{
         //    GameManager.currentTension = Tension.PEACEFUL;
@@ -66,5 +77,19 @@ public class PlayerController : MonoBehaviour
         //{
         //    GameManager.currentTension = Tension.THREAT;
         //}
+    }
+
+    private void GoToVisualRoom(bool isEnter)
+    {
+        currentScreen = Screens.GLASS;
+        enemyFlagContainer.SetActive(isEnter);
+        playerFlagContainer.SetActive(isEnter);
+        UIVisualContainer.SetActive(isEnter);
+    }
+
+    private void GoToRadio(bool isEnter)
+    {
+        frequencyController.SetActive(isEnter);
+        frequencyWheelsContainer.SetActive(isEnter);
     }
 }

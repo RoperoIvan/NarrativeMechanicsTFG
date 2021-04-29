@@ -37,7 +37,7 @@ public class TimeLineController : MonoBehaviour
     void Update()
     {
         //Manage the addition of new events based in current tension
-        //ManageEvents();
+        ManageEvents();
 
         //Manage Visual icons in timeline and the execution and deletion of the events
         RefreshTimeLine();

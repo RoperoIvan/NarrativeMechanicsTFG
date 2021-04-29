@@ -107,7 +107,7 @@ public class ShipController : MonoBehaviour
                 lastSendedMessage = val;
             }
         }
-        else
+        else //Give the player a little bit of time to go to the screen of the communications
         {
             waitingForPlayer = true;
             timerEnterRoom = Time.realtimeSinceStartup;

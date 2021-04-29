@@ -7,18 +7,26 @@ using UnityEngine;
 public class AllyController : MonoBehaviour
 {
     public AllyEvent currentAllyEvent = AllyEvent.NONE;
-    public int frequencyRange = 0;
+    public float playerEnterWaitingTime = 10f;
+    public GameManager gameManager;
     public FrequencyCommunicationController frequencyController;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private float timerEnterRoom = 0f;
+    private bool waitingForPlayer = false;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (waitingForPlayer)
+        {
+            if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime)
+            {
+                if (PlayerController.currentScreen != Screens.RADIO)
+                    gameManager.IncreaseTension(0.2f);
+                else
+                    SendFrequency();
+
+                waitingForPlayer = false;
+            }
+        }
     }
 
     public void LaunchEvent(AllyEvent incomingEvent)
@@ -37,9 +45,13 @@ public class AllyController : MonoBehaviour
 
     private void SendFrequency()
     {
-        Random.InitState(System.DateTime.Now.Millisecond);
-        frequencyRange = Random.Range(3, 300);// ELF Frequency range in submarines
-        frequencyController.detect = true;
+        if(PlayerController.currentScreen == Screens.RADIO)
+            frequencyController.SetFrequenciesValues();
+        else //Give the player a little bit of time to go to the screen of the communications
+        {
+            waitingForPlayer = true;
+            timerEnterRoom = Time.realtimeSinceStartup;
+        }
     }
 
     public enum AllyEvent
