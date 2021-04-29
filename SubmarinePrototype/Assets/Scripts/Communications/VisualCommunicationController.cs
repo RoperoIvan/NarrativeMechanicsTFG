@@ -18,9 +18,10 @@ public class VisualCommunicationController : MonoBehaviour
 
     static public Dictionary<string, VisualMessage> flagCodes = new Dictionary<string,VisualMessage>();
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         FillVisualCodes();
+        gameObject.SetActive(false);
     }
 
     public void RecordFlag(int flag)

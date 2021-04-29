@@ -22,12 +22,15 @@ public class ShipController : MonoBehaviour
     {
         if(waitingForPlayer)
         {
-            if(Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime)
+            if (PlayerController.currentScreen == Screens.GLASS)
+            {
+                SendVisualMessage();
+                waitingForPlayer = false;
+            }
+            if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime)
             {
                 if (PlayerController.currentScreen != Screens.GLASS)
                     gameManager.IncreaseTension(0.2f);
-                else
-                    SendVisualMessage();
 
                 waitingForPlayer = false;
             }

@@ -1578,7 +1578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4153301717538587509, guid: 472f8c07fa5dfe24fb777b8b325974ee, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4153301717538587510, guid: 472f8c07fa5dfe24fb777b8b325974ee, type: 3}
       propertyPath: sendMessageBtn
