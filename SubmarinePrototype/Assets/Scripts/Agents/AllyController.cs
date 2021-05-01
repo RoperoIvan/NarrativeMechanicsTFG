@@ -47,7 +47,7 @@ public class AllyController : MonoBehaviour
     {
         if(PlayerController.currentScreen == Screens.RADIO)
             frequencyController.SetFrequenciesValues();
-        else //Give the player a little bit of time to go to the screen of the communications
+        else //Give the player a little bit of time to go to the screen of the radio
         {
             waitingForPlayer = true;
             timerEnterRoom = Time.realtimeSinceStartup;

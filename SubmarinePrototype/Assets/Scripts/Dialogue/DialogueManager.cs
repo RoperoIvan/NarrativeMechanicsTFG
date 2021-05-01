@@ -8,6 +8,7 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager dialogueManager;
     public static bool hasDialog = false;
+    public FrequencyCommunicationController freqCommController;
     public Dialogue currentDialogueNode;
     public GameObject responseContainer;
     public GameObject responsePrefab;
@@ -26,10 +27,6 @@ public class DialogueManager : MonoBehaviour
         dialogueManager = this;
         //gameObject.SetActive(false);
         testNode = Resources.Load<Dialogue>("Test");
-        //nodesJames = Resources.LoadAll<Dialogue>("DialogueNodes/James");
-        //nodesGrace = Resources.LoadAll<Dialogue>("DialogueNodes/Grace");
-        //nodesDiane = Resources.LoadAll<Dialogue>("DialogueNodes/Diane");
-        RefreshDialogueContainer();
     }
     public void RefreshDialogueContainer()
     {
@@ -93,19 +90,25 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator RevealText(string[] dialogue)
     {
-        for (int i = 0; i < dialogue.Length; ++i)
+        for (int i = 0; i < dialogue.Length; ++i) //PHRASES OF NODE
         {
-            dialogueTxt.text = dialogue[i];
-            var originalString = dialogueTxt.text;
+            var originalString = dialogue[i];
             dialogueTxt.text = "";
-
+            string[] words = originalString.Split();
             var numCharsRevealed = 0;
-            while (numCharsRevealed < originalString.Length)
+            string modWords = freqCommController.GetModifiedPhrase(originalString);
+            for (int j = 0; j < words.Length; ++j) //WORD OF PHRASE
             {
-                ++numCharsRevealed;
-                dialogueTxt.text = originalString.Substring(0, numCharsRevealed);
+                var charss = 0;
+                while (charss < words[j].Length) //CHAR OF WORD
+                {
+                    charss++;
+                    ++numCharsRevealed;
+                    dialogueTxt.text = modWords.Substring(0, numCharsRevealed);
 
-                yield return new WaitForSecondsRealtime(0.03f);
+                    yield return new WaitForSecondsRealtime(0.1f);
+                }
+                ++numCharsRevealed;
             }
             yield return new WaitForSecondsRealtime(1f);
         }

@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     static public Screens currentScreen = Screens.NONE;
     public TimeLineController timeLineController;
+    public DialogueManager dialogueManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,10 +36,10 @@ public class PlayerController : MonoBehaviour
         {
             timeLineController.AddNewEvent(6f, TimeLineController.TimeEventType.FREQUENCY);
         }
-        //if (Input.GetKeyDown(KeyCode.Y))
-        //{
-        //    timeLineController.AddNewEvent(20f, TimeLineController.TimeEventType.RADIO);
-        //}
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            timeLineController.AddNewEvent(5f, TimeLineController.TimeEventType.RADIO);
+        }
         //if (Input.GetKeyDown(KeyCode.U))
         //{
         //    timeLineController.AddNewEvent(10f, TimeLineController.TimeEventType.VISUAL);
@@ -57,6 +58,9 @@ public class PlayerController : MonoBehaviour
             GoToRadio(true);
             Debug.Log("IN RADIO");
         }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            dialogueManager.RefreshDialogueContainer();
         //if (Input.GetKeyDown(KeyCode.A))
         //{
         //    GameManager.currentTension = Tension.PEACEFUL;
