@@ -9,10 +9,13 @@ public class FrequencyCommunicationController : MonoBehaviour
 {
     public GameObject buttonReciever;
     public List<FrequencyWheelController> frequencyWheels = new List<FrequencyWheelController>();
-    private bool checkWheels = false;
-    private int wheelsInPosition = 0;
+    public GameObject graph;
+
+    private float val = 0f;
     private void Update()
     {
+        val+=0.01f;
+        graph.GetComponent<Renderer>().sharedMaterial.SetTextureOffset("_ForegroundMask", new Vector2(val, -0.59f));
     }
     public void SetFrequenciesValues()
     {
@@ -22,7 +25,6 @@ public class FrequencyCommunicationController : MonoBehaviour
             wheel.detect = true;
             Debug.Log(wheel.range);
         }
-        checkWheels = true;
     }
 
     public string GetModifiedPhrase(string originalString)

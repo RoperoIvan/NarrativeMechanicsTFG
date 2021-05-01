@@ -1,24 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class FrequencyWheelController : MonoBehaviour
 {
     [HideInInspector]
     public float range = 0f;
-
     public float currentValue = 0f;
     public float maxRotationValue = 340f;
     public float minRotationValue = 0f;
-
-    private float currentRotationAngle = 0f;
-
     public bool buttonPressed = false;
     public bool isInRange = false;
     public bool detect = false;
-
     public SpriteRenderer LEDRenderer;
+    public TMP_Text valueHz;
 
+    private float currentRotationAngle = 0f;
 
     private void Update()
     {
@@ -27,9 +25,7 @@ public class FrequencyWheelController : MonoBehaviour
 
         if (detect)
             DetectFrequency();
-
-        //val+=0.01f;
-        //graph.GetComponent<Renderer>().sharedMaterial.SetTextureOffset("_ForegroundMask", new Vector2(val, -0.59f));
+        
     }
 
     public void RegulateWheel()
@@ -43,7 +39,7 @@ public class FrequencyWheelController : MonoBehaviour
 
         transform.up = direction;
         currentValue = GetValueFromWheelRotation();
-        //value.text = currentValue.ToString("F2") + "Hz";
+        valueHz.text = currentValue.ToString("F2") + "Hz";
     }
 
     public float GetValueFromWheelRotation()
