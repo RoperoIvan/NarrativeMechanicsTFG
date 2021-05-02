@@ -8,6 +8,7 @@ public class VisualCommunicationController : MonoBehaviour
 {
     public ShipController shipController;
     public Button sendMessageBtn;
+    public Button resetBtn;
     public Sprite defaultSprite;
     public SpriteRenderer subFlag;
     public Animator subFlagAnimator;
@@ -53,6 +54,7 @@ public class VisualCommunicationController : MonoBehaviour
             bt.interactable = true;
         }
         sendMessageBtn.interactable = true;
+        resetBtn.interactable = true;
     }
 
     public void DeactivateFlagsButtons()
@@ -62,6 +64,7 @@ public class VisualCommunicationController : MonoBehaviour
             bt.interactable = false;
         }
         sendMessageBtn.interactable = false;
+        resetBtn.interactable = false;
     }
 
     public void ClearFlagImages()
@@ -74,10 +77,23 @@ public class VisualCommunicationController : MonoBehaviour
         GameManager.visualMessageBuffer = clean;
     }
 
+    public string GetCodeFromFlags()
+    {
+        int nCode = 0;
+        nCode += GameManager.visualMessageBuffer[0] * 1000;
+        nCode += GameManager.visualMessageBuffer[1] * 100;
+        nCode += GameManager.visualMessageBuffer[2] * 10;
+        nCode += GameManager.visualMessageBuffer[3];
+
+        return nCode.ToString();
+    }
+
     public IEnumerator ShowVisualMessage(int[] bufferSprites)
     {
+        DeactivateFlagsButtons();
         subPoleAnimator.SetBool("showPole", true);
         yield return new WaitForSeconds(1.5f);
+
         subFlagAnimator.SetBool("showFlag", true);
         subFlag.sprite = flagSprites[bufferSprites[0] - 1];
         yield return new WaitForSeconds(2.5f);
@@ -102,12 +118,13 @@ public class VisualCommunicationController : MonoBehaviour
         subFlagAnimator.SetBool("showFlag", true);
         subFlag.sprite = flagSprites[bufferSprites[3] - 1];
         yield return new WaitForSeconds(2.5f);
+
         subFlagAnimator.SetBool("showFlag", false);
         yield return new WaitForSeconds(1.5f);
+
         subPoleAnimator.SetBool("showPole", false);
 
         shipController.InterpretVisualMessage(playerMessage);
-        DeactivateFlagsButtons();
         ClearFlagImages();
     }
 
@@ -137,16 +154,5 @@ public class VisualCommunicationController : MonoBehaviour
 
             flagCodes.Add(nCode, new VisualMessage(nDesc, nPosit, nNeg, nTension));
         }
-    }
-
-    public string GetCodeFromFlags()
-    {
-        int nCode = 0;
-        nCode += GameManager.visualMessageBuffer[0] * 1000;
-        nCode += GameManager.visualMessageBuffer[1] * 100;
-        nCode += GameManager.visualMessageBuffer[2] * 10;
-        nCode += GameManager.visualMessageBuffer[3];
-
-        return nCode.ToString();
     }
 }

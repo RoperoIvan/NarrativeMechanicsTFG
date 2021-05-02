@@ -165,6 +165,7 @@ public class ShipController : MonoBehaviour
     {
         shipPoleAnimator.SetBool("showPole", true);
         yield return new WaitForSeconds(1.5f);
+
         shipFlagAnimator.SetBool("showFlag", true);
         flag.sprite = flagSprites[bufferSprites[0] - 1];
         yield return new WaitForSeconds(2.5f);
@@ -189,8 +190,10 @@ public class ShipController : MonoBehaviour
         shipFlagAnimator.SetBool("showFlag", true);
         flag.sprite = flagSprites[bufferSprites[3] - 1];
         yield return new WaitForSeconds(2.5f);
+
         shipFlagAnimator.SetBool("showFlag", false);
         yield return new WaitForSeconds(2f);
+
         shipPoleAnimator.SetBool("showPole", false);
 
         visualController.ActivateFlagsButtons();
@@ -200,7 +203,7 @@ public class ShipController : MonoBehaviour
     private IEnumerator WaitingForResponse()
     {
 
-        for (float timer = 5; timer >= 0; timer -= Time.deltaTime)
+        for (float timer = playerResponseWaitingTime; timer >= 0; timer -= Time.deltaTime)
         {
             if (!string.IsNullOrEmpty(visualController.playerMessage))
             {
