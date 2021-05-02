@@ -9,6 +9,9 @@ public class VisualCommunicationController : MonoBehaviour
     public ShipController shipController;
     public Button sendMessageBtn;
     public Sprite defaultSprite;
+    public SpriteRenderer subFlag;
+    public Animator subFlagAnimator;
+    public Animator subPoleAnimator;
     public List<Sprite> flagSprites = new List<Sprite>();
     public List<Button> flagButtons = new List<Button>();
     public List<Image> flagImage = new List<Image>();
@@ -71,6 +74,43 @@ public class VisualCommunicationController : MonoBehaviour
         GameManager.visualMessageBuffer = clean;
     }
 
+    public IEnumerator ShowVisualMessage(int[] bufferSprites)
+    {
+        subPoleAnimator.SetBool("showPole", true);
+        yield return new WaitForSeconds(1.5f);
+        subFlagAnimator.SetBool("showFlag", true);
+        subFlag.sprite = flagSprites[bufferSprites[0] - 1];
+        yield return new WaitForSeconds(2.5f);
+
+        subFlagAnimator.SetBool("showFlag", false);
+        yield return new WaitForSeconds(1.5f);
+
+        subFlagAnimator.SetBool("showFlag", true);
+        subFlag.sprite = flagSprites[bufferSprites[1] - 1];
+        yield return new WaitForSeconds(2.5f);
+
+        subFlagAnimator.SetBool("showFlag", false);
+        yield return new WaitForSeconds(1.5f);
+
+        subFlagAnimator.SetBool("showFlag", true);
+        subFlag.sprite = flagSprites[bufferSprites[2] - 1];
+        yield return new WaitForSeconds(2.5f);
+
+        subFlagAnimator.SetBool("showFlag", false);
+        yield return new WaitForSeconds(1.5f);
+
+        subFlagAnimator.SetBool("showFlag", true);
+        subFlag.sprite = flagSprites[bufferSprites[3] - 1];
+        yield return new WaitForSeconds(2.5f);
+        subFlagAnimator.SetBool("showFlag", false);
+        yield return new WaitForSeconds(1.5f);
+        subPoleAnimator.SetBool("showPole", false);
+
+        shipController.InterpretVisualMessage(playerMessage);
+        DeactivateFlagsButtons();
+        ClearFlagImages();
+    }
+
     private void FillVisualCodes()
     {
         TextAsset codesJSON = Resources.Load<TextAsset>("FlagCodes (2)");
@@ -99,7 +139,7 @@ public class VisualCommunicationController : MonoBehaviour
         }
     }
 
-    private string GetCodeFromFlags()
+    public string GetCodeFromFlags()
     {
         int nCode = 0;
         nCode += GameManager.visualMessageBuffer[0] * 1000;

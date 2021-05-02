@@ -14,7 +14,7 @@ public class FrequencyCommunicationController : MonoBehaviour
     private float val = 0f;
     private void Update()
     {
-        val+=0.01f;
+        val+=0.008f;
         graph.GetComponent<Renderer>().sharedMaterial.SetTextureOffset("_ForegroundMask", new Vector2(val, -0.59f));
     }
     public void SetFrequenciesValues()

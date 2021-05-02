@@ -11,6 +11,8 @@ public class ShipController : MonoBehaviour
     public Sprite defaultSprite;
     public VisualCommunicationController visualController;
     public GameManager gameManager;
+    public Animator shipFlagAnimator;
+    public Animator shipPoleAnimator;
     public List<Sprite> flagSprites = new List<Sprite>();
 
     private float timerEnterRoom = 0f;
@@ -86,7 +88,7 @@ public class ShipController : MonoBehaviour
     {
         if (PlayerController.currentScreen == Screens.GLASS)
         {
-            if (isFirstTime)
+            if (isFirstTime) //TODO: HERE SHOULD BE THE TUTORIAL OR SOMETHING SIMILAR
             {
                 ProcessMessage("1142");
                 isFirstTime = false;
@@ -161,22 +163,35 @@ public class ShipController : MonoBehaviour
 
     private IEnumerator ShowVisualMessage(int[] bufferSprites)
     {
-        yield return new WaitForSeconds(1f);
+        shipPoleAnimator.SetBool("showPole", true);
+        yield return new WaitForSeconds(1.5f);
+        shipFlagAnimator.SetBool("showFlag", true);
         flag.sprite = flagSprites[bufferSprites[0] - 1];
-        yield return new WaitForSeconds(1f);
-        flag.sprite = defaultSprite;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2.5f);
+
+        shipFlagAnimator.SetBool("showFlag", false);
+        yield return new WaitForSeconds(2f);
+
+        shipFlagAnimator.SetBool("showFlag", true);
         flag.sprite = flagSprites[bufferSprites[1] - 1];
-        yield return new WaitForSeconds(1f);
-        flag.sprite = defaultSprite;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2.5f);
+
+        shipFlagAnimator.SetBool("showFlag", false);
+        yield return new WaitForSeconds(2f);
+
+        shipFlagAnimator.SetBool("showFlag", true);
         flag.sprite = flagSprites[bufferSprites[2] - 1];
-        yield return new WaitForSeconds(1f);
-        flag.sprite = defaultSprite;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2.5f);
+
+        shipFlagAnimator.SetBool("showFlag", false);
+        yield return new WaitForSeconds(2f);
+
+        shipFlagAnimator.SetBool("showFlag", true);
         flag.sprite = flagSprites[bufferSprites[3] - 1];
-        yield return new WaitForSeconds(1f);
-        flag.sprite = defaultSprite;
+        yield return new WaitForSeconds(2.5f);
+        shipFlagAnimator.SetBool("showFlag", false);
+        yield return new WaitForSeconds(2f);
+        shipPoleAnimator.SetBool("showPole", false);
 
         visualController.ActivateFlagsButtons();
         StartCoroutine(WaitingForResponse());
@@ -184,13 +199,16 @@ public class ShipController : MonoBehaviour
 
     private IEnumerator WaitingForResponse()
     {
-        yield return new WaitForSeconds(playerResponseWaitingTime);
-        if (string.IsNullOrEmpty(visualController.playerMessage))
+
+        for (float timer = 5; timer >= 0; timer -= Time.deltaTime)
         {
-            //Debug.Log("THIS MESSAGE IS NULL OR EMPTY!");
+            if (!string.IsNullOrEmpty(visualController.playerMessage))
+            {
+                StartCoroutine(visualController.ShowVisualMessage(GetFlagsFromCode(visualController.GetCodeFromFlags())));
+                yield break;
+            }
+            yield return null;
         }
-        else
-            InterpretVisualMessage(visualController.playerMessage);
 
         visualController.DeactivateFlagsButtons();
         visualController.ClearFlagImages();

@@ -40,10 +40,10 @@ public class PlayerController : MonoBehaviour
         {
             timeLineController.AddNewEvent(5f, TimeLineController.TimeEventType.RADIO);
         }
-        //if (Input.GetKeyDown(KeyCode.U))
-        //{
-        //    timeLineController.AddNewEvent(10f, TimeLineController.TimeEventType.VISUAL);
-        //}
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            timeLineController.AddNewEvent(10f, TimeLineController.TimeEventType.VISUAL);
+        }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
