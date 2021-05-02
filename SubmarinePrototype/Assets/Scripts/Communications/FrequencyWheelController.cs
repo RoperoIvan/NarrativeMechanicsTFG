@@ -18,6 +18,12 @@ public class FrequencyWheelController : MonoBehaviour
 
     private float currentRotationAngle = 0f;
 
+    private void OnEnable()
+    {
+        transform.eulerAngles = new Vector3(0, 0, 0);
+        valueHz.text = "0.00 Hz";
+    }
+
     private void Update()
     {
         if (buttonPressed)
@@ -39,7 +45,7 @@ public class FrequencyWheelController : MonoBehaviour
 
         transform.up = direction;
         currentValue = GetValueFromWheelRotation();
-        valueHz.text = currentValue.ToString("F2") + "Hz";
+        valueHz.text = currentValue.ToString("F2") + " Hz";
     }
 
     public float GetValueFromWheelRotation()
