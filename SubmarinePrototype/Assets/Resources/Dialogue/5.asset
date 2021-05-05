@@ -10,15 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f76111d24b68ffe438b7565bd2e5366f, type: 3}
-  m_Name: Test
+  m_Name: 5
   m_EditorClassIdentifier: 
   dialogues:
-  - Hi comrade. Are you there?
-  - You have suffered an attack.
-  - You should check the integrity of the submarine.
-  - Search for the captain, he should have the manual.
+  - Do not follow this path soldier!
   responses:
-  - responseId: 1
-    dialogueNode: {fileID: 11400000, guid: c3240463801f40e459deeb46e9fc411f, type: 2}
-  - responseId: 2
-    dialogueNode: {fileID: 11400000, guid: 44bad07106f765241a9d9bfd4de2f2b6, type: 2}
+  - responseId: 0
+    dialogueNode: {fileID: 11400000, guid: e857a60e85bfb114c8aae9d1567e2b06, type: 2}

@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f76111d24b68ffe438b7565bd2e5366f, type: 3}
-  m_Name: Test2
+  m_Name: 6
   m_EditorClassIdentifier: 
   dialogues:
-  - See you in the next hour!
-  - Be strong soldier!
+  - THE END
   responses: []

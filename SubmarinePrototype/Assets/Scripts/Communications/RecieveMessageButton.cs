@@ -9,6 +9,7 @@ public class RecieveMessageButton : MonoBehaviour
     private bool checkResponse = false;
     private int response = 0; // 1: yes , 2: no
     public float timer = 0f;
+    public DialogueManager dialogueManager;
     private Dialogue.Responses positiveResponse;
     private Dialogue.Responses negativeResponse;
 
@@ -20,7 +21,7 @@ public class RecieveMessageButton : MonoBehaviour
             checkResponse = false;
             if (response == 1)
                 DialogueManager.dialogueManager.GoToNextNode(positiveResponse.dialogueNode);
-            else if(response > 2)
+            else if(response >= 2)
                 DialogueManager.dialogueManager.GoToNextNode(negativeResponse.dialogueNode);
 
             response = 0;
@@ -30,14 +31,17 @@ public class RecieveMessageButton : MonoBehaviour
 
     public void RecieveResponses(Dialogue.Responses[] responses)
     {
-        if(responses.Length > 0)
+        if(responses.Length > 1)
         {
             positiveResponse = responses[0];
             negativeResponse = responses[1];
 
             StartCoroutine(WaitResponse());
         }
-
+        if(responses.Length == 1)
+        {
+            dialogueManager.currentDialogueNode = responses[0].dialogueNode;
+        }
     }
 
     IEnumerator WaitResponse()

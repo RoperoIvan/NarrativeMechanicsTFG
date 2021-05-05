@@ -45,7 +45,7 @@ public class ShipController : MonoBehaviour
                 
                 waitingForPlayer = false;
             }
-            if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime) //BAD CONSEQUENCES
+            else if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime) //BAD CONSEQUENCES
             {
                 if (PlayerController.currentScreen != goalScreen)
                     

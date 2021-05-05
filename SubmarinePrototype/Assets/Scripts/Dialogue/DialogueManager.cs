@@ -61,7 +61,7 @@ public class DialogueManager : MonoBehaviour
                     ++numCharsRevealed;
                     dialogueTxt.text = modWords.Substring(0, numCharsRevealed);
 
-                    yield return new WaitForSecondsRealtime(0.1f);
+                    yield return new WaitForSecondsRealtime(0.15f);
                 }
                 ++numCharsRevealed;
             }

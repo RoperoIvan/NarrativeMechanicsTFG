@@ -27,13 +27,6 @@ public class TimeLineController : MonoBehaviour
     private int lastAllyEvent = 0; // 0: RADIO / 1: FREQUENCY
     private int lastEnemyEvent = 0; // 0: VISUAL / 1: BOMB
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         //Manage the addition of new events based in current tension
