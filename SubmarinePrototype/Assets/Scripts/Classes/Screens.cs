@@ -6,5 +6,6 @@ public enum Screens
     GLASS,
     SHELVES,
     CALIBRATE,
+    REPAIR,
     NONE
 }

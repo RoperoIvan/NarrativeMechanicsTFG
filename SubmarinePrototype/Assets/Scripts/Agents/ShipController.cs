@@ -11,6 +11,7 @@ public class ShipController : MonoBehaviour
     public Sprite defaultSprite;
     public VisualCommunicationController visualController;
     public CalibrationController calibrationController;
+    public Repair repairController;
     public GameManager gameManager;
     public Animator shipFlagAnimator;
     public Animator shipPoleAnimator;
@@ -35,6 +36,9 @@ public class ShipController : MonoBehaviour
                     case Screens.CALIBRATE:
                         calibrationController.SetDecalibrateValues();
                         break;
+                    case Screens.REPAIR:
+                        repairController.ResetRepair();
+                        break;
                     case Screens.NONE:
                         break;
                 }
@@ -54,6 +58,9 @@ public class ShipController : MonoBehaviour
                     case Screens.CALIBRATE:
                             Debug.Log("DIDNT CALIBRATE IN TIME");
                         break;
+                        case Screens.REPAIR:
+                            Debug.Log("DIDNT REPAIR IN TIME");
+                            break;
                     case Screens.NONE:
                         break;
                 }
@@ -149,9 +156,17 @@ public class ShipController : MonoBehaviour
         switch(Random.Range(0, 1))
         {
             case 0: //Repair
-                goto case 1;
+                if (PlayerController.currentScreen == Screens.REPAIR)
+                    repairController.ResetRepair();
+                else //Give the player a little bit of time to go to the screen of the communications
+                {
+                    waitingForPlayer = true;
+                    timerEnterRoom = Time.realtimeSinceStartup;
+                    goalScreen = Screens.REPAIR;
+                }
                 break;
             case 1://Calibration
+                goto case 0;
                 if (PlayerController.currentScreen == Screens.CALIBRATE)
                     calibrationController.SetDecalibrateValues();
                 else //Give the player a little bit of time to go to the screen of the communications

@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviour
     public GameObject calibrateUIContainer;
     public GameObject calibrateContainer;
 
-
+    [InspectorName("REPAIR")]
+    public GameObject repairContainer;
 
     static public Screens currentScreen = Screens.NONE;
     public TimeLineController timeLineController;
@@ -70,6 +71,13 @@ public class PlayerController : MonoBehaviour
             GoToCalibrate(true);
             Debug.Log("IN CALIBRATION");
         }
+
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            currentScreen = Screens.REPAIR;
+            GoToRepair(true);
+            Debug.Log("IN REPAIR");
+        }
         //if (Input.GetKeyDown(KeyCode.A))
         //{
         //    GameManager.currentTension = Tension.PEACEFUL;
@@ -108,7 +116,12 @@ public class PlayerController : MonoBehaviour
 
     private void GoToCalibrate(bool isEnter)
     {
-        calibrateContainer.SetActive(true);
-        calibrateUIContainer.SetActive(true);
+        calibrateContainer.SetActive(isEnter);
+        calibrateUIContainer.SetActive(isEnter);
+    }
+
+    private void GoToRepair(bool isEnter)
+    {
+        repairContainer.SetActive(isEnter);
     }
 }
