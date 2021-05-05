@@ -5597,7 +5597,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1504559035
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5767,7 +5767,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1534319583
 Transform:
   m_ObjectHideFlags: 0
@@ -8127,6 +8127,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7759811872236307335}
     - target: {fileID: 7372235246373000424, guid: cd90523c4fc2d2c4b915a1de0a0a7111, type: 3}
+      propertyPath: calibrateContainer
+      value: 
+      objectReference: {fileID: 1534319582}
+    - target: {fileID: 7372235246373000424, guid: cd90523c4fc2d2c4b915a1de0a0a7111, type: 3}
       propertyPath: enemyFlagContainer
       value: 
       objectReference: {fileID: 962966065}
@@ -8142,6 +8146,10 @@ PrefabInstance:
       propertyPath: playerFlagContainer
       value: 
       objectReference: {fileID: 1375644753}
+    - target: {fileID: 7372235246373000424, guid: cd90523c4fc2d2c4b915a1de0a0a7111, type: 3}
+      propertyPath: calibrateUIContainer
+      value: 
+      objectReference: {fileID: 1504559034}
     - target: {fileID: 7372235246373000424, guid: cd90523c4fc2d2c4b915a1de0a0a7111, type: 3}
       propertyPath: frequencyWheelsContainer
       value: 

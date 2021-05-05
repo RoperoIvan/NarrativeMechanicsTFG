@@ -26,8 +26,24 @@ public class CalibrationController : MonoBehaviour
 
     public void SetDecalibrateValues()
     {
-        int rLeft = Random.Range(-4, 4);
-        int rRight = Random.Range(-4, 4);
+        float rLeft1 = Random.Range(2f, 4f);
+        float rLeft2 = Random.Range(-2f, -4f);
+        float rRight1 = Random.Range(2f, 4f);
+        float rRight2 = Random.Range(-2f, -4f);
+        int r1 = Random.Range(0,1);
+        int r2 = Random.Range(0, 1);
+        float rLeft = 0f;
+        float rRight = 0f;
+
+        if (r1 == 0)
+            rLeft = rLeft1;
+        else
+            rLeft = rLeft2;
+
+        if (r2 == 0)
+            rRight = rRight1;
+        else
+            rRight = rRight1;
 
         pivotLeft.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, rLeft));
         pivotRight.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, rRight));

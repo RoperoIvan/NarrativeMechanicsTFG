@@ -20,19 +20,30 @@ public class ShipController : MonoBehaviour
     private bool isFirstTime = true;
     private bool waitingForPlayer = false;
     private VisualMessage lastSendedMessage;
-
+    private Screens goalScreen = Screens.NONE;
     private void Update()
     {
         if(waitingForPlayer)
         {
-            if (PlayerController.currentScreen == Screens.GLASS)
+            if (PlayerController.currentScreen == goalScreen)
             {
-                SendVisualMessage();
+                switch (goalScreen)
+                {
+                    case Screens.GLASS:
+                        SendVisualMessage();
+                        break;
+                    case Screens.CALIBRATE:
+                        calibrationController.SetDecalibrateValues();
+                        break;
+                    case Screens.NONE:
+                        break;
+                }
+                
                 waitingForPlayer = false;
             }
             if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime)
             {
-                if (PlayerController.currentScreen != Screens.GLASS)
+                if (PlayerController.currentScreen != goalScreen)
                     gameManager.IncreaseTension(0.2f);
 
                 waitingForPlayer = false;
@@ -128,7 +139,13 @@ public class ShipController : MonoBehaviour
                 goto case 1;
                 break;
             case 1://Calibration
-                calibrationController.SetDecalibrateValues();
+                if (PlayerController.currentScreen == Screens.CALIBRATE)
+                    calibrationController.SetDecalibrateValues();
+                else //Give the player a little bit of time to go to the screen of the communications
+                {
+                    waitingForPlayer = true;
+                    timerEnterRoom = Time.realtimeSinceStartup;
+                }
                 break;
         }
 

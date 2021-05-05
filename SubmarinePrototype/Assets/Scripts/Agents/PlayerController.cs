@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
     public GameObject frequencyController;
     //public GameObject UIVisualContainer;
 
+    [InspectorName("CALIBRATE")]
+    public GameObject calibrateUIContainer;
+    public GameObject calibrateContainer;
+
+
 
     static public Screens currentScreen = Screens.NONE;
     public TimeLineController timeLineController;
@@ -60,7 +65,11 @@ public class PlayerController : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
-            dialogueManager.RefreshDialogueContainer();
+        {
+            currentScreen = Screens.CALIBRATE;
+            GoToCalibrate(true);
+            Debug.Log("IN CALIBRATION");
+        }
         //if (Input.GetKeyDown(KeyCode.A))
         //{
         //    GameManager.currentTension = Tension.PEACEFUL;
@@ -95,5 +104,11 @@ public class PlayerController : MonoBehaviour
     {
         frequencyController.SetActive(isEnter);
         frequencyWheelsContainer.SetActive(isEnter);
+    }
+
+    private void GoToCalibrate(bool isEnter)
+    {
+        calibrateContainer.SetActive(true);
+        calibrateUIContainer.SetActive(true);
     }
 }

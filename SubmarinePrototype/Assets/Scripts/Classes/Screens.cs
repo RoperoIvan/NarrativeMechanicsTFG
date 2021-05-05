@@ -5,6 +5,6 @@ public enum Screens
     RADIO,
     GLASS,
     SHELVES,
-    FREQUENCY,
+    CALIBRATE,
     NONE
 }
