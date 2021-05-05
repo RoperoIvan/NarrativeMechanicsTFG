@@ -24,7 +24,7 @@ public class DialogueManager : MonoBehaviour
             Debug.LogError("There is more than one instance!");
             return;
         }
-
+        dialogueTxt.text = "";
         dialogueManager = this;
         //gameObject.SetActive(false);
         dialogues = Resources.LoadAll<Dialogue>("Dialogue");

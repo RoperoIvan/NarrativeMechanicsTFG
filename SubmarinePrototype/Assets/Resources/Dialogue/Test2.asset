@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Test2
   m_EditorClassIdentifier: 
   dialogues:
-  - What did you say?
-  - Stop doing that soldier!
+  - See you in the next hour!
+  - Be strong soldier!
   responses: []
