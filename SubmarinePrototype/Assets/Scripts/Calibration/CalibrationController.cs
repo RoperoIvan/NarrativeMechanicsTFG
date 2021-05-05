@@ -27,9 +27,9 @@ public class CalibrationController : MonoBehaviour
     {
         float pivotLValue = pivotLeft.transform.rotation.eulerAngles.z;
         float pivotRValue = pivotRight.transform.rotation.eulerAngles.z;
-        if(pivotLValue <= calibrationGoal + range || pivotLValue >= 360 - range)
+        if(pivotLValue <= calibrationGoal + range || pivotLValue >= 360 - range +1)
         {
-            if(pivotRValue <= calibrationGoal + range || pivotRValue >= 360 - range)
+            if(pivotRValue <= calibrationGoal + range || pivotRValue >= 360 - range + 1)
             {
                 LED.color = new Vector4(0f, 0.6509804f, 0.07074188f, 1f); //GREEN
                 return true;
