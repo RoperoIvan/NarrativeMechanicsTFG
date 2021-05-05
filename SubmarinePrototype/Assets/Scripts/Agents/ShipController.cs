@@ -166,7 +166,6 @@ public class ShipController : MonoBehaviour
                 }
                 break;
             case 1://Calibration
-                goto case 0;
                 if (PlayerController.currentScreen == Screens.CALIBRATE)
                     calibrationController.SetDecalibrateValues();
                 else //Give the player a little bit of time to go to the screen of the communications

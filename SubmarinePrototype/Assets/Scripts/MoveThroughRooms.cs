@@ -13,9 +13,7 @@ public class MoveThroughRooms : MonoBehaviour
 
     public float rotationSpeed = 1f;
 
-    public Transform[] looks;
-
-    private int currentLook = 0;
+    //public Transform[] looks;
     private int currentRoom = 0;
     private Screens[] rooms = { Screens.COMMAND, Screens.SHELVES, Screens.ENGINES };
     public void GoToRoom(bool isLeft)
@@ -24,18 +22,12 @@ public class MoveThroughRooms : MonoBehaviour
         {
             currentRoom--;
             ActivateRoom(rooms[currentRoom]);
-            //if()
-            //Camera.main.gameObject.transform.Rotate(Vector3.up, -90f);
-            //StartCoroutine(ChangingRoom(isLeft));
 
         }
         else if(!isLeft && currentRoom < 2)
         {
             currentRoom++;
             ActivateRoom(rooms[currentRoom]);
-            //Camera.main.gameObject.transform.Rotate(Vector3.up, 90f);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 90, 0), rotationSpeed * Time.deltaTime);
-            //StartCoroutine(ChangingRoom(isLeft));
         }
     }
 
@@ -60,32 +52,4 @@ public class MoveThroughRooms : MonoBehaviour
                 break;
         }
     }
-
-    // IEnumerator ChangingRoom(bool isLeft)
-    //{
-    //    if(isLeft)
-    //    {
-    //        leftButton.interactable = false;
-    //    }
-    //    else
-    //    {
-    //        rightButton.interactable = false;
-    //    }
-    //    float progress = 0.0f;
-    //    while (progress < 1.0f)
-    //    {
-    //        progress += (Time.deltaTime * rotationSpeed);
-    //        yield return 0;
-    //        transform.rotation = Quaternion.Slerp(transform.rotation, looks[currentLook].rotation, progress);
-
-    //    }
-    //    if (isLeft)
-    //    {
-    //        leftButton.interactable = true;
-    //    }
-    //    else
-    //    {
-    //        rightButton.interactable = true;
-    //    }
-    //}
 }

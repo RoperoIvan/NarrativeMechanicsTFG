@@ -6,8 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     // VISUAL OBJECTS TO ACTIVATE/DEACTIVATE
     [InspectorName("VISUAL ROOM")]
-    public GameObject enemyFlagContainer;
-    public GameObject playerFlagContainer;
+    public GameObject visualContainer;
     public GameObject UIVisualContainer;
 
     [InspectorName("RADIO")]
@@ -103,8 +102,7 @@ public class PlayerController : MonoBehaviour
     private void GoToVisualRoom(bool isEnter)
     {
         currentScreen = Screens.GLASS;
-        enemyFlagContainer.SetActive(isEnter);
-        playerFlagContainer.SetActive(isEnter);
+        visualContainer.SetActive(isEnter);
         UIVisualContainer.SetActive(isEnter);
     }
 
