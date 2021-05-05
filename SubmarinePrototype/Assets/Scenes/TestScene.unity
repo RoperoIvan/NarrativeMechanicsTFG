@@ -4231,6 +4231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activateButton: 0
   timer: 0
+  dialogueManager: {fileID: 593790669}
 --- !u!1001 &861824051
 PrefabInstance:
   m_ObjectHideFlags: 0

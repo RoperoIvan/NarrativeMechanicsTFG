@@ -16,4 +16,4 @@ MonoBehaviour:
   - Try to survive soldier.
   responses:
   - responseId: 0
-    dialogueNode: {fileID: 0}
+    dialogueNode: {fileID: 11400000, guid: e857a60e85bfb114c8aae9d1567e2b06, type: 2}
