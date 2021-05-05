@@ -41,10 +41,22 @@ public class ShipController : MonoBehaviour
                 
                 waitingForPlayer = false;
             }
-            if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime)
+            if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime) //BAD CONSEQUENCES
             {
                 if (PlayerController.currentScreen != goalScreen)
-                    gameManager.IncreaseTension(0.2f);
+                    
+
+                switch (goalScreen)
+                {
+                    case Screens.GLASS:
+                        gameManager.IncreaseTension(0.2f);
+                        break;
+                    case Screens.CALIBRATE:
+                            Debug.Log("DIDNT CALIBRATE IN TIME");
+                        break;
+                    case Screens.NONE:
+                        break;
+                }
 
                 waitingForPlayer = false;
             }
@@ -128,6 +140,7 @@ public class ShipController : MonoBehaviour
         {
             waitingForPlayer = true;
             timerEnterRoom = Time.realtimeSinceStartup;
+            goalScreen = Screens.GLASS;
         }
     }
 
@@ -145,6 +158,7 @@ public class ShipController : MonoBehaviour
                 {
                     waitingForPlayer = true;
                     timerEnterRoom = Time.realtimeSinceStartup;
+                    goalScreen = Screens.CALIBRATE;
                 }
                 break;
         }
