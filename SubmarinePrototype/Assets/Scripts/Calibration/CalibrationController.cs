@@ -12,7 +12,7 @@ public class CalibrationController : MonoBehaviour
     public PushLever middle;
     public float range = 0f;
     public float calibrationGoal = 0f;
-    // Update is called once per frame
+
     void Update()
     {
         if(IsCalibrated())
@@ -21,6 +21,16 @@ public class CalibrationController : MonoBehaviour
         }
         else
             middle.canMove = false;
+    }
+
+
+    public void SetDecalibrateValues()
+    {
+        int rLeft = Random.Range(-4, 4);
+        int rRight = Random.Range(-4, 4);
+
+        pivotLeft.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, rLeft));
+        pivotRight.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, rRight));
     }
 
     private bool IsCalibrated()

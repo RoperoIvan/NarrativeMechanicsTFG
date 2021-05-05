@@ -28,10 +28,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //    timeLineController.AddNewEvent(5f, TimeLineController.TimeEventType.BOMB);
-        //}
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            timeLineController.AddNewEvent(5f, TimeLineController.TimeEventType.BOMB);
+        }
         if (Input.GetKeyDown(KeyCode.T))
         {
             timeLineController.AddNewEvent(6f, TimeLineController.TimeEventType.FREQUENCY);

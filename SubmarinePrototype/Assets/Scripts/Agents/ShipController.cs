@@ -10,6 +10,7 @@ public class ShipController : MonoBehaviour
     public SpriteRenderer flag;
     public Sprite defaultSprite;
     public VisualCommunicationController visualController;
+    public CalibrationController calibrationController;
     public GameManager gameManager;
     public Animator shipFlagAnimator;
     public Animator shipPoleAnimator;
@@ -121,6 +122,15 @@ public class ShipController : MonoBehaviour
 
     private void SendAttack()
     {
+        switch(Random.Range(0, 1))
+        {
+            case 0: //Repair
+                goto case 1;
+                break;
+            case 1://Calibration
+                calibrationController.SetDecalibrateValues();
+                break;
+        }
 
     }
 
