@@ -525,6 +525,7 @@ MonoBehaviour:
   - {fileID: 241597078}
   - {fileID: 672863167}
   graph: {fileID: 816969235}
+  recieveButton: {fileID: 834437617}
 --- !u!1 &194112071
 GameObject:
   m_ObjectHideFlags: 0

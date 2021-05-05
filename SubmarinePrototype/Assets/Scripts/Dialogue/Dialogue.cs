@@ -11,7 +11,7 @@ public class Dialogue : ScriptableObject
     [System.Serializable]
     public class Responses
     {
-        public string response;
+        public int responseId;
         public Dialogue dialogueNode;
     }
 }

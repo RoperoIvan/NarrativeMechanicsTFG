@@ -10,10 +10,13 @@ public class FrequencyCommunicationController : MonoBehaviour
     public GameObject buttonReciever;
     public List<FrequencyWheelController> frequencyWheels = new List<FrequencyWheelController>();
     public GameObject graph;
+    public RecieveMessageButton recieveButton;
 
     private float val = 0f;
     private void Update()
     {
+        if (val > 10)
+            val = 0f;
         val+=0.008f;
         graph.GetComponent<Renderer>().sharedMaterial.SetTextureOffset("_ForegroundMask", new Vector2(val, -0.59f));
     }
@@ -57,6 +60,7 @@ public class FrequencyCommunicationController : MonoBehaviour
                     modWords = 1;
                 break;
             case 4:
+
                 break;
             default:
                 Debug.LogError("MORE WHEELS THAN IT SHOULD EXISTS ARE IN POSITION!");

@@ -17,4 +17,8 @@ MonoBehaviour:
   - You have suffered an attack.
   - You should check the integrity of the submarine.
   - Search for the captain, he should have the manual.
-  responses: []
+  responses:
+  - responseId: 0
+    dialogueNode: {fileID: 0}
+  - responseId: 0
+    dialogueNode: {fileID: 0}

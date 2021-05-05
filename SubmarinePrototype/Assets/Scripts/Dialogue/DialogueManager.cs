@@ -9,13 +9,14 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager dialogueManager;
     public static bool hasDialog = false;
     public FrequencyCommunicationController freqCommController;
+    public RecieveMessageButton recieveMessageButton;
     public Dialogue currentDialogueNode;
     public GameObject responseContainer;
     public GameObject responsePrefab;
     public TMP_Text dialogueTxt;
 
     private int currentChar;
-    private Dialogue testNode;
+    private Dialogue[] dialogues;
     private void Awake()
     {
         if (dialogueManager != null)
@@ -26,24 +27,12 @@ public class DialogueManager : MonoBehaviour
 
         dialogueManager = this;
         //gameObject.SetActive(false);
-        testNode = Resources.Load<Dialogue>("Test");
+        dialogues = Resources.LoadAll<Dialogue>("Dialogue");
+        currentDialogueNode = dialogues[0];
+
     }
     public void RefreshDialogueContainer()
     {
-        currentDialogueNode = testNode;
-
-        for (int i = 0; i <= currentDialogueNode.responses.Length - 1; ++i)
-        {
-            GameObject newResponse = Instantiate(responsePrefab, responseContainer.transform);
-            Dialogue nDial = currentDialogueNode.responses[i].dialogueNode;
-            if (nDial == null)
-                newResponse.GetComponent<Button>().onClick.AddListener(() => { CloseDialogue(); });
-            else
-                newResponse.GetComponent<Button>().onClick.AddListener(() => { GoToNextNode(nDial); });
-
-            newResponse.transform.GetChild(0).GetComponent<TMP_Text>().text = currentDialogueNode.responses[i].response;
-
-        }
         StartCoroutine(RevealText(currentDialogueNode.dialogues));
     }
 
@@ -51,41 +40,7 @@ public class DialogueManager : MonoBehaviour
     {
         currentDialogueNode = nexNode;
 
-        CleanResponses();
-        CreateResponses();
-
-
         StartCoroutine(RevealText(currentDialogueNode.dialogues));
-    }
-
-    public void CloseDialogue()
-    {
-        CleanResponses();
-        hasDialog = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        gameObject.SetActive(false);
-    }
-
-    private void CleanResponses()
-    {
-        foreach (Transform child in responseContainer.transform)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-
-    private void CreateResponses()
-    {
-        for (int i = 0; i < currentDialogueNode.responses.Length; ++i)
-        {
-            GameObject newResponse = Instantiate(responsePrefab, responseContainer.transform);
-            Dialogue nDial = currentDialogueNode.responses[i].dialogueNode;
-            if (nDial == null)
-                newResponse.GetComponent<Button>().onClick.AddListener(() => { CloseDialogue(); });
-            else
-                newResponse.GetComponent<Button>().onClick.AddListener(() => { GoToNextNode(nDial); });
-            newResponse.transform.GetChild(0).GetComponent<TMP_Text>().text = currentDialogueNode.responses[i].response;
-        }
     }
 
     private IEnumerator RevealText(string[] dialogue)
@@ -114,5 +69,8 @@ public class DialogueManager : MonoBehaviour
         }
 
         dialogueTxt.text = "";
+        recieveMessageButton.activateButton = true;
+        recieveMessageButton.timer = Time.realtimeSinceStartup;
+        recieveMessageButton.RecieveResponses(currentDialogueNode.responses);
     }
 }

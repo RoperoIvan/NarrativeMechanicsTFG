@@ -46,7 +46,10 @@ public class AllyController : MonoBehaviour
     private void SendFrequency()
     {
         if(PlayerController.currentScreen == Screens.RADIO)
+        {
             frequencyController.SetFrequenciesValues();
+            DialogueManager.dialogueManager.RefreshDialogueContainer();
+        }
         else //Give the player a little bit of time to go to the screen of the radio
         {
             waitingForPlayer = true;
