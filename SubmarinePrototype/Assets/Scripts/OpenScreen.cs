@@ -65,7 +65,7 @@ public class OpenScreen : MonoBehaviour
                 break;
             case Screens.REPAIR:
                 fromRoom = Screens.ENGINES;
-                PlayerController.currentScreen = Screens.ENGINES;
+                PlayerController.currentScreen = Screens.REPAIR;
                 engineContainer.SetActive(false);
                 repairContainer.SetActive(true);
                 break;

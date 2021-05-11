@@ -9,7 +9,6 @@ public class PushLever : MonoBehaviour
     public float minValue = -4f;
     public GameObject pivotLeft;
     public GameObject pivotRight;
-    public TMP_Text txtValue;
 
     [HideInInspector]
     public bool canMove = false;
@@ -40,8 +39,6 @@ public class PushLever : MonoBehaviour
         {
             DecreaseValue();
         }
-
-        txtValue.text = "Mouse value: " + value;
     }
 
     private void IncreaseValue()

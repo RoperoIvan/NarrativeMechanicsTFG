@@ -153,7 +153,7 @@ public class ShipController : MonoBehaviour
 
     private void SendAttack()
     {
-        switch(Random.Range(0, 1))
+        switch(Random.Range(0, 2))
         {
             case 0: //Repair
                 if (PlayerController.currentScreen == Screens.REPAIR)
