@@ -9,6 +9,7 @@ public class PushLever : MonoBehaviour
     public float minValue = -4f;
     public GameObject pivotLeft;
     public GameObject pivotRight;
+    public GameObject indicatorHeight;
 
     [HideInInspector]
     public bool canMove = false;
@@ -52,6 +53,7 @@ public class PushLever : MonoBehaviour
             switch (type)
             {
                 case LeverType.UPDOWN:
+                    indicatorHeight.transform.position += new Vector3(0f, 0.035f, 0f);
                     break;
                 case LeverType.LEFT:
                     pivotLeft.transform.rotation *= Quaternion.Euler(new Vector3(0f, 0f, 0.1f));
@@ -76,6 +78,7 @@ public class PushLever : MonoBehaviour
             switch (type)
             {
                 case LeverType.UPDOWN:
+                    indicatorHeight.transform.position += new Vector3(0f, -0.035f, 0f);
                     break;
                 case LeverType.LEFT:
                     pivotLeft.transform.rotation *= Quaternion.Euler(new Vector3(0f, 0f, -0.1f));
@@ -88,6 +91,12 @@ public class PushLever : MonoBehaviour
             }
         }
             
+    }
+
+    public void ResetCalibration()
+    {
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, -1.76f, gameObject.transform.position.z);
+        indicatorHeight.transform.localPosition = new Vector3(indicatorHeight.transform.localPosition.x, 0f, indicatorHeight.transform.localPosition.z);
     }
 
     public enum LeverType
