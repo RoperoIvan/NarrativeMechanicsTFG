@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [InspectorName("RADIO")]
     public GameObject frequencyWheelsContainer;
     public GameObject frequencyController;
-    //public GameObject UIVisualContainer;
+
 
     [InspectorName("CALIBRATE")]
     public GameObject calibrateUIContainer;

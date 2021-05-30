@@ -7,19 +7,23 @@ public class ShipController : MonoBehaviour
     public float playerResponseWaitingTime = 10f;
     public float playerEnterWaitingTime = 10f;
     public ShipEvent currentShipEvent = ShipEvent.NONE;
+    public FillBar bar;
     public SpriteRenderer flag;
     public Sprite defaultSprite;
     public VisualCommunicationController visualController;
     public CalibrationController calibrationController;
+    public FrequencyCommunicationController frequencyCommunicationController;
     public Repair repairController;
     public GameManager gameManager;
     public Animator shipFlagAnimator;
     public Animator shipPoleAnimator;
+    public Animator notebookAnimator;
     public List<Sprite> flagSprites = new List<Sprite>();
 
     private float timerEnterRoom = 0f;
     private bool isFirstTime = true;
     private bool waitingForPlayer = false;
+    private bool showNotebook = false;
     private VisualMessage lastSendedMessage;
     private Screens goalScreen = Screens.NONE;
     private void Update()
@@ -115,6 +119,12 @@ public class ShipController : MonoBehaviour
         visualController.playerMessage = "";
     }
 
+    public void ShowNotebook()
+    {
+        showNotebook = !showNotebook;
+        notebookAnimator.SetBool("showPole", showNotebook);
+    }
+
     private void SendVisualMessage()
     {
         if (PlayerController.currentScreen == Screens.GLASS)
@@ -176,7 +186,7 @@ public class ShipController : MonoBehaviour
                 }
                 break;
         }
-
+        frequencyCommunicationController.SetFrequenciesValues();
     }
 
     private void ProcessMessage(string flagCode)
@@ -257,7 +267,7 @@ public class ShipController : MonoBehaviour
 
     private IEnumerator WaitingForResponse()
     {
-
+        bar.BeginFilling(playerResponseWaitingTime);
         for (float timer = playerResponseWaitingTime; timer >= 0; timer -= Time.deltaTime)
         {
             if (!string.IsNullOrEmpty(visualController.playerMessage))

@@ -13,11 +13,19 @@ public class FrequencyCommunicationController : MonoBehaviour
     public RecieveMessageButton recieveButton;
 
     private float val = 0f;
+    [HideInInspector]
+    public Color lightScreen, darkScreen, lightShader, darkShader;
     private void Update()
     {
         if (val > 10)
             val = 0f;
         val+=0.008f;
+
+        lightScreen = new Color(0.1411765f, 0.254902f, 0.1960784f);
+        darkScreen = new Color(0.1254902f, 0.1882353f, 0.1568628f);
+        lightShader = new Color(0.01176471f, 0.1411765f, 0.07450981f);
+        darkShader = new Color(0.01317195f, 0.0754717f, 0.04432182f);
+
         graph.GetComponent<Renderer>().sharedMaterial.SetTextureOffset("_ForegroundMask", new Vector2(val, -0.59f));
     }
     public void SetFrequenciesValues()
@@ -26,7 +34,7 @@ public class FrequencyCommunicationController : MonoBehaviour
         {
             wheel.range = Random.Range(3, 300);// ELF Frequency range in submarines
             wheel.detect = true;
-            Debug.Log(wheel.range);
+            //Debug.Log(wheel.range);
         }
     }
 

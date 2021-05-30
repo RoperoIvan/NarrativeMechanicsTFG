@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RecieveMessageButton : MonoBehaviour
 {
+    public GameObject bar;
     public bool activateButton = false;
+    public float timer = 0f;
+    public DialogueManager dialogueManager;
+    public SpriteRenderer ledYes;
+    public SpriteRenderer ledNo;
 
     private bool checkResponse = false;
     private int response = 0; // 1: yes , 2: no
-    public float timer = 0f;
-    public DialogueManager dialogueManager;
     private Dialogue.Responses positiveResponse;
     private Dialogue.Responses negativeResponse;
 
@@ -46,6 +50,7 @@ public class RecieveMessageButton : MonoBehaviour
 
     IEnumerator WaitResponse()
     {
+        bar.GetComponent<FillBar>().BeginFilling(5f);
         yield return new WaitForSecondsRealtime(5f);
         checkResponse = true;
     }
@@ -55,21 +60,37 @@ public class RecieveMessageButton : MonoBehaviour
         if (activateButton)
         {
             if (response < 2)
+            {
                 response++;
+                if (response < 2)
+                    ledYes.color = new Vector4(0.8784314f, 0.8627451f, 0.1568628f, 1f); // YELLOW
+                else
+                    ledNo.color = new Vector4(0.8784314f, 0.8627451f, 0.1568628f, 1f); // YELLOW
+            }
             else
             {
                 activateButton = false;
                 checkResponse = true;
             }
-            GetComponent<SpriteRenderer>().color = new Vector4(0.254717f, 0.05647027f, 0.05647027f, 1f); // HOVER
+            GetComponent<SpriteRenderer>().color = new Vector4(0.254717f, 0.05647027f, 0.05647027f, 1f); // CLICK
         }
             
 
-        Debug.Log(response);
+        //Debug.Log(response);
     }
 
     private void OnMouseUp()
     {
-        GetComponent<SpriteRenderer>().color = new Vector4(0.4339623f, 0.09620862f, 0.09620862f, 1f); // NOTHOVER
+        GetComponent<SpriteRenderer>().color = new Vector4(0.4339623f, 0.09620862f, 0.09620862f, 1f); // 6F1919
+    }
+
+    private void OnMouseOver()
+    {
+        GetComponent<SpriteRenderer>().color = new Vector4(0.254717f, 0.05647027f, 0.05647027f, 1f); // CLICK
+    }
+
+    private void OnMouseExit()
+    {
+        GetComponent<SpriteRenderer>().color = new Vector4(0.4339623f, 0.09620862f, 0.09620862f, 1f); // 6F1919
     }
 }

@@ -12,6 +12,9 @@ public class TimeLineController : MonoBehaviour
     public GameObject freqPrefab;
     public GameObject radioPrefab;
     public GameObject visualPrefab;
+    public GameObject iconRadEventPrefab;
+    public GameObject iconAttEventPrefab;
+    public GameObject iconVisEventPrefab;
 
     // CONTROLLERS
     public ShipController shipController;
@@ -142,6 +145,19 @@ public class TimeLineController : MonoBehaviour
             VisualTimeLineManagement(timeEvents[i]); //Movement of the event through the time line
             if (timerTimeLine - timeEvents[i].timeStamp >= timeEvents[i].timeToExecute) //ExecuteEvent
             {
+                GameObject icoGO;
+                switch (timeEvents[i].type) //Create icon info event
+                {
+                    case TimeEventType.VISUAL:
+                        icoGO = Instantiate(iconVisEventPrefab, transform.parent);
+                        break;
+                    case TimeEventType.BOMB:
+                        icoGO= Instantiate(iconAttEventPrefab, transform.parent); 
+                        break;
+                    case TimeEventType.FREQUENCY:
+                        icoGO = Instantiate(iconRadEventPrefab, transform.parent);
+                        break;
+                }
                 LaunchEvent(timeEvents[i].type);
                 //Debug.Log(timeEvents[i].type + " EVENT EXECUTED");
                 DeleteEvent(timeEvents[i]);

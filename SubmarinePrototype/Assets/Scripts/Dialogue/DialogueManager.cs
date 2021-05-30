@@ -14,8 +14,9 @@ public class DialogueManager : MonoBehaviour
     public GameObject responseContainer;
     public GameObject responsePrefab;
     public TMP_Text dialogueTxt;
+    public SpriteRenderer screenShader;
+    public SpriteRenderer screenDialogue;
 
-    private int currentChar;
     private Dialogue[] dialogues;
     private void Awake()
     {
@@ -45,6 +46,10 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator RevealText(string[] dialogue)
     {
+        freqCommController.graph.GetComponent<Renderer>().sharedMaterial.SetColor("_ForegroundColor", freqCommController.lightShader);
+        screenShader.color = freqCommController.lightScreen;
+        screenDialogue.color = freqCommController.lightScreen;
+
         for (int i = 0; i < dialogue.Length; ++i) //PHRASES OF NODE
         {
             var originalString = dialogue[i];
@@ -67,6 +72,10 @@ public class DialogueManager : MonoBehaviour
             }
             yield return new WaitForSecondsRealtime(1f);
         }
+
+        freqCommController.graph.GetComponent<Renderer>().sharedMaterial.SetColor("_ForegroundColor", freqCommController.darkShader);
+        screenShader.color = freqCommController.darkScreen;
+        screenDialogue.color = freqCommController.darkScreen;
 
         dialogueTxt.text = "";
         recieveMessageButton.activateButton = true;
