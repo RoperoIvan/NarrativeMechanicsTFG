@@ -41,6 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: FLAGS
+  - name: Panels
     uniqueID: 1332038407
+    locked: 0
+  - name: Screens
+    uniqueID: 2823753361
+    locked: 0
+  - name: Buttons
+    uniqueID: 1239758531
+    locked: 0
+  - name: Decoration
+    uniqueID: 1869011833
     locked: 0

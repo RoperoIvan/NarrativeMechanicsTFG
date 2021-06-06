@@ -13,5 +13,12 @@ MonoBehaviour:
   m_Name: 6
   m_EditorClassIdentifier: 
   dialogues:
-  - THE END
-  responses: []
+  - What are you doing?
+  - DO NOT COMMUNICATE WITH THE ENEMY!
+  - You are risking the survival of the entire humanity!
+  - Stop.
+  responses:
+  - responseId: 7
+    dialogueNode: {fileID: 11400000, guid: 8426e70f42fed674c9c23851470daafa, type: 2}
+  - responseId: 8
+    dialogueNode: {fileID: 11400000, guid: 377b560a15f2d494bbf9a40ad16a5ff6, type: 2}

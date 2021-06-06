@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f76111d24b68ffe438b7565bd2e5366f, type: 3}
-  m_Name: 2
+  m_Name: 10
   m_EditorClassIdentifier: 
   dialogues:
-  - What did you say?
-  - Stop playing dumb, soldier!
-  - Your country needs you.
+  - Maybe you are doing good things.
+  - This could end soon.
   responses:
   - responseId: 0
-    dialogueNode: {fileID: 11400000, guid: 245edaf91da6fa34dbad21f9450ea2a7, type: 2}
+    dialogueNode: {fileID: 11400000, guid: 7ea3773357497f9429c5848ec55ea491, type: 2}

@@ -28,6 +28,7 @@ public class RecieveMessageButton : MonoBehaviour
             else if(response >= 2)
                 DialogueManager.dialogueManager.GoToNextNode(negativeResponse.dialogueNode);
 
+            RestartRecieve();
             response = 0;
         }
 
@@ -77,6 +78,13 @@ public class RecieveMessageButton : MonoBehaviour
             
 
         //Debug.Log(response);
+    }
+
+    private void RestartRecieve()
+    {
+        ledYes.color = new Vector4(0.5188679f, 0.5188679f, 0.5188679f, 1f); // GREY
+        ledNo.color = new Vector4(0.5188679f, 0.5188679f, 0.5188679f, 1f); // GREY
+        bar.GetComponent<FillBar>().ResetBar();
     }
 
     private void OnMouseUp()

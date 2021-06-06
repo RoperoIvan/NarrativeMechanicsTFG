@@ -13,12 +13,20 @@ public class VisualCommunicationController : MonoBehaviour
     public SpriteRenderer subFlag;
     public Animator subFlagAnimator;
     public Animator subPoleAnimator;
+    public Animator shipHoleAnimator;
+    public Animator shipCannonAnimator;
+    public Animator shipBaseAnimator;
+
+
     public List<Sprite> flagSprites = new List<Sprite>();
     public List<Button> flagButtons = new List<Button>();
     public List<Image> flagImage = new List<Image>();
 
     [HideInInspector]
     public string playerMessage;
+    private bool hasHole = false;
+    private bool hasCannon = false;
+    private bool hasBase = false;
 
     static public Dictionary<string, VisualMessage> flagCodes = new Dictionary<string,VisualMessage>();
     // Start is called before the first frame update
@@ -26,6 +34,25 @@ public class VisualCommunicationController : MonoBehaviour
     {
         FillVisualCodes();
         gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            hasHole = !hasHole;
+            shipHoleAnimator.SetBool("hasHole", hasHole);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            hasCannon = !hasCannon;
+            shipCannonAnimator.SetBool("hasCannon", hasCannon);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            hasBase = !hasBase;
+            shipBaseAnimator.SetBool("hasBase", hasBase);
+        }
     }
 
     public void RecordFlag(int flag)
@@ -130,7 +157,7 @@ public class VisualCommunicationController : MonoBehaviour
 
     private void FillVisualCodes()
     {
-        TextAsset codesJSON = Resources.Load<TextAsset>("FlagCodes (2)");
+        TextAsset codesJSON = Resources.Load<TextAsset>("FlagCodes");
         JSONNode codesFromJSON;
         codesFromJSON = JSON.Parse(codesJSON.ToString());
         for (int i = 0; i < codesFromJSON.Count; i++)

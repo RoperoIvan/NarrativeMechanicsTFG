@@ -1,42 +1,143 @@
-﻿{
-        {
-            "MESSAGE CODE": "1142",
-            "TYPE": "0",
-            "DESCRIPTION": "HELLO"
-        },
-        {
-            "MESSAGE CODE": "2122",
-            "TYPE": "1",
-            "DESCRIPTION": "BYE"
-        },
-        {
-            "MESSAGE CODE": "3102",
-            "TYPE": "2",
-            "DESCRIPTION": "BE CAREFUL"
-        },
-        {
-            "MESSAGE CODE": "4082",
-            "TYPE": "3",
-            "DESCRIPTION": "STOP"
-        },
-        {
-            "MESSAGE CODE": "5062",
-            "TYPE": "0",
-            "DESCRIPTION": "MOTIVE"
-        },
-        {
-            "MESSAGE CODE": "6042",
-            "TYPE": "4",
-            "DESCRIPTION": "ATTACK"
-        },
-        {
-            "MESSAGE CODE": "7022",
-            "TYPE": "1",
-            "DESCRIPTION": "INTENTIONS"
-        },
-        {
-            "MESSAGE CODE": "8002",
-            "TYPE": "4",
-            "DESCRIPTION": "RETREAT"
-        }
-}
+[
+  {
+    "MESSAGE CODE": "3313",
+    "TYPE": "0",
+    "DESCRIPTION": "HELLO",
+    "POSITIVE": [
+      "3313"
+    ],
+    "NEGATIVE": [
+      "3133",
+      "2162",
+      "4444"
+    ]
+  },
+  {
+    "MESSAGE CODE": "3133",
+    "TYPE": "0",
+    "DESCRIPTION": "BYE",
+    "POSITIVE": [
+    ],
+    "NEGATIVE": [
+    ]
+  },
+  {
+    "MESSAGE CODE": "3123",
+    "TYPE": "0",
+    "DESCRIPTION": "HELP",
+    "POSITIVE": [
+      "3123",
+      "5135",
+      "5115"
+    ],
+    "NEGATIVE": [
+      "6626"
+    ]
+  },
+  {
+    "MESSAGE CODE": "3523",
+    "TYPE": "0",
+    "DESCRIPTION": "THANK YOU",
+    "POSITIVE": [
+      "1142"
+    ],
+    "NEGATIVE": [
+      "2122"
+    ]
+  },
+  {
+    "MESSAGE CODE": "5135",
+    "TYPE": "1",
+    "DESCRIPTION": "WHY",
+    "POSITIVE": [
+      "5365"
+    ],
+    "NEGATIVE": [
+    ]
+  },
+  {
+    "MESSAGE CODE": "5115",
+    "TYPE": "1",
+    "DESCRIPTION": "OK",
+    "POSITIVE": [
+      "3523"
+    ],
+    "NEGATIVE": [
+    ]
+  },
+  {
+    "MESSAGE CODE": "5365",
+    "TYPE": "1",
+    "DESCRIPTION": "MALFUNCTION",
+    "POSITIVE": [
+    ],
+    "NEGATIVE": [
+    ]
+  },
+  {
+    "MESSAGE CODE": "2512",
+    "TYPE": "2",
+    "DESCRIPTION": "MOTIVE",
+    "POSITIVE": [
+      "5365"
+    ],
+    "NEGATIVE": [
+    ]
+  },
+  {
+    "MESSAGE CODE": "2562",
+    "TYPE": "2",
+    "DESCRIPTION": "INTENTIONS",
+    "POSITIVE": [
+      "3123"
+    ],
+    "NEGATIVE": [
+      "4444"
+    ]
+  },
+  {
+    "MESSAGE CODE": "2162",
+    "TYPE": "2",
+    "DESCRIPTION": "BE CAREFUL",
+    "POSITIVE": [
+      "5115"
+    ],
+    "NEGATIVE": [
+      "6626"
+    ]
+  },
+  {
+    "MESSAGE CODE": "6626",
+    "TYPE": "3",
+    "DESCRIPTION": "STOP",
+    "POSITIVE": [
+      "2512"
+    ],
+    "NEGATIVE": [
+      "2162"
+    ]
+  },
+  {
+    "MESSAGE CODE": "6216",
+    "TYPE": "3",
+    "DESCRIPTION": "RETREAT",
+    "POSITIVE": [
+      "5135",
+      "5115"
+    ],
+    "NEGATIVE": [
+      "6216",
+      "2162"
+    ]
+  },
+  {
+    "MESSAGE CODE": "4444",
+    "TYPE": "4",
+    "DESCRIPTION": "ATTACK",
+    "POSITIVE": [
+      "3133"
+    ],
+    "NEGATIVE": [
+    ]
+  }
+]

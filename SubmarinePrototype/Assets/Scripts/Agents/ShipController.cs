@@ -131,9 +131,9 @@ public class ShipController : MonoBehaviour
         {
             if (isFirstTime) //TODO: HERE SHOULD BE THE TUTORIAL OR SOMETHING SIMILAR
             {
-                ProcessMessage("1142");
+                ProcessMessage("3313");
                 isFirstTime = false;
-                VisualCommunicationController.flagCodes.TryGetValue("1142", out VisualMessage val);
+                VisualCommunicationController.flagCodes.TryGetValue("3313", out VisualMessage val);
                 lastSendedMessage = val;
             }
             else

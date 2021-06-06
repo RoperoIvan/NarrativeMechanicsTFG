@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f76111d24b68ffe438b7565bd2e5366f, type: 3}
-  m_Name: 2
+  m_Name: 9
   m_EditorClassIdentifier: 
   dialogues:
-  - What did you say?
-  - Stop playing dumb, soldier!
-  - Your country needs you.
+  - Hmmm... it seems you are convincing them.
+  - You could distract them until we are there.
   responses:
   - responseId: 0
-    dialogueNode: {fileID: 11400000, guid: 245edaf91da6fa34dbad21f9450ea2a7, type: 2}
+    dialogueNode: {fileID: 11400000, guid: 3010d5c629d3a4c4284b0fa886261c64, type: 2}
+  - responseId: 0
+    dialogueNode: {fileID: 11400000, guid: 301b066e9145f08479171abf7a34fd4a, type: 2}
