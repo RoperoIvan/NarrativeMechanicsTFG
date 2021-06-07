@@ -24,6 +24,8 @@ public class VisualCommunicationController : MonoBehaviour
 
     [HideInInspector]
     public string playerMessage;
+
+    private Tension lastTension;
     private bool hasHole = false;
     private bool hasCannon = false;
     private bool hasBase = false;
@@ -96,6 +98,7 @@ public class VisualCommunicationController : MonoBehaviour
 
     public void ClearFlagImages()
     {
+        
         foreach(Image img in flagImage)
         {
             img.sprite = defaultSprite;
@@ -153,6 +156,35 @@ public class VisualCommunicationController : MonoBehaviour
 
         shipController.InterpretVisualMessage(playerMessage);
         ClearFlagImages();
+    }
+
+    public void ManageVisualFeedback()
+    {
+        if(lastTension != GameManager.currentTension)
+        {
+            switch (GameManager.currentTension)
+            {
+                case Tension.PEACEFUL:
+                    shipHoleAnimator.SetBool("hasHole", false);
+                    break;
+                case Tension.LOW:
+                    shipHoleAnimator.SetBool("hasHole", true);
+                    shipBaseAnimator.SetBool("hasBase", false);
+                    break;
+                case Tension.MEDIUM:
+                    shipBaseAnimator.SetBool("hasBase", true);
+                    shipCannonAnimator.SetBool("hasCannon", false);
+                    break;
+                case Tension.DANGER:
+                    shipCannonAnimator.SetBool("hasCannon", true);
+                    break;
+                case Tension.THREAT:
+                    break;
+                case Tension.NONE:
+                    break;
+            }
+            lastTension = GameManager.currentTension;
+        }
     }
 
     private void FillVisualCodes()

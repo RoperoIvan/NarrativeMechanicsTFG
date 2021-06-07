@@ -77,26 +77,26 @@ public class PlayerController : MonoBehaviour
             GoToRepair(true);
             Debug.Log("IN REPAIR");
         }
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    GameManager.currentTension = Tension.PEACEFUL;
-        //}
-        //if (Input.GetKeyDown(KeyCode.S))
-        //{
-        //    GameManager.currentTension = Tension.LOW;
-        //}
-        //if (Input.GetKeyDown(KeyCode.D))
-        //{
-        //    GameManager.currentTension = Tension.MEDIUM;
-        //}
-        //if (Input.GetKeyDown(KeyCode.F))
-        //{
-        //    GameManager.currentTension = Tension.DANGER;
-        //}
-        //if (Input.GetKeyDown(KeyCode.G))
-        //{
-        //    GameManager.currentTension = Tension.THREAT;
-        //}
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            GameManager.currentTension = Tension.PEACEFUL;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            GameManager.currentTension = Tension.LOW;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            GameManager.currentTension = Tension.MEDIUM;
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            GameManager.currentTension = Tension.DANGER;
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            GameManager.currentTension = Tension.THREAT;
+        }
     }
 
     private void GoToVisualRoom(bool isEnter)

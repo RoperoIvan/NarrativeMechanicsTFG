@@ -46,14 +46,11 @@ public class ShipController : MonoBehaviour
                     case Screens.NONE:
                         break;
                 }
-                
+                bar.ResetBar();
                 waitingForPlayer = false;
             }
             else if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime) //BAD CONSEQUENCES
             {
-                if (PlayerController.currentScreen != goalScreen)
-                    
-
                 switch (goalScreen)
                 {
                     case Screens.GLASS:
@@ -68,7 +65,7 @@ public class ShipController : MonoBehaviour
                     case Screens.NONE:
                         break;
                 }
-
+                bar.ResetBar();
                 waitingForPlayer = false;
             }
         }
@@ -103,13 +100,14 @@ public class ShipController : MonoBehaviour
             }
             else if(reaction == 1) //Negative response to tension
             {
+                
                 gameManager.IncreaseTension(1f);
             }
             else //Neutral response to tension
             {
 
             }
-
+            visualController.ManageVisualFeedback();
         }
         else //Non-existent message
         {

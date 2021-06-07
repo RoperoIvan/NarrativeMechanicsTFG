@@ -24,7 +24,7 @@ AnimatorState:
   m_Motion: {fileID: 7400000, guid: 12983d602da9bb443b285049773ed730, type: 2}
   m_Tag: 
   m_SpeedParameter: 
-  m_MirrorParameter: 
+  m_MirrorParameter: hasHole
   m_CycleOffsetParameter: 
   m_TimeParameter: 
 --- !u!1101 &-7828236218904720648
@@ -298,7 +298,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
