@@ -20,6 +20,9 @@ public class TimeLineController : MonoBehaviour
     public ShipController shipController;
     public AllyController allyController;
 
+    //EVENT
+    public List<TimeEvent> structuredEvents = new List<TimeEvent>();
+
     // TIME RELATED
     private float timerTimeLine = 0f;
     private float timerNextEvent = 0f;

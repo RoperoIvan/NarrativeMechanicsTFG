@@ -68,47 +68,10 @@ public class RadarController : MonoBehaviour
         if(isAlly)
         {
             ally.transform.position = allyCheckpoints[currentAllyCheckpoint].transform.position;
-            switch (currentAllyCheckpoint)
-            {
-                case 0:
-
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                default:
-                    Debug.LogWarning("NON EXISTENT CHECKPOINT! : " + currentAllyCheckpoint);
-                    break;
-            }
         }
         else
         {
             enemy.transform.position = enemyCheckpoints[currentEnemyCheckpoint].transform.position;
-            switch (currentEnemyCheckpoint)
-            {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                default:
-                    Debug.LogWarning("NON EXISTENT CHECKPOINT! : " + currentEnemyCheckpoint);
-                    break;
-            }
         }
     }
     private bool HasChangedCheckpoint(bool isAlly)
