@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator RevealInitialText(string[] dialogue)
     {
-
+        yield return new WaitForSecondsRealtime(1f);
         for (int i = 0; i < dialogue.Length; ++i) //PHRASES OF NODE
         {
             var originalString = dialogue[i];
