@@ -10,6 +10,9 @@ public class PushLever : MonoBehaviour
     public GameObject pivotLeft;
     public GameObject pivotRight;
     public GameObject indicatorHeight;
+    public GameObject windowSubmarine;
+    public GameObject windowLeftGlasses;
+    public GameObject windowRightGlasses;
 
     [HideInInspector]
     public bool canMove = false;
@@ -53,6 +56,9 @@ public class PushLever : MonoBehaviour
             switch (type)
             {
                 case LeverType.UPDOWN:
+                    windowLeftGlasses.transform.position += new Vector3(0f, -0.8f, 0f);
+                    windowRightGlasses.transform.position += new Vector3(0f, -0.8f, 0f);
+                    windowSubmarine.transform.position += new Vector3(0f, -0.8f, 0f);
                     indicatorHeight.transform.position += new Vector3(0f, 0.035f, 0f);
                     break;
                 case LeverType.LEFT:
@@ -78,6 +84,9 @@ public class PushLever : MonoBehaviour
             switch (type)
             {
                 case LeverType.UPDOWN:
+                    windowLeftGlasses.transform.position += new Vector3(0f, 0.8f, 0f);
+                    windowRightGlasses.transform.position += new Vector3(0f, 0.8f, 0f);
+                    windowSubmarine.transform.position += new Vector3(0f, 0.8f, 0f);
                     indicatorHeight.transform.position += new Vector3(0f, -0.035f, 0f);
                     break;
                 case LeverType.LEFT:

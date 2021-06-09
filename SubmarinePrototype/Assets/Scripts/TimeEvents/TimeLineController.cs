@@ -196,12 +196,37 @@ public class TimeLineController : MonoBehaviour
         return tensionFactor;
     }
 
+    private List<TimeEvent> CreateAllEvents()
+    {
+        List<TimeEvent> _events = new List<TimeEvent>();
+        _events.Add(new TimeEvent(2f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        return _events;
+    }
+
     public struct TimeEvent
     {
         public float timeStamp;
         public float timeToExecute;
         public TimeEventType type;
         public GameObject visualGO;
+
+        public TimeEvent(float timeToExecute, TimeEventType type)
+        {
+            this.timeToExecute = timeToExecute;
+            this.type = type;
+            timeStamp = Time.realtimeSinceStartup;
+            visualGO = null;
+        }
 
         public TimeEvent(float timeToExecute, TimeEventType type,GameObject visualGO)
         {

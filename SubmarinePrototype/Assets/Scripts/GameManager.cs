@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public Dialogue Final2Dialogue;
     private void Start()
     {
-        InitialGameScene();
+        //InitialGameScene();
     }
 
     private void Update()
