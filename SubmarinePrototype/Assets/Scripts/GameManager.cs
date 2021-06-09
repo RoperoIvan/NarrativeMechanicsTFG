@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public Dialogue initialDialogue;
     public Dialogue Final1Dialogue;
     public Dialogue Final2Dialogue;
+    public RadarController radarController;
+    static public bool isAlly;
     private void Start()
     {
         //InitialGameScene();
@@ -63,8 +65,26 @@ public class GameManager : MonoBehaviour
             currentTension = Tension.THREAT;
         }
 
-        if (currentTension != lastTension)
-            Debug.Log("TENSION CHANGED TO: " + currentTension);
+        //ENEMY
+        if (currentTension > lastTension)
+        {
+            radarController.GoToNextCheckpoint(isAlly, true);
+        }
+        if (currentTension < lastTension)
+        {
+            radarController.GoToNextCheckpoint(isAlly, true);
+        }
+
+        //ALLY
+        if (currentTension > lastTension)
+        {
+            radarController.GoToNextCheckpoint(isAlly, true);
+        }
+        if (currentTension < lastTension)
+        {
+            radarController.GoToNextCheckpoint(isAlly, false);
+        }
+        //Debug.Log("TENSION CHANGED TO: " + currentTension);
     }
 
     public void InitialGameScene()

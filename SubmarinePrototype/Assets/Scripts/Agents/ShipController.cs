@@ -13,6 +13,7 @@ public class ShipController : MonoBehaviour
     public VisualCommunicationController visualController;
     public CalibrationController calibrationController;
     public FrequencyCommunicationController frequencyCommunicationController;
+    public TimeLineController timeLineController;
     public Repair repairController;
     public GameManager gameManager;
     public Animator shipFlagAnimator;
@@ -96,11 +97,13 @@ public class ShipController : MonoBehaviour
 
             if(reaction == 0) //Positive response to tension
             {
+                GameManager.isAlly = false;
                 gameManager.DecreaseTension(1f);
             }
             else if(reaction == 1) //Negative response to tension
             {
-                
+                GameManager.isAlly = false;
+                timeLineController.AddNewEvent(5f,TimeLineController.TimeEventType.BOMB);
                 gameManager.IncreaseTension(1f);
             }
             else //Neutral response to tension

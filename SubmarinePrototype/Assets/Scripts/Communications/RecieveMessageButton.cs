@@ -28,6 +28,7 @@ public class RecieveMessageButton : MonoBehaviour
             else if(response >= 2)
                 DialogueManager.dialogueManager.GoToNextNode(negativeResponse.dialogueNode);
 
+            GameManager.isAlly = true;
             RestartRecieve();
             response = 0;
         }
