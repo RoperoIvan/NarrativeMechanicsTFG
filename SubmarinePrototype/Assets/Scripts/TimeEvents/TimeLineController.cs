@@ -5,8 +5,8 @@ using UnityEngine;
 public class TimeLineController : MonoBehaviour
 {
     public float maxVisibleEventTime = 10f;
-    public float baseOffsetTimeEvent = 120f;
-
+    public float baseOffsetAttackEvent = 80f;
+    private float baseOffsetTimeEvent = 60f;
     // EVENT ICONS
     public GameObject bombPrefab;
     public GameObject freqPrefab;
@@ -24,24 +24,36 @@ public class TimeLineController : MonoBehaviour
     public List<TimeEvent> structuredEvents = new List<TimeEvent>();
 
     // TIME RELATED
-    private float timerTimeLine = 0f;
-    private float timerNextEvent = 0f;
+    //private float timerTimeLine = 0f;
+    public float timerNextEvent = 0f;
+    float lastTimeEvent = 0f;
     private List<TimeEvent> timeEvents = new List<TimeEvent>();
 
     // EVENT DECISION RELATED
-    private bool islastAlly = false;
-    private int lastAllyEvent = 0; // 0: RADIO / 1: FREQUENCY
-    private int lastEnemyEvent = 0; // 0: VISUAL / 1: BOMB
+    public bool doAttack = true;
+    public int currentEvent = 0;
+    private bool isFirst = true;
+    public bool isIntro = false;
+    //private int lastAllyEvent = 0; // 0: RADIO / 1: FREQUENCY
+    //private int lastEnemyEvent = 0; // 0: VISUAL / 1: BOMB
+
+    void Awake()
+    {
+        structuredEvents = CreateAllEvents();
+        lastTimeEvent = Time.realtimeSinceStartup;
+    }
 
     void Update()
     {
-        //Manage the addition of new events based in current tension
-        //ManageEvents();
-
-        //Manage Visual icons in timeline and the execution and deletion of the events
+        if(!isIntro)
+        {
+            //Manage the addition of new events based in current tension
+            //ManageAttacks();
+            //ManageEvents();
+            //Manage Visual icons in timeline and the execution and deletion of the events
+            
+        }
         RefreshTimeLine();
-
-        timerTimeLine = Time.realtimeSinceStartup;
     }
 
     public void AddNewEvent(float time, TimeEventType type)
@@ -70,7 +82,6 @@ public class TimeLineController : MonoBehaviour
         go.transform.localPosition = new Vector3(rt.rect.width*0.5f, 0, 0);
         TimeEvent newEvent = new TimeEvent(time, type, go);
         timeEvents.Add(newEvent);
-        timerNextEvent = Time.realtimeSinceStartup;
         //Debug.Log(type + " EVENT CREATED");
     }
 
@@ -113,31 +124,36 @@ public class TimeLineController : MonoBehaviour
         icon.visualGO.transform.localPosition -= x;
     }
 
+    private void ManageAttacks()
+    {
+        if(doAttack)
+        {
+            float totalTime = baseOffsetAttackEvent + CalculateTensionFactor();
+            if (isFirst)
+            {
+                totalTime += 120;
+                timerNextEvent = Time.realtimeSinceStartup;
+            }
+               
+
+            if (Time.realtimeSinceStartup - timerNextEvent >= totalTime) // Calculate when to launch next event
+            {
+                AddNewEvent(5f, TimeEventType.BOMB);
+                doAttack = false;
+            }
+        }
+    }
+
     private void ManageEvents()
     {
         float totalTime = baseOffsetTimeEvent + CalculateTensionFactor();
-        if (Time.realtimeSinceStartup - timerNextEvent >= totalTime) // Calculate when to launch next event
+        if (Time.realtimeSinceStartup - lastTimeEvent >= totalTime || isFirst)
         {
-            //Check which was the last event from
-            if(islastAlly)
-            {
-                if(lastAllyEvent == 0)
-                    AddNewEvent(20f, TimeEventType.RADIO);
-                else
-                    AddNewEvent(60f, TimeEventType.FREQUENCY);
-
-                lastAllyEvent = lastAllyEvent == 0 ? 1 : 0;
-            }
-            else
-            {
-                if(lastEnemyEvent == 0)
-                    AddNewEvent(10f, TimeEventType.VISUAL);
-                else
-                    AddNewEvent(5f, TimeEventType.BOMB);
-
-                lastEnemyEvent = lastEnemyEvent == 0 ? 1 : 0;
-            }
-            islastAlly = !islastAlly;
+            isFirst = false;
+            lastTimeEvent = Time.realtimeSinceStartup;
+            AddNewEvent(structuredEvents[currentEvent].timeToExecute, structuredEvents[currentEvent].type);
+            currentEvent++;
+            //CalculateNextBaseTimeEvent();
         }
     }
 
@@ -146,7 +162,7 @@ public class TimeLineController : MonoBehaviour
         for (int i = 0; i < timeEvents.Count; ++i)
         {
             VisualTimeLineManagement(timeEvents[i]); //Movement of the event through the time line
-            if (timerTimeLine - timeEvents[i].timeStamp >= timeEvents[i].timeToExecute) //ExecuteEvent
+            if (Time.realtimeSinceStartup - timeEvents[i].timeStamp >= timeEvents[i].timeToExecute) //ExecuteEvent
             {
                 GameObject icoGO;
                 switch (timeEvents[i].type) //Create icon info event
@@ -174,19 +190,19 @@ public class TimeLineController : MonoBehaviour
         switch (GameManager.currentTension)
         {
             case Tension.PEACEFUL:
-                tensionFactor = 0.5f;
+                tensionFactor = 5f;
                 break;
             case Tension.LOW:
-                tensionFactor = 1f;
+                tensionFactor = 3f;
                 break;
             case Tension.MEDIUM:
-                tensionFactor = 1.5f;
+                tensionFactor = 2f;
                 break;
             case Tension.DANGER:
                 tensionFactor = 1f;
                 break;
             case Tension.THREAT:
-                tensionFactor = 0.5f;
+                tensionFactor = 0f;
                 break;
             case Tension.NONE:
                 tensionFactor = 0f;
@@ -199,7 +215,7 @@ public class TimeLineController : MonoBehaviour
     private List<TimeEvent> CreateAllEvents()
     {
         List<TimeEvent> _events = new List<TimeEvent>();
-        _events.Add(new TimeEvent(2f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(8f, TimeEventType.FREQUENCY));
         _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
         _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
         _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));

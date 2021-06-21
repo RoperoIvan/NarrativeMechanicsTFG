@@ -18,4 +18,4 @@ MonoBehaviour:
   - Disgusting.
   responses:
   - responseId: 0
-    dialogueNode: {fileID: 11400000, guid: 89728075e3a40bf4a88303c21fe8b726, type: 2}
+    dialogueNode: {fileID: 11400000, guid: e857a60e85bfb114c8aae9d1567e2b06, type: 2}

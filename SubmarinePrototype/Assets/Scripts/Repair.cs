@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Repair : MonoBehaviour
 {
-    public SpriteRenderer rSprite;
-    private void OnMouseDown()
+    private Camera myMainCamera;
+    private Vector3 mousePosition;
+
+    [HideInInspector]
+    public bool clicking = false;
+    private void Start()
     {
-        rSprite.color = new Color(0.3773585f, 0.2331791f, 0.2331791f);
-        //new Color(0.126157f, 0.2926755f, 0.5943396f);
+        myMainCamera = Camera.main;
     }
 
-    public void ResetRepair()
+    private void Update()
     {
-        rSprite.color = new Color(0.126157f, 0.2926755f, 0.5943396f);
+        mousePosition = Input.mousePosition;
+        mousePosition = myMainCamera.ScreenToWorldPoint(mousePosition);
+        transform.position = new Vector3(mousePosition.x, mousePosition.y, transform.position.z);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag.Equals("Leak") && clicking)
+        {
+            collision.gameObject.GetComponent<Leak>().Repairing();
+        }
     }
 }

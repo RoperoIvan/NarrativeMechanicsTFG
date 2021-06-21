@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f76111d24b68ffe438b7565bd2e5366f, type: 3}
+  m_Name: 26
+  m_EditorClassIdentifier: 
+  dialogues:
+  - You can, and you WILL do it.
+  - Just say what they want to hear.
+  responses:
+  - responseId: 0
+    dialogueNode: {fileID: 11400000, guid: 7ea3773357497f9429c5848ec55ea491, type: 2}

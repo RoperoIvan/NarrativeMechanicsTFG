@@ -7,5 +7,7 @@ public enum Screens
     SHELVES,
     CALIBRATE,
     REPAIR,
+    RADAR,
+    MISSILE,
     NONE
 }

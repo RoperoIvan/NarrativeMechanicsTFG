@@ -15,9 +15,15 @@ public class FrequencyWheelController : MonoBehaviour
     public bool detect = false;
     public SpriteRenderer LEDRenderer;
     public TMP_Text valueHz;
+    public AudioSource uiAS;
 
     private float currentRotationAngle = 0f;
-
+    private AudioClip correct;
+    private bool hasplayed = false;
+    private void Awake()
+    {
+        correct = Resources.Load<AudioClip>("Sound/WheelsLed");
+    }
     private void OnEnable()
     {
         transform.eulerAngles = new Vector3(0, 0, 0);
@@ -62,11 +68,18 @@ public class FrequencyWheelController : MonoBehaviour
         {
             LEDRenderer.color = new Vector4(0f, 0.6509804f, 0.07074188f, 1f); // GREEN
             isInRange = true;
+            if(!hasplayed)
+            {
+                uiAS.PlayOneShot(correct);
+                hasplayed = true;
+            }
+            
         }
         else
         {
             LEDRenderer.color = new Vector4(0.6509434f, 0f, 0f, 1f); // RED
             isInRange = false;
+            hasplayed = false;
         }
     }
 

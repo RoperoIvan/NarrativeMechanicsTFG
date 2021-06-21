@@ -7,10 +7,12 @@ public class RadarController : MonoBehaviour
     public GameObject pivotLine;
     public GameObject enemy;
     public GameObject ally;
+    public GameManager gameManager;
     public GameObject[] enemyCheckpoints;
     public GameObject[] allyCheckpoints;
+    public AudioSource uiAS;
 
-
+    private AudioClip radarPulse;
     private SpriteRenderer enemySprite;
     private SpriteRenderer allySprite;
 
@@ -20,6 +22,10 @@ public class RadarController : MonoBehaviour
     private int nextAllyCheckpoint = 0;
 
 
+    private void Awake()
+    {
+        radarPulse = Resources.Load<AudioClip>("Sound/pulseRadar");
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +50,16 @@ public class RadarController : MonoBehaviour
             GoToNextCheckpoint(false, false);
 
         }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            GoToNextCheckpoint(true, true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            GoToNextCheckpoint(true, false);
+
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -52,6 +68,7 @@ public class RadarController : MonoBehaviour
             if(HasChangedCheckpoint(false))
                 MoveShips(false);
 
+            uiAS.PlayOneShot(radarPulse,0.5f);
             enemySprite.color = new Color(enemySprite.color.r, enemySprite.color.g, enemySprite.color.b, 1f);
         }
         else
@@ -59,6 +76,7 @@ public class RadarController : MonoBehaviour
             if (HasChangedCheckpoint(true))
                 MoveShips(true);
 
+            uiAS.PlayOneShot(radarPulse, 0.5f);
             allySprite.color = new Color(allySprite.color.r, allySprite.color.g, allySprite.color.b, 1f);
         }
     }
@@ -67,11 +85,13 @@ public class RadarController : MonoBehaviour
     {
         if(isAlly)
         {
-            ally.transform.position = allyCheckpoints[currentAllyCheckpoint].transform.position;
+            if(currentAllyCheckpoint >= 0 && currentAllyCheckpoint < 6)
+                ally.transform.position = allyCheckpoints[currentAllyCheckpoint].transform.position;
         }
         else
         {
-            enemy.transform.position = enemyCheckpoints[currentEnemyCheckpoint].transform.position;
+            if (currentEnemyCheckpoint >= 0 && currentEnemyCheckpoint < 6)
+                enemy.transform.position = enemyCheckpoints[currentEnemyCheckpoint].transform.position;
         }
     }
     private bool HasChangedCheckpoint(bool isAlly)
@@ -123,5 +143,22 @@ public class RadarController : MonoBehaviour
             }
         }
 
+        if(nextEnemyCheckpoint == 6) //END WAR IS OVER
+        {
+            GameManager.isEnd = true;
+            gameManager.ExecuteFinal(0);
+        }
+
+        if (nextAllyCheckpoint == 6) // END WAR IS ON
+        {
+            GameManager.isEnd = true;
+            gameManager.ExecuteFinal(3);
+        }
+
+    }
+
+    void LaunchMissile() // Launch Missile END
+    {
+        GameManager.isEnd = true;
     }
 }

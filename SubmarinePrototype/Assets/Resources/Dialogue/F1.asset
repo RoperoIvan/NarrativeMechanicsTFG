@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: F1
   m_EditorClassIdentifier: 
   dialogues:
-  - It seems they are retreating.
-  - Hahaha, cowards!
-  - Good job soldier, we've won this battle!
-  - But this is not the end!
-  - We must dominate them!
+  - ' What?...'
+  - They... are... retreating?...
+  - Good job soldier, It seems it's over.
   responses:
   - responseId: 0
     dialogueNode: {fileID: 0}

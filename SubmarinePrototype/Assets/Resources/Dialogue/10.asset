@@ -17,4 +17,4 @@ MonoBehaviour:
   - This could end soon.
   responses:
   - responseId: 0
-    dialogueNode: {fileID: 11400000, guid: 7ea3773357497f9429c5848ec55ea491, type: 2}
+    dialogueNode: {fileID: 11400000, guid: bb6ef3f26ba15b343b22040e1f02f2c6, type: 2}

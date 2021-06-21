@@ -15,6 +15,9 @@ MonoBehaviour:
   dialogues:
   - Alright soldier, it seems it's working.
   - Keep doing that.
+  - Do you think you will?
   responses:
   - responseId: 0
-    dialogueNode: {fileID: 11400000, guid: 4021950f963ea9246b13c61d1d4495a6, type: 2}
+    dialogueNode: {fileID: 11400000, guid: 15924a197b3b45c49a985abf16194876, type: 2}
+  - responseId: 0
+    dialogueNode: {fileID: 11400000, guid: 2be9676e23a7eda42b659e3bd66af052, type: 2}

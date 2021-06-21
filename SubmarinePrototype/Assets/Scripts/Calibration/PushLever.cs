@@ -104,6 +104,7 @@ public class PushLever : MonoBehaviour
 
     public void ResetCalibration()
     {
+        value = 0f;
         gameObject.transform.position = new Vector3(gameObject.transform.position.x, -1.76f, gameObject.transform.position.z);
         indicatorHeight.transform.localPosition = new Vector3(indicatorHeight.transform.localPosition.x, 0f, indicatorHeight.transform.localPosition.z);
     }

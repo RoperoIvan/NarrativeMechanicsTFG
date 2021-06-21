@@ -14,12 +14,13 @@ public class ShipController : MonoBehaviour
     public CalibrationController calibrationController;
     public FrequencyCommunicationController frequencyCommunicationController;
     public TimeLineController timeLineController;
-    public Repair repairController;
+    public RepairController repairController;
     public GameManager gameManager;
     public Animator shipFlagAnimator;
     public Animator shipPoleAnimator;
     public Animator notebookAnimator;
     public List<Sprite> flagSprites = new List<Sprite>();
+    public AudioSource uiAS;
 
     private float timerEnterRoom = 0f;
     private bool isFirstTime = true;
@@ -27,6 +28,13 @@ public class ShipController : MonoBehaviour
     private bool showNotebook = false;
     private VisualMessage lastSendedMessage;
     private Screens goalScreen = Screens.NONE;
+    private AudioClip showNote;
+    private AudioClip closeNote;
+    private void Awake()
+    {
+        showNote = Resources.Load<AudioClip>("Sound/openManual");
+        closeNote = Resources.Load<AudioClip>("Sound/closeManual");
+    }
     private void Update()
     {
         if(waitingForPlayer)
@@ -42,12 +50,12 @@ public class ShipController : MonoBehaviour
                         calibrationController.SetDecalibrateValues();
                         break;
                     case Screens.REPAIR:
-                        repairController.ResetRepair();
+                        repairController.SetLeaks();
                         break;
                     case Screens.NONE:
                         break;
                 }
-                bar.ResetBar();
+                //bar.Stopbar();
                 waitingForPlayer = false;
             }
             else if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime) //BAD CONSEQUENCES
@@ -55,18 +63,22 @@ public class ShipController : MonoBehaviour
                 switch (goalScreen)
                 {
                     case Screens.GLASS:
-                        gameManager.IncreaseTension(0.2f);
+                        gameManager.IncreaseTension(0.2f, false);
                         break;
-                    case Screens.CALIBRATE:
+                    case Screens.CALIBRATE: //END FOR INCOMPETENCE IN REPAIRING OR CALIBRATING
                             Debug.Log("DIDNT CALIBRATE IN TIME");
+                        GameManager.isEnd = true;
+                        gameManager.ExecuteFinal(4);
                         break;
-                        case Screens.REPAIR:
+                        case Screens.REPAIR: //END FOR INCOMPETENCE IN REPAIRING OR CALIBRATING
+                        GameManager.isEnd = true;
                             Debug.Log("DIDNT REPAIR IN TIME");
-                            break;
+                        gameManager.ExecuteFinal(5);
+                        break;
                     case Screens.NONE:
                         break;
                 }
-                bar.ResetBar();
+                //bar.Stopbar();
                 waitingForPlayer = false;
             }
         }
@@ -98,13 +110,13 @@ public class ShipController : MonoBehaviour
             if(reaction == 0) //Positive response to tension
             {
                 GameManager.isAlly = false;
-                gameManager.DecreaseTension(1f);
+                gameManager.DecreaseTension(1f, false);
             }
             else if(reaction == 1) //Negative response to tension
             {
                 GameManager.isAlly = false;
                 timeLineController.AddNewEvent(5f,TimeLineController.TimeEventType.BOMB);
-                gameManager.IncreaseTension(1f);
+                gameManager.IncreaseTension(1f, false);
             }
             else //Neutral response to tension
             {
@@ -123,6 +135,10 @@ public class ShipController : MonoBehaviour
     public void ShowNotebook()
     {
         showNotebook = !showNotebook;
+        if (showNotebook)
+            uiAS.PlayOneShot(showNote,0.3f);
+        else
+            uiAS.PlayOneShot(closeNote, 0.3f);
         notebookAnimator.SetBool("showPole", showNotebook);
     }
 
@@ -168,7 +184,7 @@ public class ShipController : MonoBehaviour
         {
             case 0: //Repair
                 if (PlayerController.currentScreen == Screens.REPAIR)
-                    repairController.ResetRepair();
+                    repairController.SetLeaks();
                 else //Give the player a little bit of time to go to the screen of the communications
                 {
                     waitingForPlayer = true;

@@ -18,4 +18,4 @@ MonoBehaviour:
   - Don't play stupid.
   responses:
   - responseId: 0
-    dialogueNode: {fileID: 11400000, guid: 59f0f7a5d3afb4b40a6a6ee9d0652f09, type: 2}
+    dialogueNode: {fileID: 11400000, guid: 7ea3773357497f9429c5848ec55ea491, type: 2}

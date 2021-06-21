@@ -18,4 +18,4 @@ MonoBehaviour:
   - We have to interfere.
   responses:
   - responseId: 0
-    dialogueNode: {fileID: 11400000, guid: 59f0f7a5d3afb4b40a6a6ee9d0652f09, type: 2}
+    dialogueNode: {fileID: 11400000, guid: 5e2f6bec59ed2ca4c819f1ed09eebb56, type: 2}

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogues:
   - Like it or not we are going there.
+  - You just have to survive.
   responses:
   - responseId: 0
-    dialogueNode: {fileID: 11400000, guid: 5e2f6bec59ed2ca4c819f1ed09eebb56, type: 2}
+    dialogueNode: {fileID: 11400000, guid: 7ea3773357497f9429c5848ec55ea491, type: 2}

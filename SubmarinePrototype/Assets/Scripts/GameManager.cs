@@ -3,19 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     static public int[] visualMessageBuffer = { 0, 0 , 0, 0};
     private float tensionValue = 4f;
-    static public Tension currentTension = Tension.MEDIUM;
+    static public Tension currentTension = Tension.PEACEFUL;
     public Image fadeBlack;
     public TMP_Text initialTxt;
     public Dialogue initialDialogue;
     public Dialogue Final1Dialogue;
     public Dialogue Final2Dialogue;
+    public Dialogue Final3Dialogue;
+    public Dialogue Final4Dialogue;
+    public Dialogue Final5Dialogue;
+    public Dialogue Final6Dialogue;
     public RadarController radarController;
+    public TimeLineController timeLineController;
+    public AudioSource uiAS;
+    public AudioSource ambienceAS;
     static public bool isAlly;
+    static public bool isEnd = false;
+
+    private AudioClip click1;
+    private AudioClip click2;
+    private AudioClip click3;
+    private AudioClip endBellTypeWriter;
+    private void Awake()
+    {
+        click1 = Resources.Load<AudioClip>("Sound/click1");
+        click2 = Resources.Load<AudioClip>("Sound/click2");
+        click3 = Resources.Load<AudioClip>("Sound/click3");
+        endBellTypeWriter = Resources.Load<AudioClip>("Sound/bellTypeWriter");
+    }
     private void Start()
     {
         //InitialGameScene();
@@ -24,24 +45,24 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B))
-            FinalGameScene(Final1Dialogue);
+            FinalGameScene(0);
     }
 
-    public void IncreaseTension(float value)
+    public void IncreaseTension(float value, bool isAlly)
     {
         tensionValue += value;
 
-        CheckTension();
+        CheckTension(isAlly);
     }
 
-    public void DecreaseTension(float value)
+    public void DecreaseTension(float value, bool isAlly)
     {
         tensionValue -= value;
 
-        CheckTension();
+        CheckTension(isAlly);
     }
 
-    private void CheckTension()
+    private void CheckTension(bool isAlly)
     {
         Tension lastTension = currentTension;
         if(tensionValue < 2f) 
@@ -65,26 +86,33 @@ public class GameManager : MonoBehaviour
             currentTension = Tension.THREAT;
         }
 
-        //ENEMY
-        if (currentTension > lastTension)
+        
+        if(!isAlly) //ENEMY
         {
-            radarController.GoToNextCheckpoint(isAlly, true);
-        }
-        if (currentTension < lastTension)
-        {
-            radarController.GoToNextCheckpoint(isAlly, true);
-        }
+            Debug.Log("TENSION CHANGED TO: " + currentTension);
 
-        //ALLY
-        if (currentTension > lastTension)
-        {
-            radarController.GoToNextCheckpoint(isAlly, true);
+            if (currentTension > lastTension)
+            {
+                radarController.GoToNextCheckpoint(isAlly, true);
+            }
+            if (currentTension < lastTension)
+            {
+                radarController.GoToNextCheckpoint(isAlly, true);
+            }
         }
-        if (currentTension < lastTension)
+        else //ALLY
         {
-            radarController.GoToNextCheckpoint(isAlly, false);
+            Debug.Log("TENSION CHANGED TO: " + currentTension);
+
+            if (currentTension > lastTension)
+            {
+                radarController.GoToNextCheckpoint(isAlly, true);
+            }
+            if (currentTension < lastTension)
+            {
+                radarController.GoToNextCheckpoint(isAlly, false);
+            }
         }
-        //Debug.Log("TENSION CHANGED TO: " + currentTension);
     }
 
     public void InitialGameScene()
@@ -93,10 +121,61 @@ public class GameManager : MonoBehaviour
        
     }
 
-    public void FinalGameScene(Dialogue finalDialogue)
+    public void FinalGameScene(int finalDialogue)
     {
+        Dialogue d;
+        switch (finalDialogue)
+        {
+            case 0://RETREAT SHIP
+                d = Final1Dialogue;
+                break;
+            case 1: //MISSILE BY PLAYER
+                d = Final2Dialogue;
+                break;
+            case 2: //MISSILES BY ENEMY
+                d = Final3Dialogue;
+                break;
+            case 3: //MISSILES BY ALLIES
+                d = Final4Dialogue;
+                break;
+            case 4: //LEAKS BAD
+                d = Final5Dialogue;
+                break;
+            case 5://CALIBRATE BAD
+                d = Final6Dialogue;
+                break;
+            default:
+                d = Final1Dialogue;
+                Debug.Log("ERROR FINAL");
+                break;
+        }
         StartCoroutine(FadeToNormal());
-        StartCoroutine(RevealFinalText(finalDialogue.dialogues, 1.2f));
+        StartCoroutine(RevealFinalText(d.dialogues, 1.2f));
+    }
+
+    public void ExecuteFinal(int final)
+    {
+        switch(final)
+        {
+            case 0://RETREAT SHIP
+                FinalGameScene(0);
+                break;
+            case 1: //MISSILE BY PLAYER
+                FinalGameScene(1);
+                break;
+            case 2: //MISSILES BY ENEMY
+                FinalGameScene(2);
+                break;
+            case 3: //MISSILES BY ALLIES
+                FinalGameScene(3);
+                break;
+            case 4: //LEAKS BAD
+                FinalGameScene(4);
+                break;
+            case 5://CALIBRATE BAD
+                FinalGameScene(5);
+                break;
+        }
     }
 
     IEnumerator FadeToNormal(bool fadeToBlack = true, int fadeSpeed = 1)
@@ -143,11 +222,25 @@ public class GameManager : MonoBehaviour
                     charss++;
                     ++numCharsRevealed;
                     initialTxt.text = originalString.Substring(0, numCharsRevealed);
-
+                    int aud = Random.Range(0, 2);
+                    switch(aud)
+                    {
+                        case 0:
+                            uiAS.PlayOneShot(click1,0.5f);
+                            break;
+                        case 1:
+                            uiAS.PlayOneShot(click2, 0.5f);
+                            break;
+                        case 2:
+                            uiAS.PlayOneShot(click3, 0.5f);
+                            break;
+                    }
+                    
                     yield return new WaitForSecondsRealtime(0.15f);
                 }
                 ++numCharsRevealed;
             }
+           
             yield return new WaitForSecondsRealtime(1f);
             while (!initialTxt.text.Equals(""))
             {
@@ -157,7 +250,10 @@ public class GameManager : MonoBehaviour
             }
             
         }
+        uiAS.PlayOneShot(endBellTypeWriter);
         StartCoroutine(FadeToNormal(false));
+        ambienceAS.Play();
+        timeLineController.isIntro = false;
         initialTxt.text = "";
     }
 
@@ -194,5 +290,7 @@ public class GameManager : MonoBehaviour
 
         }
         initialTxt.text = "";
+        yield return new WaitForSecondsRealtime(1f);
+        SceneManager.LoadScene("MainScene");
     }
 }

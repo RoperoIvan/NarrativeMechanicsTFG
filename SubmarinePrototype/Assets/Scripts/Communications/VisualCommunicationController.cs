@@ -7,6 +7,7 @@ using SimpleJSON;
 public class VisualCommunicationController : MonoBehaviour
 {
     public ShipController shipController;
+    public GameManager gameManager;
     public Button sendMessageBtn;
     public Button resetBtn;
     public Sprite defaultSprite;
@@ -16,7 +17,7 @@ public class VisualCommunicationController : MonoBehaviour
     public Animator shipHoleAnimator;
     public Animator shipCannonAnimator;
     public Animator shipBaseAnimator;
-
+    public FillBar bar;
 
     public List<Sprite> flagSprites = new List<Sprite>();
     public List<Button> flagButtons = new List<Button>();
@@ -26,9 +27,9 @@ public class VisualCommunicationController : MonoBehaviour
     public string playerMessage;
 
     private Tension lastTension;
-    private bool hasHole = false;
-    private bool hasCannon = false;
-    private bool hasBase = false;
+    public bool hasHole = false;
+    public bool hasCannon = false;
+    public bool hasBase = false;
 
     static public Dictionary<string, VisualMessage> flagCodes = new Dictionary<string,VisualMessage>();
     // Start is called before the first frame update
@@ -38,6 +39,22 @@ public class VisualCommunicationController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        shipHoleAnimator.SetBool("hasHole", hasHole);
+        //shipBaseAnimator.SetBool("hasBase", hasBase);
+        //shipCannonAnimator.SetBool("hasCannon", hasCannon);
+
+    }
+    private void OnDisable()
+    {
+        shipHoleAnimator.SetBool("hasHole", false);
+        shipCannonAnimator.SetBool("hasCannon", false);
+        shipBaseAnimator.SetBool("hasBase", false);
+
+        shipBaseAnimator.gameObject.transform.localPosition = new Vector3(shipBaseAnimator.gameObject.transform.localPosition.x, -1.201f, shipBaseAnimator.gameObject.transform.localPosition.z);
+        shipCannonAnimator.gameObject.transform.localPosition = new Vector3(shipCannonAnimator.gameObject.transform.localPosition.x, -1.5f, shipCannonAnimator.gameObject.transform.localPosition.z);
+    }
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space))
@@ -73,6 +90,7 @@ public class VisualCommunicationController : MonoBehaviour
     public void CodifyFlags()
     {
         playerMessage = GetCodeFromFlags();
+        bar.ResetBar();
     }
 
 
@@ -179,6 +197,7 @@ public class VisualCommunicationController : MonoBehaviour
                     shipCannonAnimator.SetBool("hasCannon", true);
                     break;
                 case Tension.THREAT:
+                    gameManager.ExecuteFinal(2);
                     break;
                 case Tension.NONE:
                     break;

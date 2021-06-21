@@ -16,10 +16,19 @@ public class DialogueManager : MonoBehaviour
     public TMP_Text dialogueTxt;
     public SpriteRenderer screenShader;
     public SpriteRenderer screenDialogue;
-
+    public AudioSource uiAS;
     private Dialogue[] dialogues;
+    //private AudioClip click1;
+    //private AudioClip click2;
+    //private AudioClip click3;
+    private AudioClip beep;
+
     private void Awake()
     {
+        //click1 = Resources.Load<AudioClip>("Sound/click1");
+        //click2 = Resources.Load<AudioClip>("Sound/click2");
+        //click3 = Resources.Load<AudioClip>("Sound/click3");
+        beep = Resources.Load<AudioClip>("Sound/morseBeep");
         if (dialogueManager != null)
         {
             Debug.LogError("There is more than one instance!");
@@ -65,7 +74,7 @@ public class DialogueManager : MonoBehaviour
                     charss++;
                     ++numCharsRevealed;
                     dialogueTxt.text = modWords.Substring(0, numCharsRevealed);
-
+                    uiAS.PlayOneShot(beep,0.1f);
                     yield return new WaitForSecondsRealtime(0.15f);
                 }
                 ++numCharsRevealed;

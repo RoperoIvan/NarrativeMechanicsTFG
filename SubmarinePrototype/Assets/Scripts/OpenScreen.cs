@@ -30,8 +30,18 @@ public class OpenScreen : MonoBehaviour
     public GameObject goBackButton;
     private Screens fromRoom;
 
+    [InspectorName("RADAR")]
+    public GameObject radarContainer;
+
+    public GameObject missileContainer;
+
+    public AudioSource ambienceAS;
+    private AudioClip ambienceSubmarine;
+    private AudioClip ambienceRadio;
     private void Awake()
     {
+        ambienceSubmarine = Resources.Load<AudioClip>("Sound/submarineAmbience");
+        ambienceRadio = Resources.Load<AudioClip>("Sound/radioAmbience");
         if (openScreenManager == null)
             openScreenManager = this;
     }
@@ -43,6 +53,8 @@ public class OpenScreen : MonoBehaviour
         switch (screen)
         {
             case Screens.RADIO:
+                ambienceAS.Stop();
+                ambienceAS.PlayOneShot(ambienceRadio,0.3f);
                 fromRoom = Screens.COMMAND;
                 PlayerController.currentScreen = Screens.RADIO;
                 commandContainer.SetActive(false);
@@ -69,26 +81,41 @@ public class OpenScreen : MonoBehaviour
                 engineContainer.SetActive(false);
                 repairContainer.SetActive(true);
                 break;
+            case Screens.RADAR:
+                fromRoom = Screens.COMMAND;
+                PlayerController.currentScreen = Screens.RADAR;
+                commandContainer.SetActive(false);
+                radarContainer.SetActive(true);
+                break;
+            case Screens.MISSILE:
+                fromRoom = Screens.ENGINES;
+                PlayerController.currentScreen = Screens.MISSILE;
+                engineContainer.SetActive(false);
+                missileContainer.SetActive(true);
+                break;
             case Screens.NONE:
                 break;
         }
+        
     }
 
     public void GoBackToRoom()
     {
         goBackButton.SetActive(false);
         movementButtons.SetActive(true);
-
+        ambienceAS.Stop();
         switch (fromRoom)
         {
             case Screens.COMMAND:
                 commandContainer.SetActive(true);
                 frequencyController.SetActive(false);
                 frequencyWheelsContainer.SetActive(false);
+                radarContainer.SetActive(false);
                 break;
             case Screens.ENGINES:
                 engineContainer.SetActive(true);
                 repairContainer.SetActive(false);
+                missileContainer.SetActive(false);
                 break;
             case Screens.SHELVES:
                 shelvesContainer.SetActive(true);
@@ -100,5 +127,6 @@ public class OpenScreen : MonoBehaviour
             case Screens.NONE:
                 break;
         }
+        ambienceAS.Play();
     }
 }

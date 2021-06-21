@@ -11,24 +11,38 @@ public class RecieveMessageButton : MonoBehaviour
     public DialogueManager dialogueManager;
     public SpriteRenderer ledYes;
     public SpriteRenderer ledNo;
-
+    public GameManager gameManager;
+    public AudioSource uiAS;
     private bool checkResponse = false;
     private int response = 0; // 1: yes , 2: no
     private Dialogue.Responses positiveResponse;
     private Dialogue.Responses negativeResponse;
+    private AudioClip clickResponse;
 
+    private void Awake()
+    {
+        clickResponse = Resources.Load<AudioClip>("Sound/messageclick");
+    }
     private void Update()
     {
         if(checkResponse)
         {
-            
             checkResponse = false;
-            if (response == 1)
-                DialogueManager.dialogueManager.GoToNextNode(positiveResponse.dialogueNode);
-            else if(response >= 2)
-                DialogueManager.dialogueManager.GoToNextNode(negativeResponse.dialogueNode);
-
             GameManager.isAlly = true;
+            if (response == 1)
+            {
+                DialogueManager.dialogueManager.GoToNextNode(positiveResponse.dialogueNode);
+                gameManager.DecreaseTension(1f, true);
+            }
+
+            else if (response >= 2)
+            {
+                DialogueManager.dialogueManager.GoToNextNode(negativeResponse.dialogueNode);
+                gameManager.IncreaseTension(1f, true);
+            }
+                
+
+            
             RestartRecieve();
             response = 0;
         }
@@ -68,6 +82,8 @@ public class RecieveMessageButton : MonoBehaviour
                     ledYes.color = new Vector4(0.8784314f, 0.8627451f, 0.1568628f, 1f); // YELLOW
                 else
                     ledNo.color = new Vector4(0.8784314f, 0.8627451f, 0.1568628f, 1f); // YELLOW
+
+                uiAS.PlayOneShot(clickResponse, 0.3f);
             }
             else
             {

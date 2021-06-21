@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: F2
   m_EditorClassIdentifier: 
   dialogues:
-  - ' What?...'
-  - They... are... retreating?...
-  - Good job soldier, It seems it's over.
+  - You launch a missile to the ship.
+  - It explodes, then, silence.
+  - Minutes later, one explosion.
+  - Then...
+  - More silence.
+  - All is black.
+  - The war never changes.
   responses:
   - responseId: 0
     dialogueNode: {fileID: 0}

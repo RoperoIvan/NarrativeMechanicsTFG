@@ -18,4 +18,4 @@ MonoBehaviour:
   - You will pay for this!
   responses:
   - responseId: 0
-    dialogueNode: {fileID: 11400000, guid: 7633207b178b33341990a420ada23559, type: 2}
+    dialogueNode: {fileID: 11400000, guid: 5e2f6bec59ed2ca4c819f1ed09eebb56, type: 2}

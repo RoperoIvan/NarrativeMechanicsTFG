@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CalibrationController : MonoBehaviour
 {
+    public TimeLineController timeLine;
     public SpriteRenderer LED;
     public GameObject pivotLeft;
     public GameObject pivotRight;
@@ -12,6 +13,7 @@ public class CalibrationController : MonoBehaviour
     public PushLever middle;
     public float range = 0f;
     public float calibrationGoal = 0f;
+
 
     void Update()
     {
@@ -62,6 +64,8 @@ public class CalibrationController : MonoBehaviour
             if(pivotRValue <= calibrationGoal + range || pivotRValue >= 360 - range + 1)
             {
                 LED.color = new Vector4(0f, 0.6509804f, 0.07074188f, 1f); //GREEN
+                timeLine.doAttack = true;
+                timeLine.timerNextEvent = Time.realtimeSinceStartup;
                 return true;
             }
             else

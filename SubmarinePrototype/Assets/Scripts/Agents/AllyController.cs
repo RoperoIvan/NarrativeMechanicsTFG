@@ -26,7 +26,10 @@ public class AllyController : MonoBehaviour
             else if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime)
             {
                 if (PlayerController.currentScreen != Screens.RADIO)
-                    gameManager.IncreaseTension(0.2f);
+                {
+                    GameManager.isAlly = true;
+                    gameManager.IncreaseTension(0.2f, true);
+                }
                 else
                     SendFrequency();
 
