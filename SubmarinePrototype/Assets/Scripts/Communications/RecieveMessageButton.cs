@@ -12,11 +12,12 @@ public class RecieveMessageButton : MonoBehaviour
     public SpriteRenderer ledYes;
     public SpriteRenderer ledNo;
     public GameManager gameManager;
+    public TimeLineController timeLineController;
     public AudioSource uiAS;
     private bool checkResponse = false;
     private int response = 0; // 1: yes , 2: no
-    private Dialogue.Responses positiveResponse;
-    private Dialogue.Responses negativeResponse;
+    private Dialogue.Responses firstResponse;
+    private Dialogue.Responses secondResponse;
     private AudioClip clickResponse;
 
     private void Awake()
@@ -27,22 +28,31 @@ public class RecieveMessageButton : MonoBehaviour
     {
         if(checkResponse)
         {
+            timeLineController.isCurrentEventOver = true;
             checkResponse = false;
             GameManager.isAlly = true;
+            activateButton = false;
             if (response == 1)
             {
-                DialogueManager.dialogueManager.GoToNextNode(positiveResponse.dialogueNode);
-                gameManager.DecreaseTension(1f, true);
+                DialogueManager.dialogueManager.GoToNextNode(firstResponse.dialogueNode);
+                if(firstResponse.responseIntention == 0)
+                    gameManager.DecreaseTension(1f, true);
+                else
+                    gameManager.IncreaseTension(1f, true);
             }
-
             else if (response >= 2)
             {
-                DialogueManager.dialogueManager.GoToNextNode(negativeResponse.dialogueNode);
-                gameManager.IncreaseTension(1f, true);
+                DialogueManager.dialogueManager.GoToNextNode(secondResponse.dialogueNode);
+                if (secondResponse.responseIntention == 0)
+                    gameManager.DecreaseTension(1f, true);
+                else
+                    gameManager.IncreaseTension(1f, true);
             }
-                
-
-            
+            else
+            {
+                DialogueManager.dialogueManager.GoToNextNode(secondResponse.dialogueNode);
+                gameManager.IncreaseTension(0.5f, true);
+            }
             RestartRecieve();
             response = 0;
         }
@@ -53,8 +63,8 @@ public class RecieveMessageButton : MonoBehaviour
     {
         if(responses.Length > 1)
         {
-            positiveResponse = responses[0];
-            negativeResponse = responses[1];
+            firstResponse = responses[0];
+            secondResponse = responses[1];
 
             StartCoroutine(WaitResponse());
         }
@@ -68,7 +78,8 @@ public class RecieveMessageButton : MonoBehaviour
     {
         bar.GetComponent<FillBar>().BeginFilling(5f);
         yield return new WaitForSecondsRealtime(5f);
-        checkResponse = true;
+        if(timeLineController.isCurrentEventOver == false)
+            checkResponse = true;
     }
 
     private void OnMouseDown()
@@ -84,11 +95,15 @@ public class RecieveMessageButton : MonoBehaviour
                     ledNo.color = new Vector4(0.8784314f, 0.8627451f, 0.1568628f, 1f); // YELLOW
 
                 uiAS.PlayOneShot(clickResponse, 0.3f);
+                //timeLineController.isCurrentEventOver = true;
             }
-            else
+            if(response >= 2)
             {
                 activateButton = false;
+                bar.GetComponent<FillBar>().stop = true;
                 checkResponse = true;
+                //timeLineController.isCurrentEventOver = true;
+                timeLineController.lastTimeEvent = Time.realtimeSinceStartup;
             }
             GetComponent<SpriteRenderer>().color = new Vector4(0.254717f, 0.05647027f, 0.05647027f, 1f); // CLICK
         }

@@ -5,11 +5,22 @@ using UnityEngine.EventSystems;
 
 public class Repair : MonoBehaviour
 {
+
     private Camera myMainCamera;
     private Vector3 mousePosition;
 
     [HideInInspector]
     public bool clicking = false;
+    public bool isTorch = false;
+
+    private void OnEnable()
+    {
+        Cursor.visible = false;
+    }
+    private void OnDisable()
+    {
+        Cursor.visible = true;
+    }
     private void Start()
     {
         myMainCamera = Camera.main;

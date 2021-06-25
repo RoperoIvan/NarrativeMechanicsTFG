@@ -18,16 +18,10 @@ public class DialogueManager : MonoBehaviour
     public SpriteRenderer screenDialogue;
     public AudioSource uiAS;
     private Dialogue[] dialogues;
-    //private AudioClip click1;
-    //private AudioClip click2;
-    //private AudioClip click3;
     private AudioClip beep;
 
     private void Awake()
     {
-        //click1 = Resources.Load<AudioClip>("Sound/click1");
-        //click2 = Resources.Load<AudioClip>("Sound/click2");
-        //click3 = Resources.Load<AudioClip>("Sound/click3");
         beep = Resources.Load<AudioClip>("Sound/morseBeep");
         if (dialogueManager != null)
         {
@@ -55,9 +49,9 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator RevealText(string[] dialogue)
     {
-        freqCommController.graph.GetComponent<Renderer>().sharedMaterial.SetColor("_ForegroundColor", freqCommController.lightShader);
-        screenShader.color = freqCommController.lightScreen;
-        screenDialogue.color = freqCommController.lightScreen;
+        //freqCommController.graph.GetComponent<Renderer>().sharedMaterial.SetColor("_ForegroundColor", freqCommController.lightShader);
+        //screenShader.color = freqCommController.lightScreen;
+        //screenDialogue.color = freqCommController.lightScreen;
 
         for (int i = 0; i < dialogue.Length; ++i) //PHRASES OF NODE
         {
@@ -82,9 +76,9 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(1f);
         }
 
-        freqCommController.graph.GetComponent<Renderer>().sharedMaterial.SetColor("_ForegroundColor", freqCommController.darkShader);
-        screenShader.color = freqCommController.darkScreen;
-        screenDialogue.color = freqCommController.darkScreen;
+        //freqCommController.graph.GetComponent<Renderer>().sharedMaterial.SetColor("_ForegroundColor", freqCommController.darkShader);
+        //screenShader.color = freqCommController.darkScreen;
+        //screenDialogue.color = freqCommController.darkScreen;
 
         dialogueTxt.text = "";
         recieveMessageButton.activateButton = true;

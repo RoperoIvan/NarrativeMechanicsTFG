@@ -14,6 +14,7 @@ public class CalibrationController : MonoBehaviour
     public float range = 0f;
     public float calibrationGoal = 0f;
 
+    private bool calibrate = false;
 
     void Update()
     {
@@ -31,7 +32,7 @@ public class CalibrationController : MonoBehaviour
         left.ResetCalibration();
         middle.ResetCalibration();
         right.ResetCalibration();
-
+        calibrate = true;
         float rLeft1 = Random.Range(2f, 4f);
         float rLeft2 = Random.Range(-2f, -4f);
         float rRight1 = Random.Range(2f, 4f);
@@ -64,8 +65,12 @@ public class CalibrationController : MonoBehaviour
             if(pivotRValue <= calibrationGoal + range || pivotRValue >= 360 - range + 1)
             {
                 LED.color = new Vector4(0f, 0.6509804f, 0.07074188f, 1f); //GREEN
-                timeLine.doAttack = true;
-                timeLine.timerNextEvent = Time.realtimeSinceStartup;
+                if(calibrate)
+                {
+                    calibrate = false;
+                    timeLine.doAttack = true;
+                    timeLine.timerNextEvent = Time.realtimeSinceStartup;
+                }
                 return true;
             }
             else

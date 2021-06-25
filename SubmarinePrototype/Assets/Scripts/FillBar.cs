@@ -6,6 +6,7 @@ public class FillBar : MonoBehaviour
 {
     public GameObject filling;
     private Coroutine fill;
+    public bool stop = false;
     public void BeginFilling(float timeEv)
     {
        
@@ -18,10 +19,13 @@ public class FillBar : MonoBehaviour
         float b = 0f;  // end
         for (float f = 0; f <= x; f += Time.deltaTime)
         {
-                
+            if (stop)
+                break;
+
             filling.transform.localPosition = new Vector3(filling.transform.localPosition.x, Mathf.Lerp(a, b, f / x), filling.transform.localPosition.z);
             yield return null;
         }
+        stop = false;
         ResetBar();
        
     }

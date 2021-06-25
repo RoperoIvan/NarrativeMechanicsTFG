@@ -36,6 +36,7 @@ public class OpenScreen : MonoBehaviour
     public GameObject missileContainer;
 
     public AudioSource ambienceAS;
+    public TimeLineController timeLineController;
     private AudioClip ambienceSubmarine;
     private AudioClip ambienceRadio;
     private void Awake()
@@ -60,6 +61,7 @@ public class OpenScreen : MonoBehaviour
                 commandContainer.SetActive(false);
                 frequencyController.SetActive(true);
                 frequencyWheelsContainer.SetActive(true);
+                timeLineController.DeleteEventIcon(TimeLineController.TimeEventType.FREQUENCY);
                 break;
             case Screens.GLASS:
                 fromRoom = Screens.SHELVES;
@@ -67,6 +69,7 @@ public class OpenScreen : MonoBehaviour
                 visualContainer.SetActive(true);
                 UIVisualContainer.SetActive(true);
                 shelvesContainer.SetActive(false);
+                timeLineController.DeleteEventIcon(TimeLineController.TimeEventType.VISUAL);
                 break;
             case Screens.CALIBRATE:
                 fromRoom = Screens.SHELVES;
@@ -74,10 +77,12 @@ public class OpenScreen : MonoBehaviour
                 shelvesContainer.SetActive(false);
                 calibrateContainer.SetActive(true);
                 calibrateUIContainer.SetActive(true);
+                timeLineController.DeleteEventIcon(TimeLineController.TimeEventType.BOMB);
                 break;
             case Screens.REPAIR:
                 fromRoom = Screens.ENGINES;
                 PlayerController.currentScreen = Screens.REPAIR;
+                timeLineController.DeleteEventIcon(TimeLineController.TimeEventType.BOMB);
                 engineContainer.SetActive(false);
                 repairContainer.SetActive(true);
                 break;

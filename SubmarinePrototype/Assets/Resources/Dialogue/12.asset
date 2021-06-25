@@ -17,7 +17,7 @@ MonoBehaviour:
   - 'This is going to end soon soldier. '
   - Keep distracting them.
   responses:
-  - responseId: 0
+  - responseIntention: 0
     dialogueNode: {fileID: 11400000, guid: 37266e7c0c6f48e47b4e7bccdebfd46b, type: 2}
-  - responseId: 0
+  - responseIntention: 1
     dialogueNode: {fileID: 11400000, guid: 30fd9046576370a4c80377d9aee47d4e, type: 2}

@@ -5,8 +5,8 @@ using UnityEngine;
 public class TimeLineController : MonoBehaviour
 {
     public float maxVisibleEventTime = 10f;
-    public float baseOffsetAttackEvent = 80f;
-    private float baseOffsetTimeEvent = 60f;
+    public float baseOffsetAttackEvent = 40f;
+    private float baseOffsetTimeEvent = 10f;
     // EVENT ICONS
     public GameObject bombPrefab;
     public GameObject freqPrefab;
@@ -15,7 +15,7 @@ public class TimeLineController : MonoBehaviour
     public GameObject iconRadEventPrefab;
     public GameObject iconAttEventPrefab;
     public GameObject iconVisEventPrefab;
-
+    public GameObject iconParent;
     // CONTROLLERS
     public ShipController shipController;
     public AllyController allyController;
@@ -26,32 +26,39 @@ public class TimeLineController : MonoBehaviour
     // TIME RELATED
     //private float timerTimeLine = 0f;
     public float timerNextEvent = 0f;
-    float lastTimeEvent = 0f;
+    public float lastTimeEvent = 0f;
+    public float totalTime = 0f;
     private List<TimeEvent> timeEvents = new List<TimeEvent>();
 
     // EVENT DECISION RELATED
     public bool doAttack = true;
     public int currentEvent = 0;
     private bool isFirst = true;
-    public bool isIntro = false;
+    public bool isIntro = true;
+    public bool isCurrentEventOver = true; 
     //private int lastAllyEvent = 0; // 0: RADIO / 1: FREQUENCY
     //private int lastEnemyEvent = 0; // 0: VISUAL / 1: BOMB
 
     void Awake()
     {
+        structuredEvents.Clear();
         structuredEvents = CreateAllEvents();
         lastTimeEvent = Time.realtimeSinceStartup;
+        totalTime = baseOffsetAttackEvent + 10;
+        doAttack = true;
+        isIntro = true;
+        isCurrentEventOver = true;
     }
 
     void Update()
     {
-        if(!isIntro)
+        if(isIntro == false)
         {
             //Manage the addition of new events based in current tension
-            //ManageAttacks();
-            //ManageEvents();
+            ManageAttacks();
+            ManageEvents();
             //Manage Visual icons in timeline and the execution and deletion of the events
-            
+
         }
         RefreshTimeLine();
     }
@@ -97,6 +104,39 @@ public class TimeLineController : MonoBehaviour
         //Debug.LogWarning("THIS TIME EVENT DOES NOT EXIST IN TIMELINE!");
     }
 
+    public void DeleteEventIcon(TimeEventType type)
+    {
+        string s = "";
+        switch (type)
+        {
+            case TimeEventType.VISUAL:
+                s = "IconVisEvent";
+                break;
+            case TimeEventType.RADIO:
+                s = "IconRadEvent";
+                break;
+            case TimeEventType.BOMB:
+                s = "IconAttEvent";
+                break;
+            case TimeEventType.FREQUENCY:
+                s = "IconRadEvent";
+                break;
+        }
+        foreach (Transform ch in iconParent.transform)
+        {
+            if(ch.GetComponent<iconEv>().name.Contains(s))
+            {
+                Destroy(ch.gameObject);
+                return;
+            }
+        }
+    }
+
+    public void DeleteAllTimeLineEvents()
+    {
+        timeEvents.Clear();
+    }
+
     public void LaunchEvent(TimeEventType ev)
     {
         switch (ev)
@@ -128,17 +168,18 @@ public class TimeLineController : MonoBehaviour
     {
         if(doAttack)
         {
-            float totalTime = baseOffsetAttackEvent + CalculateTensionFactor();
+            //totalTime = baseOffsetAttackEvent + CalculateTensionFactor();
             if (isFirst)
             {
-                totalTime += 120;
+                totalTime -= 30;
                 timerNextEvent = Time.realtimeSinceStartup;
             }
                
 
-            if (Time.realtimeSinceStartup - timerNextEvent >= totalTime) // Calculate when to launch next event
+            if (Time.realtimeSinceStartup - timerNextEvent >= totalTime && isCurrentEventOver) // Calculate when to launch next event
             {
-                AddNewEvent(5f, TimeEventType.BOMB);
+                AddNewEvent(16f, TimeEventType.BOMB);
+                totalTime = baseOffsetAttackEvent + 10;
                 doAttack = false;
             }
         }
@@ -146,15 +187,26 @@ public class TimeLineController : MonoBehaviour
 
     private void ManageEvents()
     {
-        float totalTime = baseOffsetTimeEvent + CalculateTensionFactor();
-        if (Time.realtimeSinceStartup - lastTimeEvent >= totalTime || isFirst)
+        
+        //if(isCurrentEventOver == true)
+        //{
+        //    totalTime = baseOffsetTimeEvent + CalculateTensionFactor();
+        //    totalTime -= 20;
+        //    isCurrentEventOver = false;
+        //}
+        if(isCurrentEventOver)
         {
-            isFirst = false;
-            lastTimeEvent = Time.realtimeSinceStartup;
-            AddNewEvent(structuredEvents[currentEvent].timeToExecute, structuredEvents[currentEvent].type);
-            currentEvent++;
-            //CalculateNextBaseTimeEvent();
+            if (Time.realtimeSinceStartup - lastTimeEvent >= baseOffsetTimeEvent || isFirst)
+            {
+                isFirst = false;
+                //totalTime = baseOffsetTimeEvent + CalculateTensionFactor();
+                isCurrentEventOver = false;
+                //lastTimeEvent = Time.realtimeSinceStartup;
+                AddNewEvent(structuredEvents[currentEvent].timeToExecute, structuredEvents[currentEvent].type);
+                currentEvent++;
+            }
         }
+        
     }
 
     private void RefreshTimeLine()
@@ -187,27 +239,27 @@ public class TimeLineController : MonoBehaviour
     private float CalculateTensionFactor() // Lower value when tension is more extreme in both levels
     {
         float tensionFactor = 0f;
-        switch (GameManager.currentTension)
-        {
-            case Tension.PEACEFUL:
-                tensionFactor = 5f;
-                break;
-            case Tension.LOW:
-                tensionFactor = 3f;
-                break;
-            case Tension.MEDIUM:
-                tensionFactor = 2f;
-                break;
-            case Tension.DANGER:
-                tensionFactor = 1f;
-                break;
-            case Tension.THREAT:
-                tensionFactor = 0f;
-                break;
-            case Tension.NONE:
-                tensionFactor = 0f;
-                break;
-        }
+        //switch (GameManager.currentTension)
+        //{
+        //    case Tension.PEACEFUL:
+        //        tensionFactor = 0f;
+        //        break;
+        //    case Tension.LOW:
+        //        tensionFactor = 1f;
+        //        break;
+        //    case Tension.MEDIUM:
+        //        tensionFactor = 1f;
+        //        break;
+        //    case Tension.DANGER:
+        //        tensionFactor = 1f;
+        //        break;
+        //    case Tension.THREAT:
+        //        tensionFactor = 0f;
+        //        break;
+        //    case Tension.NONE:
+        //        tensionFactor = 0f;
+        //        break;
+        //}
 
         return tensionFactor;
     }
@@ -216,6 +268,96 @@ public class TimeLineController : MonoBehaviour
     {
         List<TimeEvent> _events = new List<TimeEvent>();
         _events.Add(new TimeEvent(8f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
+        _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
+        _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
         _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));
         _events.Add(new TimeEvent(12f, TimeEventType.FREQUENCY));
         _events.Add(new TimeEvent(12f, TimeEventType.VISUAL));

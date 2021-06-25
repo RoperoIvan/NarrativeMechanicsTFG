@@ -17,8 +17,8 @@ public class RadarController : MonoBehaviour
     private SpriteRenderer allySprite;
 
     private int currentAllyCheckpoint = 0;
-    private int currentEnemyCheckpoint = 0;
-    private int nextEnemyCheckpoint = 0;
+    private int currentEnemyCheckpoint = 2;
+    private int nextEnemyCheckpoint = 2;
     private int nextAllyCheckpoint = 0;
 
 
@@ -143,13 +143,13 @@ public class RadarController : MonoBehaviour
             }
         }
 
-        if(nextEnemyCheckpoint == 6) //END WAR IS OVER
+        if(nextEnemyCheckpoint == 4) //END WAR IS OVER
         {
             GameManager.isEnd = true;
             gameManager.ExecuteFinal(0);
         }
 
-        if (nextAllyCheckpoint == 6) // END WAR IS ON
+        if (nextAllyCheckpoint == 4) // END WAR IS ON
         {
             GameManager.isEnd = true;
             gameManager.ExecuteFinal(3);

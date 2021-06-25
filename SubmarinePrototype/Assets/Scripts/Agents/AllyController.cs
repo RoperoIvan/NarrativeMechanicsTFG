@@ -7,28 +7,35 @@ using UnityEngine;
 public class AllyController : MonoBehaviour
 {
     public AllyEvent currentAllyEvent = AllyEvent.NONE;
-    public float playerEnterWaitingTime = 10f;
+    public float playerEnterWaitingTime = 12f;
     public GameManager gameManager;
     public FrequencyCommunicationController frequencyController;
+    public TimeLineController timeLineController;
     private float timerEnterRoom = 0f;
     private bool waitingForPlayer = false;
-
+    [HideInInspector]
+    public bool isInHeight = true;
     private void Update()
     {
         if (waitingForPlayer)
         {
             if (PlayerController.currentScreen == Screens.RADIO)
             {
-                SendFrequency();
+                if(isInHeight)
+                {
+                    SendFrequency();
 
-                waitingForPlayer = false;
+                    waitingForPlayer = false;
+                }
+                
             }
             else if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime)
             {
                 if (PlayerController.currentScreen != Screens.RADIO)
                 {
                     GameManager.isAlly = true;
-                    gameManager.IncreaseTension(0.2f, true);
+                    gameManager.IncreaseTension(0.5f, true);
+                    timeLineController.isCurrentEventOver = true;
                 }
                 else
                     SendFrequency();

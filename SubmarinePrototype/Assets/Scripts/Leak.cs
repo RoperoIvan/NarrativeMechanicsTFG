@@ -8,13 +8,16 @@ public class Leak : MonoBehaviour
     public float repairValue = 0f;
     public Repair repairTool;
     public RepairController repairController;
-    public float repairSpeed = 15f; 
-    public bool isRepaired = false;
+    public float repairSpeed = 20f; 
+    public bool isRepaired = true;
     public bool isActivate = false;
+    public AudioSource buttonAS;
+    //private AudioClip torch;
+    //private bool isTorch = false;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        //torch = Resources.Load<AudioClip>("Sound/blowtorch");
     }
 
     // Update is called once per frame
@@ -36,7 +39,9 @@ public class Leak : MonoBehaviour
     {
         //Debug.Log(repairValue);
         if(repairValue < 100)
+        {
             repairValue += repairSpeed * Time.deltaTime;
+        }   
         else
         {
             isRepaired = true;
@@ -47,6 +52,9 @@ public class Leak : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if(!isRepaired)
+            buttonAS.Play();
+
         repairTool.clicking = true;
     }
 
@@ -54,5 +62,6 @@ public class Leak : MonoBehaviour
     private void OnMouseUp()
     {
         repairTool.clicking = false;
+        buttonAS.Stop();
     }
 }

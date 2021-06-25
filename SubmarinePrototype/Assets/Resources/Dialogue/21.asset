@@ -17,7 +17,7 @@ MonoBehaviour:
   - Your comrades have died because of them!
   - Stop signaling!
   responses:
-  - responseId: 0
+  - responseIntention: 0
     dialogueNode: {fileID: 11400000, guid: 43953397ecbd4074fa0663579be9f8f0, type: 2}
-  - responseId: 0
+  - responseIntention: 1
     dialogueNode: {fileID: 11400000, guid: fbf66be5e963eb4458ecd1a6aa17feae, type: 2}

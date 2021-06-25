@@ -18,7 +18,7 @@ MonoBehaviour:
   - Don't try to communicate with them.
   - Wait for us.
   responses:
-  - responseId: 0
+  - responseIntention: 0
     dialogueNode: {fileID: 11400000, guid: f05a20546ebc2a44dab18d38692bd78d, type: 2}
-  - responseId: 0
+  - responseIntention: 1
     dialogueNode: {fileID: 11400000, guid: 66d9f7e6478336c4aa38a9446da6b767, type: 2}

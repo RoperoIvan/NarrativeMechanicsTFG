@@ -17,7 +17,7 @@ MonoBehaviour:
   - 'Shoot them and end this! '
   - We can support you from here.
   responses:
-  - responseId: 0
+  - responseIntention: 0
     dialogueNode: {fileID: 11400000, guid: dbdea35637294a949b354e550bbe014a, type: 2}
-  - responseId: 0
+  - responseIntention: 1
     dialogueNode: {fileID: 11400000, guid: e1fc2b3938c1c974881d1c75e5fda2c7, type: 2}

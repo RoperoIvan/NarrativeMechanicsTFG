@@ -13,23 +13,56 @@ public class PushLever : MonoBehaviour
     public GameObject windowSubmarine;
     public GameObject windowLeftGlasses;
     public GameObject windowRightGlasses;
+    public AllyController ally;
+    public ShipController enemy;
+    public AudioSource buttonsAS;
+    public AudioSource uiAS;
+    private AudioClip elevating;
+    private AudioClip start;
+    private AudioClip stop;
 
     [HideInInspector]
     public bool canMove = false;
-
+    public bool isPlayed = false;
     private float value = 0f;
-    
+
+    private void Awake()
+    {
+        elevating = Resources.Load<AudioClip>("Sound/leversubmarine");
+        stop = Resources.Load<AudioClip>("Sound/stoplever");
+        start = Resources.Load<AudioClip>("Sound/startlever");
+        if (type == LeverType.UPDOWN)
+            value = minValue;
+    }
     private void OnMouseDrag()
     {
         if(type == LeverType.UPDOWN)
         {
             if(canMove)
                 ChangeValues();
+
+            if(!isPlayed)
+            {
+                buttonsAS.PlayOneShot(elevating);
+                isPlayed = true;
+            }
         }
         else
         {
+            if (!isPlayed)
+            {
+                uiAS.PlayOneShot(start,0.2f);
+                isPlayed = true;
+            }
             ChangeValues();
         }
+    }
+
+    private void OnMouseUp()
+    {
+        buttonsAS.Stop();
+        uiAS.PlayOneShot(stop, 0.2f);
+        isPlayed = false;
     }
 
     private void ChangeValues()
@@ -70,6 +103,12 @@ public class PushLever : MonoBehaviour
                 case LeverType.NONE:
                     break;
             }
+            enemy.isInHeight = false;
+            ally.isInHeight = false;
+        }
+        else if (value >= maxValue)
+        {
+            enemy.isInHeight = true;
         }
     }
 
@@ -98,15 +137,23 @@ public class PushLever : MonoBehaviour
                 case LeverType.NONE:
                     break;
             }
+            enemy.isInHeight = false;
+            ally.isInHeight = false;
         }
-            
+        else if(value <= minValue)
+        {
+            ally.isInHeight = true;
+        }
     }
 
     public void ResetCalibration()
     {
-        value = 0f;
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x, -1.76f, gameObject.transform.position.z);
-        indicatorHeight.transform.localPosition = new Vector3(indicatorHeight.transform.localPosition.x, 0f, indicatorHeight.transform.localPosition.z);
+        if(type != LeverType.UPDOWN)
+        {
+            value = 0f;
+            gameObject.transform.position = new Vector3(gameObject.transform.position.x, -1.76f, gameObject.transform.position.z);
+            //indicatorHeight.transform.localPosition = new Vector3(indicatorHeight.transform.localPosition.x, 0f, indicatorHeight.transform.localPosition.z);
+        }
     }
 
     public enum LeverType

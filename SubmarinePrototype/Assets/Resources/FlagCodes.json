@@ -17,6 +17,8 @@
     "TYPE": "0",
     "DESCRIPTION": "BYE",
     "POSITIVE": [
+	 "3133",
+	 "5365"
     ],
     "NEGATIVE": [
     ]
@@ -39,7 +41,8 @@
     "TYPE": "0",
     "DESCRIPTION": "THANK YOU",
     "POSITIVE": [
-      "1142"
+      "1142",
+	  "3523"
     ],
     "NEGATIVE": [
       "2122"
@@ -53,6 +56,7 @@
       "5365"
     ],
     "NEGATIVE": [
+	  "3133"
     ]
   },
   {
@@ -60,9 +64,11 @@
     "TYPE": "1",
     "DESCRIPTION": "OK",
     "POSITIVE": [
-      "3523"
+      "3523",
+	  "5115"
     ],
     "NEGATIVE": [
+	  "2162"
     ]
   },
   {
@@ -70,6 +76,7 @@
     "TYPE": "1",
     "DESCRIPTION": "MALFUNCTION",
     "POSITIVE": [
+	"3123"
     ],
     "NEGATIVE": [
     ]
@@ -82,6 +89,9 @@
       "5365"
     ],
     "NEGATIVE": [
+	"2162",
+	"6216",
+	"4444"
     ]
   },
   {
@@ -100,7 +110,8 @@
     "TYPE": "2",
     "DESCRIPTION": "BE CAREFUL",
     "POSITIVE": [
-      "5115"
+      "5115",
+	  "2562"
     ],
     "NEGATIVE": [
       "6626"

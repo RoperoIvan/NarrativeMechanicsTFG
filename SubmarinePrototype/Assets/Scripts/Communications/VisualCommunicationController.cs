@@ -14,6 +14,8 @@ public class VisualCommunicationController : MonoBehaviour
     public SpriteRenderer subFlag;
     public Animator subFlagAnimator;
     public Animator subPoleAnimator;
+    public Animator shipFlagAnimator;
+    public Animator shipPoleAnimator;
     public Animator shipHoleAnimator;
     public Animator shipCannonAnimator;
     public Animator shipBaseAnimator;
@@ -30,8 +32,9 @@ public class VisualCommunicationController : MonoBehaviour
     public bool hasHole = false;
     public bool hasCannon = false;
     public bool hasBase = false;
-
     static public Dictionary<string, VisualMessage> flagCodes = new Dictionary<string,VisualMessage>();
+
+    public Coroutine showshipflags;
     // Start is called before the first frame update
     void Awake()
     {
@@ -46,8 +49,22 @@ public class VisualCommunicationController : MonoBehaviour
         //shipCannonAnimator.SetBool("hasCannon", hasCannon);
 
     }
+    
     private void OnDisable()
     {
+        if(showshipflags != null)
+            StopCoroutine(showshipflags);
+
+        subPoleAnimator.SetBool("showPole", false);
+        subPoleAnimator.gameObject.transform.localPosition = new Vector3(subPoleAnimator.gameObject.transform.localPosition.x, -1.5f, subPoleAnimator.gameObject.transform.localPosition.z);
+        subFlagAnimator.SetBool("showFlag", false);
+        subFlagAnimator.gameObject.transform.localPosition = new Vector3(subFlagAnimator.gameObject.transform.localPosition.x, -1f, subFlagAnimator.gameObject.transform.localPosition.z);
+
+        shipController.InterpretVisualMessage(playerMessage);
+        if (shipController != null && shipController.showflags != null)
+            shipController.StopFlags();
+
+
         shipHoleAnimator.SetBool("hasHole", false);
         shipCannonAnimator.SetBool("hasCannon", false);
         shipBaseAnimator.SetBool("hasBase", false);
@@ -147,28 +164,28 @@ public class VisualCommunicationController : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
 
         subFlagAnimator.SetBool("showFlag", false);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
 
         subFlagAnimator.SetBool("showFlag", true);
         subFlag.sprite = flagSprites[bufferSprites[1] - 1];
         yield return new WaitForSeconds(2.5f);
 
         subFlagAnimator.SetBool("showFlag", false);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
 
         subFlagAnimator.SetBool("showFlag", true);
         subFlag.sprite = flagSprites[bufferSprites[2] - 1];
         yield return new WaitForSeconds(2.5f);
 
         subFlagAnimator.SetBool("showFlag", false);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
 
         subFlagAnimator.SetBool("showFlag", true);
         subFlag.sprite = flagSprites[bufferSprites[3] - 1];
         yield return new WaitForSeconds(2.5f);
 
         subFlagAnimator.SetBool("showFlag", false);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
 
         subPoleAnimator.SetBool("showPole", false);
 
@@ -178,9 +195,9 @@ public class VisualCommunicationController : MonoBehaviour
 
     public void ManageVisualFeedback()
     {
-        if(lastTension != GameManager.currentTension)
+        if(lastTension != GameManager.currentEnemyTension)
         {
-            switch (GameManager.currentTension)
+            switch (GameManager.currentEnemyTension)
             {
                 case Tension.PEACEFUL:
                     shipHoleAnimator.SetBool("hasHole", false);
@@ -202,12 +219,13 @@ public class VisualCommunicationController : MonoBehaviour
                 case Tension.NONE:
                     break;
             }
-            lastTension = GameManager.currentTension;
+            lastTension = GameManager.currentEnemyTension;
         }
     }
 
     private void FillVisualCodes()
     {
+        flagCodes.Clear();
         TextAsset codesJSON = Resources.Load<TextAsset>("FlagCodes");
         JSONNode codesFromJSON;
         codesFromJSON = JSON.Parse(codesJSON.ToString());

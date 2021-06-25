@@ -4,10 +4,21 @@ using UnityEngine;
 
 public class LaunchMissileController : MonoBehaviour
 {
-    public GameManager gameManager;
+    //public GameManager gameManager;
+    public GameObject hole;
+    public AudioSource uiAS;
+    private AudioClip leverRotate;
+    private AudioClip openMissile;
     private bool isrotate = false;
     private bool isLeft = false;
+    private bool isOpen = false;
     private int rotateValues = 0;
+    private void Awake()
+    {
+        leverRotate = Resources.Load<AudioClip>("Sound/missileLever");
+        openMissile = Resources.Load<AudioClip>("Sound/openMissile");
+        
+    }
     private void OnMouseDown()
     {
         isrotate = true;
@@ -21,7 +32,7 @@ public class LaunchMissileController : MonoBehaviour
     }
     private void Update()
     {
-        if(isrotate)
+        if(isrotate && isOpen == false)
         {
             Vector3 mousePosition = Input.mousePosition;
             mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
@@ -52,8 +63,12 @@ public class LaunchMissileController : MonoBehaviour
     }
     public void OpenDoor()
     {
+        uiAS.PlayOneShot(openMissile, 0.5f);
         transform.parent.GetComponent<Animator>().SetBool("isOpen", true);
         Debug.Log("Open");
+        hole.GetComponent<CircleCollider2D>().enabled = true;
+        hole.GetComponent<MissileHole>().startChecking = true;
+        isOpen = true;
     }
     public void PutMissile()
     {
@@ -75,7 +90,7 @@ public class LaunchMissileController : MonoBehaviour
             rotateValues--;
         else
             rotateValues++;
-
+        uiAS.PlayOneShot(leverRotate);
         //Debug.Log(rotateValues);
         if (rotateValues > 30)
             OpenDoor();

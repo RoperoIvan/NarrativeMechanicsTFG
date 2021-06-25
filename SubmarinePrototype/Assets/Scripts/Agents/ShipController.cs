@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShipController : MonoBehaviour
 {
     public float playerResponseWaitingTime = 10f;
-    public float playerEnterWaitingTime = 10f;
+    public float playerEnterWaitingTime = 12f;
     public ShipEvent currentShipEvent = ShipEvent.NONE;
     public FillBar bar;
     public SpriteRenderer flag;
@@ -22,6 +22,9 @@ public class ShipController : MonoBehaviour
     public List<Sprite> flagSprites = new List<Sprite>();
     public AudioSource uiAS;
 
+    public Coroutine showflags;
+    [HideInInspector]
+    public bool isInHeight = true;
     private float timerEnterRoom = 0f;
     private bool isFirstTime = true;
     private bool waitingForPlayer = false;
@@ -30,58 +33,73 @@ public class ShipController : MonoBehaviour
     private Screens goalScreen = Screens.NONE;
     private AudioClip showNote;
     private AudioClip closeNote;
+    private List<Screens> currentScreens = new List<Screens>();
     private void Awake()
     {
         showNote = Resources.Load<AudioClip>("Sound/openManual");
         closeNote = Resources.Load<AudioClip>("Sound/closeManual");
+        
+        
     }
     private void Update()
     {
-        if(waitingForPlayer)
-        {
-            if (PlayerController.currentScreen == goalScreen)
+        //if (waitingForPlayer)
+        //{
+            for(int s = currentScreens.Count -1; s >= 0; --s)
             {
-                switch (goalScreen)
+                if (PlayerController.currentScreen == currentScreens[s])
                 {
-                    case Screens.GLASS:
-                        SendVisualMessage();
-                        break;
-                    case Screens.CALIBRATE:
-                        calibrationController.SetDecalibrateValues();
-                        break;
-                    case Screens.REPAIR:
-                        repairController.SetLeaks();
-                        break;
-                    case Screens.NONE:
-                        break;
+                    switch (currentScreens[s])
+                    {
+                        case Screens.GLASS:
+                            if (isInHeight)
+                            {
+                                SendVisualMessage();
+                                waitingForPlayer = false;
+                            }
+                            break;
+                        case Screens.CALIBRATE:
+                            calibrationController.SetDecalibrateValues();
+                            waitingForPlayer = false;
+                            break;
+                        case Screens.REPAIR:
+                            repairController.SetLeaks();
+                            waitingForPlayer = false;
+                            break;
+                        case Screens.NONE:
+                            break;
+                    }
+                    //bar.Stopbar();
+                    currentScreens.Remove(currentScreens[s]);
                 }
-                //bar.Stopbar();
-                waitingForPlayer = false;
-            }
-            else if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime) //BAD CONSEQUENCES
-            {
-                switch (goalScreen)
+                else if (Time.realtimeSinceStartup - timerEnterRoom >= playerEnterWaitingTime) //BAD CONSEQUENCES
                 {
-                    case Screens.GLASS:
-                        gameManager.IncreaseTension(0.2f, false);
-                        break;
-                    case Screens.CALIBRATE: //END FOR INCOMPETENCE IN REPAIRING OR CALIBRATING
+                    switch (currentScreens[s])
+                    {
+                        case Screens.GLASS:
+                            gameManager.IncreaseTension(0.5f, false);
+                            timeLineController.isCurrentEventOver = true;
+                            break;
+                        case Screens.CALIBRATE: //END FOR INCOMPETENCE IN REPAIRING OR CALIBRATING
                             Debug.Log("DIDNT CALIBRATE IN TIME");
-                        GameManager.isEnd = true;
-                        gameManager.ExecuteFinal(4);
-                        break;
+                            GameManager.isEnd = true;
+                            gameManager.ExecuteFinal(4);
+                            break;
                         case Screens.REPAIR: //END FOR INCOMPETENCE IN REPAIRING OR CALIBRATING
-                        GameManager.isEnd = true;
+                            GameManager.isEnd = true;
                             Debug.Log("DIDNT REPAIR IN TIME");
-                        gameManager.ExecuteFinal(5);
-                        break;
-                    case Screens.NONE:
-                        break;
+                            gameManager.ExecuteFinal(5);
+                            break;
+                        case Screens.NONE:
+                            break;
+                    }
+                    //bar.Stopbar();
+                    waitingForPlayer = false;
+                    currentScreens.RemoveAt(s);
+
                 }
-                //bar.Stopbar();
-                waitingForPlayer = false;
             }
-        }
+        //}
     }
 
     public void LaunchEvent(ShipEvent incomingEvent)
@@ -90,6 +108,7 @@ public class ShipController : MonoBehaviour
         {
             case ShipEvent.VISUAL:
                 SendVisualMessage();
+                currentScreens.Add(Screens.GLASS);
                 break;
             case ShipEvent.BOMB:
                 SendAttack();
@@ -97,7 +116,6 @@ public class ShipController : MonoBehaviour
             case ShipEvent.NONE:
                 break;
         }
-
         currentShipEvent = incomingEvent;
     }
 
@@ -116,6 +134,7 @@ public class ShipController : MonoBehaviour
             {
                 GameManager.isAlly = false;
                 timeLineController.AddNewEvent(5f,TimeLineController.TimeEventType.BOMB);
+                timeLineController.doAttack = false;
                 gameManager.IncreaseTension(1f, false);
             }
             else //Neutral response to tension
@@ -158,7 +177,7 @@ public class ShipController : MonoBehaviour
                 List<string> totalTypes = new List<string>();
                 foreach (var d in VisualCommunicationController.flagCodes)
                 {
-                    if (d.Value.type == GameManager.currentTension)
+                    if (d.Value.type == GameManager.currentEnemyTension || d.Value.type == GameManager.currentEnemyTension+1 || d.Value.type == GameManager.currentEnemyTension -1)
                         totalTypes.Add(d.Key);
                 }
 
@@ -183,6 +202,7 @@ public class ShipController : MonoBehaviour
         switch(Random.Range(0, 2))
         {
             case 0: //Repair
+                currentScreens.Add(Screens.REPAIR);
                 if (PlayerController.currentScreen == Screens.REPAIR)
                     repairController.SetLeaks();
                 else //Give the player a little bit of time to go to the screen of the communications
@@ -193,6 +213,7 @@ public class ShipController : MonoBehaviour
                 }
                 break;
             case 1://Calibration
+                currentScreens.Add(Screens.CALIBRATE);
                 if (PlayerController.currentScreen == Screens.CALIBRATE)
                     calibrationController.SetDecalibrateValues();
                 else //Give the player a little bit of time to go to the screen of the communications
@@ -209,7 +230,7 @@ public class ShipController : MonoBehaviour
     private void ProcessMessage(string flagCode)
     {
         int[] bufferSprites = GetFlagsFromCode(flagCode);
-        StartCoroutine(ShowVisualMessage(bufferSprites));
+        showflags = StartCoroutine(ShowVisualMessage(bufferSprites));
     }
 
 
@@ -289,14 +310,27 @@ public class ShipController : MonoBehaviour
         {
             if (!string.IsNullOrEmpty(visualController.playerMessage))
             {
-                StartCoroutine(visualController.ShowVisualMessage(GetFlagsFromCode(visualController.GetCodeFromFlags())));
+                timeLineController.totalTime += 20f;
+                timeLineController.isCurrentEventOver = true;
+                visualController.showshipflags = StartCoroutine(visualController.ShowVisualMessage(GetFlagsFromCode(visualController.GetCodeFromFlags()))); //Player response
+                timeLineController.lastTimeEvent = Time.realtimeSinceStartup;
                 yield break;
             }
+            
             yield return null;
         }
-
+        timeLineController.isCurrentEventOver = true;
         visualController.DeactivateFlagsButtons();
         visualController.ClearFlagImages();
+    }
+
+    public void StopFlags()
+    {
+        StopCoroutine(showflags);
+        shipPoleAnimator.SetBool("showPole", false);
+        shipPoleAnimator.gameObject.transform.localPosition = new Vector3(shipPoleAnimator.gameObject.transform.localPosition.x, -1.5f, shipPoleAnimator.gameObject.transform.localPosition.z);
+        shipFlagAnimator.SetBool("showFlag", false);
+        shipFlagAnimator.gameObject.transform.localPosition = new Vector3(shipFlagAnimator.gameObject.transform.localPosition.x, -1f, shipFlagAnimator.gameObject.transform.localPosition.z);
     }
 
     public enum ShipEvent
